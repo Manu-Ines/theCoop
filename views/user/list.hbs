@@ -1,0 +1,10 @@
+<h1>Listado de usuarios</h1>
+<hr>
+<ul>
+    {{#each users as |user|}}
+        <li>
+            <h5>{{user.name}}</h5>
+            <p>{{user.email}} | {{#if user.active}}<span class="text-success">Activo</span>{{else}}<span class="text-danger">No Activo</span>{{/if}}</p>
+        </li>
+    {{/each}}
+</ul>

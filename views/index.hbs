@@ -1,0 +1,9 @@
+<h1><b>Express App</b></h1>
+<p>Welcome to {{title}}</p>
+
+{{#if currentUser}}
+    <a href="/profile" class="btn btn-dark">Profile</a>
+{{else}}
+    <a href="/register" class="button btn__primary text-white px-4">Register</a>
+    <a href="/login" class="button btn__secondary px-4">Login</a>
+{{/if}}

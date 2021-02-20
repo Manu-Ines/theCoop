@@ -1,25 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
 
 :root {
     --main-color: #4f46e5; /* #5085B9 */
     --main-color-hover: #3730a3;
-
     --background-light-color: #F6F4F3;
-
     --secondary-color: #e0e7ff;
     --secondary-color-hover: #c7d2fe;
     --secondary-text-color: #3730a3;
+
+    --color-dark-black: #363135;
 }
 
 body {
-    font-family: 'Roboto', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     /*letter-spacing: -0.005rem;*/
-    background-color: var(--background-light-color);
+    min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
+    font-weight: 700 !important;
 }
+
+p {
+    font-size: 1.1rem;
+}
+
+.my-6 {
+    margin-top: 4rem!important;
+    margin-bottom: 4rem!important;
+}
+
+.my-7 {
+    margin-top: 5rem!important;
+    margin-bottom: 5rem!important;
+}
+
+.py-6 {
+    padding-top: 4rem!important;
+    padding-bottom: 4rem!important;
+}
+
+.py-7 {
+    padding-top: 5rem!important;
+    padding-bottom: 5rem!important;
+}
+
 
 
 /* BUTTONS
@@ -38,18 +63,20 @@ h1, h2, h3, h4, h5, h6 {
     user-select: none;
     padding: .375rem .75rem;
     font-size: 1rem;
-    border-radius: .30rem;
+    border-radius: .5rem !important;
     transition: all .15s ease-in-out;
 }
 
 .btn__primary {
     background-color: var(--main-color);
     border: 1px solid var(--main-color);
+    color: #fff;
 }
 
 .btn__primary:hover {
     background-color: var(--main-color-hover);
     border: 1px solid var(--main-color-hover);
+    color: #fff;
 }
 
 .btn__secondary {
@@ -62,4 +89,42 @@ h1, h2, h3, h4, h5, h6 {
     background-color: var(--secondary-color-hover);
     color: var(--secondary-text-color);
     border: 1px solid var(--secondary-color-hover);
+}
+
+.btn__light {
+    background-color: #fff;
+    border: 1.25px solid rgb(197, 197, 197);
+    color: rgb(24, 24, 24);
+}
+
+.btn__light:hover {
+    background-color: rgb(240, 240, 240);
+    border: 1.25px solid rgb(197, 197, 197);
+    color: rgb(24, 24, 24);
+}
+
+/* NAVBAR 
+===============================*/
+.bg__light {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #dbd9db !important;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: var(--color-dark-black) !important;
+}
+
+
+
+
+
+
+
+.main__hero {
+    background-image: url('../images/world.gif');
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: top;
+    color: var(--color-dark-black) !important;
 }

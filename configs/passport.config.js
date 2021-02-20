@@ -17,29 +17,29 @@ passport.deserializeUser((id, next) => {
 });
 
 passport.use('local-auth', new localStrategy({
-        usernameField: 'username',
+        usernameField: 'email',
         passwordField: 'password'
-    }, (username, password, next) => {
-    User
-        .findOne({ username: username })
-        .then(user => {
-            if(!user){
-                next(null, false, { error: 'El correo electrónico o la contraseña no son correctos' })
-            } else {
-                user.checkPassword(password)
-                    .then(match => {
-                        if(match && user.active){
-                            next(null, user)
-                        } else if (match && !user.active) {
-                            next(null, false, { error: 'Tu cuenta no está activa, revisa tu email' })
-                        } else {
-                            next(null, false, { error: "El correo electrónico o la contraseña no son correctos" })
-                        }
-                    })
-                    .catch(next)
-            }
-        })
-        .catch(next)
+    }, (email, password, next) => {
+        User
+            .findOne({ email: email })
+            .then(user => {
+                if(!user){
+                    next(null, false, { error: 'El correo electrónico o la contraseña no son correctos' })
+                } else {
+                    user.checkPassword(password)
+                        .then(match => {
+                            if(match && user.active){
+                                next(null, user)
+                            } else if (match && !user.active) {
+                                next(null, false, { error: 'Tu cuenta no está activa, revisa tu email' })
+                            } else {
+                                next(null, false, { error: "El correo electrónico o la contraseña no son correctos" })
+                            }
+                        })
+                        .catch(next)
+                }
+            })
+            .catch(next)
 }))
 
 passport.use('google-auth', new GoogleStrategy({
@@ -51,34 +51,27 @@ passport.use('google-auth', new GoogleStrategy({
     const googleID = profile.id
     const email = profile.emails[0] ? profile.emails[0].value : undefined;
     const name = `${profile.name.givenName} ${profile.name.familyName}`
-
-    // TODO: Revisar si queremos o no foto 
     const profilePicture = profile.picture || `${process.env.HOST}/uploads/no-photo.jpg`
-    const username = name.split(' ').join('') + Math.floor((Math.random() * (99999 - 10 + 1)) + 10)
 
     if (googleID && email) {
-        User.findOne({ $or: [
-            { email: email },
-            { 'social.google': googleID }
-        ]})
+        User.findOne({ $or: [{ email: email }, { 'social.google': googleID }]})
         .then(user => {
             if (!user) {
-            const newUserInstance = new User({
-                name,
-                username,
-                email,
-                password: 'Aa1' + mongoose.Types.ObjectId(),
-                profilePicture,
-                social: {
-                    google: googleID
-                },
-                active: true
-            })
+                const newUserInstance = new User({
+                    name,
+                    email,
+                    password: 'Aa1' + mongoose.Types.ObjectId(),
+                    profilePicture,
+                    social: {
+                        google: googleID
+                    },
+                    active: true
+                })
     
-            return newUserInstance.save()
-                .then(newUser => next(null, newUser))
+                return newUserInstance.save()
+                    .then(newUser => next(null, newUser))
             } else {
-            next(null, user)
+                next(null, user)
             }
         })
         .catch(next)

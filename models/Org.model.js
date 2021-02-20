@@ -7,14 +7,14 @@ const { v4: uuidv4 } = require('uuid');
 /* 
     TODO: faltan los virtuals
     ============================
-    - Donaciones
-    - Valoraciones ( de los voluntariados)
-    - Historial voluntariado
+    - Proyectos
+    - Voluntariados
     - Mensajes directos
+    - Mensajes finalización
     ============================
 */
 
-const userSchema = new mongoose.Schema({
+const orgSchema = new mongoose.Schema({
     name: {
         type: String,
         trim: true,
@@ -36,12 +36,31 @@ const userSchema = new mongoose.Schema({
         maxlength: [50, 'La contraseña es demasiado larga (Máximo 50 caracteres)'],
         minlength: [6, 'La contraseña es demasiado corta (Mínimo 6 caracteres)']
     },
+    cif: {
+        type: String,
+        trim: true,
+        uppercase: true,
+        required: 'Es necesario introducir un el CIF/NIF',
+        maxlength: [10, 'El CIF/NIF es demasiado largo']
+    },
+    document: {
+        type: String
+    },
+    web: {
+        type: String,
+        trim: true
+    },
+    bio: {
+        type: String,
+        trim: true,
+        maxlength: [500, 'La descripción es demasiado larga'],
+    },
     profilePicture: {
         type: String
     },
-    social: {
-        google: String,
-        facebook: String
+    bank: {
+        type: String,
+        trim: true
     },
     active: {
         type: Boolean,
@@ -56,18 +75,17 @@ const userSchema = new mongoose.Schema({
         enum: ['USER', 'ADMIN'],
         default: 'USER'
     },
-    visibility: {
-        type: String,
-        enum: ['visible', 'hidden'],
-        default: 'visible'
+    rank: {
+        type: Number,
+        default: 0 
     }
 }, { timestamps: true })
 
-userSchema.methods.checkPassword = function(pass){
+orgSchema.methods.checkPassword = function(pass){
     return bcrypt.compare(pass, this.password)
 }
 
-userSchema.pre('save', function(next) {
+orgSchema.pre('save', function(next) {
     if(this.isModified('password')){
         bcrypt
             .hash(this.password, SALT_ROUNDS)
@@ -80,7 +98,7 @@ userSchema.pre('save', function(next) {
     }
 })
 
-userSchema.pre('findOneAndUpdate', function(next) {
+orgSchema.pre('findOneAndUpdate', function(next) {
     if(this._update.password){
         bcrypt
             .hash(this._update.password, SALT_ROUNDS)
@@ -93,5 +111,5 @@ userSchema.pre('findOneAndUpdate', function(next) {
     }
 })
 
-const User = mongoose.model('User', userSchema)
-module.exports = User
+const Org = mongoose.model('Org', orgSchema)
+module.exports = Org

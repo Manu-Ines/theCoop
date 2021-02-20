@@ -18,14 +18,13 @@ module.exports.doRegister = (req, res, next) => {
     }
 
     User
-        .findOne({ username: req.body.username })
+        .findOne({ email: req.body.email })
         .then(user => {
             if(user){
                 renderWithErrors({
-                    username: 'Ya existe un usuario con este nombre de usuario'
+                    email: 'Ya existe un usuario con este email'
                 })
             } else {
-
                 req.file 
                     ? req.body.profilePicture = `${process.env.HOST}/uploads/${req.file.filename}`
                     : req.body.profilePicture = `${process.env.HOST}/uploads/no-photo.jpg`
@@ -33,7 +32,7 @@ module.exports.doRegister = (req, res, next) => {
                 User
                     .create(req.body)
                     .then(u => {
-                        sendActivationEmail(u.email, u.token, u.username)
+                        sendActivationEmail(u.email, u.token)
                         res.redirect('/')
                     })
                     .catch(e => {
@@ -92,11 +91,11 @@ module.exports.doLogout = (req, res, next) => {
 }
 
 module.exports.activate = (req, res, next) => {
-    const { token, username } = req.params
-    if(token && username){
+    const { token } = req.params
+    if(token){
         User
             .findOneAndUpdate(
-                { token: token, username: username }, 
+                { token: token }, 
                 { active: true }, 
                 { useFindAndModify: false })
             .then(user => {
@@ -128,7 +127,7 @@ module.exports.doEditProfile = (req, res, next) => {
         delete req.body.password
     }
 
-    if(req.body.name === "" || req.body.username === "" || req.body.email === ""){
+    if(req.body.name === "" || req.body.email === ""){
         renderWithErrors('Debes rellenar todos los campos')
     } else {
         User

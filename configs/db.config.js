@@ -3,7 +3,7 @@ const process = require('process');
 require('dotenv').config()
 
 mongoose
-  .connect(process.env.MONGODB_URI, {
+  .connect(process.env.MONGODB_URI, { // TODO: name db on .env I
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true

@@ -75,7 +75,22 @@ module.exports.doLoginGoogle = (req, res, next) => {
         } else {
             req.login(user, loginErr => {
                 if (loginErr) next(loginErr)
-                else res.redirect('/')
+                else res.redirect('/') // TODO: redirect donde sea hay que refresh para que identifique al user
+            })
+        }
+    })(req, res, next)
+}
+
+module.exports.doLoginFacebook = (req, res, next) => {
+    passport.authenticate('facebook-auth', (error, user, validations) => {
+        if (error) {
+            next(error);
+        } else if (!user) {
+            res.status(400).render('user/login', { user: req.body, error: validations });
+        } else {
+            req.login(user, loginErr => {
+                if (loginErr) next(loginErr)
+                else res.redirect('/') // TODO: "" linea 78
             })
         }
     })(req, res, next)

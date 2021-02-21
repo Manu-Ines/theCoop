@@ -25,6 +25,10 @@ router.post('/edit-profile', secure.isAuthenticated, upload.single('profilePictu
 router.get('/authenticate/google', passport.authenticate('google-auth', { scope: [ 'email', 'profile' ] }))
 router.get('/authenticate/google/cb', userController.doLoginGoogle)
 
+// Facebook auth
+router.get('/auth/facebook', passport.authenticate('facebook-auth', { scope : 'email' }))
+router.get('/auth/facebook/callback', userController.doLoginFacebook)
+
 // Admin routes
 router.get('/users/list', secure.checkRoles('ADMIN'), secure.isActive, userController.usersList)
 

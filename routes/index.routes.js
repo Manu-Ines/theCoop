@@ -9,6 +9,7 @@ const upload = require('../configs/storage.config')
 router.get('/', (req, res, next) => res.render('index'));
 
 // User routes
+// ====================================================================================================================
 router.get('/register', secure.isNotAuthenticated, userController.register)
 router.post('/register', secure.isNotAuthenticated, upload.single('profilePicture'), userController.doRegister)
 router.get('/login', secure.isNotAuthenticated, userController.login)
@@ -25,5 +26,8 @@ router.get('/authenticate/google/cb', userController.doLoginGoogle)
 
 // Admin routes
 router.get('/users/list', secure.checkRoles('ADMIN'), secure.isActive, userController.usersList)
+
+// Org routes
+// ====================================================================================================================
 
 module.exports = router;

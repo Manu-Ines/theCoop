@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const localStrategy = require('passport-local').Strategy
 const GoogleStrategy = require('passport-google-oauth2').Strategy
 const User = require('../models/User.model');
+const Org = require('../models/Org.model');
 
 passport.serializeUser(function(user, next) {
     next(null, user.id);
@@ -20,24 +21,26 @@ passport.use('local-auth', new localStrategy({
         usernameField: 'email',
         passwordField: 'password'
     }, (email, password, next) => {
-        User
-            .findOne({ email: email })
-            .then(user => {
-                if(!user){
+        Promise.all([User.findOne({ email: email }), Org.findOne({ email: email })])
+            .then(users => {
+                if(!users[0] && !users[1]){
                     next(null, false, { error: 'El correo electrónico o la contraseña no son correctos' })
                 } else {
-                    user.checkPassword(password)
-                        .then(match => {
-                            if(match && user.active){
-                                next(null, user)
-                            } else if (match && !user.active) {
-                                next(null, false, { error: 'Tu cuenta no está activa, revisa tu email' })
-                            } else {
-                                next(null, false, { error: "El correo electrónico o la contraseña no son correctos" })
-                            }
-                        })
-                        .catch(next)
+                    let userType = users[0] ? 0 : 1
+
+                    users[userType].checkPassword(password)
+                    .then(match => {
+                        if(match && users[userType].active){
+                            next(null, users[userType])
+                        } else if (match && !users[userType].active) {
+                            next(null, false, { error: 'Tu cuenta no está activa, revisa tu email' })
+                        } else {
+                            next(null, false, { error: "El correo electrónico o la contraseña no son correctos" })
+                        }
+                    })
+                    .catch(next)
                 }
+
             })
             .catch(next)
 }))

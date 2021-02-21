@@ -60,6 +60,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['visible', 'hidden'],
         default: 'visible'
+    },
+    usertype: {
+        type: String,
+        default: 'user'
     }
 }, { timestamps: true })
 

@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'express/default',
-        allowedFormats: ['jpg', 'png', 'gif', 'heic']
+        allowedFormats: ['jpg', 'png', 'gif', 'heic', 'pdf']
     }
 })
 

@@ -73,16 +73,12 @@ const orgSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['USER', 'ADMIN'],
-        default: 'USER'
+        enum: ['ORG', 'ADMIN'],
+        default: 'ORG'
     },
     rank: {
         type: Number,
         default: 0 
-    },
-    usertype: {
-        type: String,
-        default: 'org'
     }
 }, { timestamps: true })
 

@@ -4,28 +4,28 @@
         <form action="/org/register" method="POST" class="my-3">
             <div class="form-group has-validation mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control {{#if errors.name}}is-invalid{{/if}}" name="name" id="name" value="{{user.name}}" placeholder="Name" required>
+                <input type="text" class="form-control form-control-lg {{#if errors.name}}is-invalid{{/if}}" name="name" id="name" value="{{user.name}}" placeholder="Name" required>
                 <div class="invalid-feedback">
                     {{errors.name}}
                 </div>
             </div>
             <div class="form-group has-validation mb-3">
                 <label for="cif" class="form-label">CIF/NIF</label>
-                <input type="text" class="form-control {{#if errors.cif}}is-invalid{{/if}}" name="cif" id="cif" value="{{user.cif}}" placeholder="CIF/NIF" required>
+                <input type="text" class="form-control form-control-lg {{#if errors.cif}}is-invalid{{/if}}" name="cif" id="cif" value="{{user.cif}}" placeholder="CIF/NIF" required>
                 <div class="invalid-feedback">
                     {{errors.cif}}
                 </div>
             </div>
             <div class="form-group has-validation mb-3">
                 <label for="username" class="form-label">Email</label>
-                <input type="email" class="form-control {{#if errors.email}}is-invalid{{/if}}" name="email" id="email" value="{{user.email}}" placeholder="example@example.com" required>
+                <input type="email" class="form-control form-control-lg {{#if errors.email}}is-invalid{{/if}}" name="email" id="email" value="{{user.email}}" placeholder="example@example.com" required>
                 <div class="invalid-feedback">
                     {{errors.email}}
                 </div>
             </div>
             <div class="form-group has-validation mb-4">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control {{#if errors.password}}is-invalid{{/if}}" name="password" placeholder="*********" id="password" required>
+                <input type="password" class="form-control form-control-lg {{#if errors.password}}is-invalid{{/if}}" name="password" placeholder="*********" id="password" required>
                 <div class="invalid-feedback">
                     {{errors.password}}
                 </div>

@@ -1,9 +1,12 @@
 <div class="container my-7">
     <div style="max-width: 450px;" class="mx-auto card p-4 text-center">
-        <h3><b>Inicio de sesión</b></h3>
+        <div>
+            <h3><b>Inicio de sesión</b></h3>
+            <p>¿No tienes una cuenta? <a class="link__primary" href="/register">Regístrate</a></p>
+        </div>
         <form action="/login" method="POST" class="my-3">
             <div class="form-group mb-3">
-                <input type="email" class="form-control form-control-lg" name="email" id="email" value="{{user.email}}" placeholder="Correo electrónico" required>
+                <input type="email" class="form-control form-control-lg" name="email" id="email" value="{{user.email}}" placeholder="Correo electrónico" autofocus required>
             </div>
             <div class="form-group mb-4">
                 <input type="password" class="form-control form-control-lg" name="password" placeholder="Password" id="password" required>
@@ -18,7 +21,7 @@
                 <button type="submit" class="button btn__primary btn-lg">Sign in</button>
                 <hr>
                 <small>O inicia sesión con</small>
-                <a href="/authenticate/google" class="btn btn-light border py-2"><i class="fab fa-google pr-2"></i> Iniciar sesión con Google</a>
+                <a href="/authenticate/google" class="button btn__light border py-2"><i class="fab fa-google pr-2"></i> Iniciar sesión con Google</a>
             </div>
         </form>
     </div>

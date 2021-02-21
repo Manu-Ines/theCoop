@@ -45,6 +45,9 @@ p {
     padding-bottom: 5rem!important;
 }
 
+.card {
+    border-radius: .6rem !important;
+}
 
 
 /* BUTTONS
@@ -64,7 +67,7 @@ p {
     padding: .375rem .75rem;
     font-size: 1rem;
     border-radius: .5rem !important;
-    transition: all .15s ease-in-out;
+    transition: all .10s ease-in-out;
 }
 
 .btn__primary {
@@ -103,6 +106,15 @@ p {
     color: rgb(24, 24, 24);
 }
 
+.link__primary {
+    color: var(--main-color);
+    transition: all .10s ease-in-out;
+}
+
+.link__primary:hover {
+    color: var(--main-color-hover);
+}
+
 /* NAVBAR 
 ===============================*/
 .bg__light {
@@ -111,13 +123,14 @@ p {
 }
 
 .navbar-light .navbar-nav .nav-link {
+    font-size: 1.05rem;
     color: var(--color-dark-black) !important;
+    transition: all .10s ease-in-out;
 }
 
-
-
-
-
+.navbar-light .navbar-nav .nav-link:hover {
+    color: var(--main-color) !important;
+}
 
 
 .main__hero {
@@ -127,4 +140,15 @@ p {
     background-position-x: center;
     background-position-y: top;
     color: var(--color-dark-black) !important;
+}
+
+
+/* FORMS */
+
+.form-control:focus {
+    color: #212529;
+    background-color: #fff;
+    border: 1.55px solid var(--main-color) !important;
+    outline: 0;
+    box-shadow: none !important;
 }

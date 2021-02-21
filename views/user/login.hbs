@@ -1,23 +1,25 @@
-<div style="max-width: 450px;" class="mx-auto card p-4 text-center">
-    <h3><b>Inicio de sesión</b></h3>
-    <form action="/login" method="POST" class="my-3">
-        <div class="form-group mb-3">
-            <input type="text" class="form-control form-control-lg" name="username" id="username" value="{{user.username}}" placeholder="Username" required>
-        </div>
-        <div class="form-group mb-4">
-            <input type="password" class="form-control form-control-lg" name="password" placeholder="Password" id="password" required>
-        </div>
-        {{#if error}}
-            <div class="alert alert-danger">{{error}}</div>
-        {{/if}}
-        {{#if message}}
-            <div class="alert alert-success">{{message}}</div>
-        {{/if}}
-        <div class="d-grid gap-2 text-center">
-            <button type="submit" class="button btn__primary btn-lg">Sign in</button>
-            <hr>
-            <small>O inicia sesión con</small>
-            <a href="/authenticate/google" class="btn btn-light border py-2"><i class="fab fa-google pr-2"></i> Iniciar sesión con Google</a>
-        </div>
-    </form>
+<div class="container my-7">
+    <div style="max-width: 450px;" class="mx-auto card p-4 text-center">
+        <h3><b>Inicio de sesión</b></h3>
+        <form action="/login" method="POST" class="my-3">
+            <div class="form-group mb-3">
+                <input type="email" class="form-control form-control-lg" name="email" id="email" value="{{user.email}}" placeholder="Correo electrónico" required>
+            </div>
+            <div class="form-group mb-4">
+                <input type="password" class="form-control form-control-lg" name="password" placeholder="Password" id="password" required>
+            </div>
+            {{#if error}}
+                <div class="alert alert-danger">{{error}}</div>
+            {{/if}}
+            {{#if message}}
+                <div class="alert alert-success">{{message}}</div>
+            {{/if}}
+            <div class="d-grid gap-2 text-center">
+                <button type="submit" class="button btn__primary btn-lg">Sign in</button>
+                <hr>
+                <small>O inicia sesión con</small>
+                <a href="/authenticate/google" class="btn btn-light border py-2"><i class="fab fa-google pr-2"></i> Iniciar sesión con Google</a>
+            </div>
+        </form>
+    </div>
 </div>

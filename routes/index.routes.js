@@ -15,7 +15,7 @@ router.get('/login', secure.isNotAuthenticated, userController.login)
 router.post('/login', secure.isNotAuthenticated, userController.doLogin)
 router.get('/profile', secure.isAuthenticated, userController.profile)
 router.get('/logout', secure.isAuthenticated, userController.doLogout)
-router.get('/activate/:token/:username', secure.isNotAuthenticated, userController.activate);
+router.get('/activate/:token', secure.isNotAuthenticated, userController.activate);
 router.get('/edit-profile', secure.isAuthenticated, userController.editProfile)
 router.post('/edit-profile', secure.isAuthenticated, upload.single('profilePicture'), userController.doEditProfile)
 

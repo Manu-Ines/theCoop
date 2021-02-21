@@ -1,9 +1,17 @@
-<h1><b>Express App</b></h1>
-<p>Welcome to {{title}}</p>
+<div class="main__hero">
+    <div class="container py-7">
+        <div class="text-center mx-auto my-5" style="max-width: 600px;">
+            <h1 class="display-4">Unimos personas y organizaciones</h1>
+            <p>433.505.259 personas han pasado a la acción. Victorias cada día.</p>
 
-{{#if currentUser}}
-    <a href="/profile" class="btn btn-dark">Profile</a>
-{{else}}
-    <a href="/register" class="button btn__primary text-white px-4">Register</a>
-    <a href="/login" class="button btn__secondary px-4">Login</a>
-{{/if}}
+            <div class="mt-3"><br>
+                {{#if currentUser}}
+                    <a href="/profile" class="btn btn-dark">Profile</a>
+                {{else}}
+                    <a href="/register" class="button btn__primary btn-lg px-5">Register</a>
+                    <a href="/login" class="button btn__light btn-lg px-5 ml-3">Login</a>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>

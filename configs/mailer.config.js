@@ -18,7 +18,7 @@ transporter.verify(function (error, success) {
 	}
 });
 
-module.exports.sendActivationEmail = (email, token, username) => {
+module.exports.sendActivationEmail = (email, token) => {
 	transporter.sendMail({
 			from: `"Nodemailer Test" <manu@glow-media.com>`,
 			to: email,
@@ -265,7 +265,7 @@ module.exports.sendActivationEmail = (email, token, username) => {
 													<tbody>
 													<tr>
 														<td style="padding: 13px 17px; border-radius: 8px; background-color: #1595E7;" bgcolor="#1595E7" valign="top" align="center">
-														<a href="${process.env.HOST || `http://localhost:${process.env.PORT || 3000}`}/activate/${token}/${username}" style="line-height: 1.5; text-decoration: none; word-break: break-word; font-weight: 500; display: block; font-family: 'Fira Sans', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff;">Activar cuenta</a>
+														<a href="${process.env.HOST || `http://localhost:${process.env.PORT || 3000}`}/activate/${token}" style="line-height: 1.5; text-decoration: none; word-break: break-word; font-weight: 500; display: block; font-family: 'Fira Sans', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff;">Activar cuenta</a>
 														</td>
 													</tr>
 													</tbody>

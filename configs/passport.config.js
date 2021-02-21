@@ -11,9 +11,11 @@ passport.serializeUser(function(user, next) {
 });
 
 passport.deserializeUser((id, next) => {
-    User
-        .findById(id)
-        .then(user => next(null, user))
+    Promise
+        .all([User.findById(id), Org.findById(id)])
+        .then(user => {
+            user[0] ? next(null, user[0]) : next(null, user[1])
+        })
         .catch(next);
 });
 
@@ -23,6 +25,7 @@ passport.use('local-auth', new localStrategy({
     }, (email, password, next) => {
         Promise.all([User.findOne({ email: email }), Org.findOne({ email: email })])
             .then(users => {
+                console.log(users)
                 if(!users[0] && !users[1]){
                     next(null, false, { error: 'El correo electrónico o la contraseña no son correctos' })
                 } else {

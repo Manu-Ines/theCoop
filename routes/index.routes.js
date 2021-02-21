@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/user.controller')
-const secure = require('../middlewares/secure.middleware')
 const passport = require('passport')
+const userController = require('../controllers/user.controller')
+const orgController = require('../controllers/org.controller')
+const secure = require('../middlewares/secure.middleware')
 const upload = require('../configs/storage.config')
 
 /* GET home page */
@@ -29,5 +30,7 @@ router.get('/users/list', secure.checkRoles('ADMIN'), secure.isActive, userContr
 
 // Org routes
 // ====================================================================================================================
+router.get('/org/register', secure.isNotAuthenticated, orgController.register)
+router.post('/org/register', secure.isNotAuthenticated, upload.single('profilePicture'), orgController.doRegister)
 
 module.exports = router;

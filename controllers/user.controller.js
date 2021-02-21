@@ -1,6 +1,7 @@
 require('dotenv').config()
 const mongoose = require('mongoose');
 const User = require('../models/User.model');
+const Org = require('../models/Org.model');
 const { sendActivationEmail } = require("../configs/mailer.config");
 const passport = require('passport');
 
@@ -17,10 +18,9 @@ module.exports.doRegister = (req, res, next) => {
         })
     }
 
-    User
-        .findOne({ email: req.body.email })
+    Promise.all([User.findOne({ email: req.body.email }), Org.findOne({ email: req.body.email })])
         .then(user => {
-            if(user){
+            if(user[0] || user[1]){
                 renderWithErrors({
                     email: 'Ya existe un usuario con este email'
                 })
@@ -33,7 +33,7 @@ module.exports.doRegister = (req, res, next) => {
                     .create(req.body)
                     .then(u => {
                         sendActivationEmail(u.email, u.token)
-                        res.redirect('/')
+                        res.redirect('/login')
                     })
                     .catch(e => {
                         if (e instanceof mongoose.Error.ValidationError) {
@@ -93,13 +93,11 @@ module.exports.doLogout = (req, res, next) => {
 module.exports.activate = (req, res, next) => {
     const { token } = req.params
     if(token){
-        User
-            .findOneAndUpdate(
-                { token: token }, 
-                { active: true }, 
-                { useFindAndModify: false })
+        Promise
+            .all([User.findOneAndUpdate({ token: token }, { active: true }, { useFindAndModify: false }), Org.findOneAndUpdate({ token: token }, { active: true }, { useFindAndModify: false })])
             .then(user => {
-                res.render('user/login', { user, message: "Felicidades, has activado tu cuenta. Ya puedes iniciar sesión" })
+                let userType = user[0] ? 0 : 1
+                res.render('user/login', { user: user[userType], message: "Felicidades, has activado tu cuenta. Ya puedes iniciar sesión" })
             })
             .catch(e => next(e))
     } else {

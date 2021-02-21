@@ -1,6 +1,7 @@
 require('dotenv').config()
 const mongoose = require('mongoose');
 const Org = require('../models/Org.model');
+const User = require('../models/User.model');
 const { sendActivationEmail } = require("../configs/mailer.config");
 const passport = require('passport');
 
@@ -17,10 +18,9 @@ module.exports.doRegister = (req, res, next) => {
         })
     }
 
-    Org
-        .findOne({ email: req.body.email })
+    Promise.all([User.findOne({ email: req.body.email }), Org.findOne({ email: req.body.email })])
         .then(org => {
-            if(org){
+            if(org[0] || org[1]){
                 renderWithErrors({
                     email: 'Ya existe un usuario con este email'
                 })
@@ -33,7 +33,7 @@ module.exports.doRegister = (req, res, next) => {
                     .create(req.body)
                     .then(u => {
                         sendActivationEmail(u.email, u.token)
-                        res.redirect('/')
+                        res.redirect('/login')
                     })
                     .catch(e => {
                         if (e instanceof mongoose.Error.ValidationError) {

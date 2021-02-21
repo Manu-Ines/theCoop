@@ -41,7 +41,8 @@ const orgSchema = new mongoose.Schema({
         trim: true,
         uppercase: true,
         required: 'Es necesario introducir un el CIF/NIF',
-        maxlength: [10, 'El CIF/NIF es demasiado largo']
+        maxlength: [10, 'El CIF/NIF es demasiado largo'],
+        minlength: [5, 'El CIF/NIF debe ser válido']
     },
     document: {
         type: String
@@ -72,8 +73,8 @@ const orgSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['USER', 'ADMIN'],
-        default: 'USER'
+        enum: ['ORG', 'ADMIN'],
+        default: 'ORG'
     },
     rank: {
         type: Number,

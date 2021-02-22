@@ -8,7 +8,6 @@ const { v4: uuidv4 } = require('uuid');
     TODO:
     ============================
     - Mensajes directos
-    Banco
     ============================
 */
 
@@ -59,21 +58,23 @@ const userSchema = new mongoose.Schema({
         enum: ['visible', 'hidden'],
         default: 'visible'
     }
-}, { timestamps: true })
-
+}, {
+    timestamps: true,
+    toJSON: {
+        virtuals: true,
+    },
+})
 // Virtuals -----------------------
 userSchema.virtual('donations', {
     ref: 'Donation',
 	foreignField: 'donator',
 	localField: '_id'
 })
-
 userSchema.virtual('assistances', {
 	ref: 'Assistance',
 	foreignField: 'asistant',
 	localField: '_id'
 })
-
 userSchema.virtual('ratings', {
 	ref: 'Rating',
 	foreignField: 'user',

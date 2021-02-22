@@ -8,6 +8,10 @@ const assistanceSchema = new mongoose.Schema({
     assistant: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'User'
+    },
+    went: {
+        type: Boolean,
+        default: true
     }
 })
 

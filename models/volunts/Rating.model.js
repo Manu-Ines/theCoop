@@ -14,12 +14,7 @@ const ratingSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-}, {
-    timestamps: true,
-    toJSON: {
-        virtuals: true,
-    },
-}
+}, { timestamps: true }
 )
 
 const Rating = mongoose.model('Rating', ratingSchema)

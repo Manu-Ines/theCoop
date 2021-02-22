@@ -12,7 +12,9 @@
                 <input type="password" class="form-control form-control-lg" name="password" placeholder="Password" id="password" required>
             </div>
             {{#if error}}
-                <div class="alert alert-danger">{{error}}</div>
+                <div class="alert alert-danger">
+                    {{error}}
+                </div>
             {{/if}}
             {{#if message}}
                 <div class="alert alert-success">{{message}}</div>

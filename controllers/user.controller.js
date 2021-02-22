@@ -48,7 +48,7 @@ module.exports.doRegister = (req, res, next) => {
 }
 
 module.exports.login = (req, res, next) => {
-    res.render('user/login')
+    res.render('user/login', { message: req.flash('info') })
 }
 
 module.exports.doLogin = (req, res, next) => {
@@ -69,13 +69,13 @@ module.exports.doLogin = (req, res, next) => {
 module.exports.doLoginGoogle = (req, res, next) => {
     passport.authenticate('google-auth', (error, user, validations) => {
         if (error) {
-            next(error);
+            next(error)
         } else if (!user) {
-            res.status(400).render('user/login', { user: req.body, error: validations });
+            res.status(400).render('user/login', { user: req.body, error: validations })
         } else {
             req.login(user, loginErr => {
                 if (loginErr) next(loginErr)
-                else res.redirect('/') // TODO: redirect donde sea hay que refresh para que identifique al user
+                else res.redirect('/') // TODO: tras redirect hay que refresh para que identifique al user
             })
         }
     })(req, res, next)

@@ -6,7 +6,6 @@ const GoogleStrategy = require('passport-google-oauth2').Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
 const User = require('../models/User.model')
 const Org = require('../models/Org.model')
-const { getMaxListeners } = require('../models/User.model')
 
 passport.serializeUser(function(user, next) {
     next(null, user.id);
@@ -62,30 +61,30 @@ passport.use('google-auth', new GoogleStrategy({
     const profilePicture = profile.picture || `${process.env.HOST}/uploads/no-photo.jpg`
 
     if (googleID && email) {
-        User.findOne({ $or: [{ email: email }, { 'social.google': googleID }]})
-        .then(user => {
-            if (!user) {
-                const newUserInstance = new User({
-                    name,
-                    email,
-                    password: 'Aa1' + mongoose.Types.ObjectId(),
-                    profilePicture,
-                    social: {
-                        google: googleID
-                    },
-                    active: true
-                })
-    
-                return newUserInstance.save()
-                    .then(newUser => next(null, newUser))
-            } else {
-                next(null, user)
-            }
-        })
-        .catch(next)
-    } else {
-        next(null, null, { error: 'Error conectando con Google OAuth' })
-    }
+        Promise.all([ User.findOne({ $or: [{ email: email }, { 'social.google': googleID }]}), Org.findOne({ email: email })])
+            .then(user => {
+                if (!user[0] && !user[1]) {
+                    User.create({
+                            name,
+                            email,
+                            password: 'Aa1' + mongoose.Types.ObjectId(),
+                            profilePicture,
+                            social: {
+                                google: googleID
+                            },
+                            active: true
+                        })
+                        .then(newUser => next(null, newUser))
+                } else if (user[0]) {
+                    next(null, user[0])
+                } else {
+                    next(null, null, 'No es posible iniciar sesión con Google si eres una organización')
+                }
+            })
+            .catch(next)
+        } else {
+            next(null, null, 'Error conectando con Google OAuth')
+        }
 }))
 
 passport.use('facebook-auth', new FacebookStrategy({
@@ -101,28 +100,28 @@ passport.use('facebook-auth', new FacebookStrategy({
     const profilePicture = `${process.env.HOST}/uploads/no-photo.jpg`
 
     if (facebookID) {
-        User.findOne({ $or: [{ email: email }, {'social.facebook': facebookID }] })
-        .then(user => {
-            if (!user) {
-                User.create({
-                    name,
-                    email,
-                    password: 'Aa1' + mongoose.Types.ObjectId(),
-                    profilePicture,
-                    social: {
-                        facebook: facebookID
-                    },
-                    active: true
-                }, function (err, user) {
-                    return next(err, user)
-                })
-
-            } else {
-                next(null, user)
-            } 
-        })
-        .catch(next)
+        Promise.all([ User.findOne({ $or: [{ email: email }, { 'social.facebook': facebookID }]}), Org.findOne({ email: email })])
+            .then(user => {
+                if (!user[0] && !user[1]) {
+                    User.create({
+                            name,
+                            email,
+                            password: 'Aa1' + mongoose.Types.ObjectId(),
+                            profilePicture,
+                            social: {
+                                facebook: facebookID
+                            },
+                            active: true
+                        })
+                        .then(newUser => next(null, newUser))
+                } else if (user[0]) {
+                    next(null, user[0])
+                } else {
+                    next(null, null, 'No es posible iniciar sesión con Facebook si eres una organización')
+                }
+            })
+            .catch(next)
     } else {
-        next(null, false, { error: 'Error conectando con Facebook' })
+        next(null, false, 'Error conectando con Facebook')
     } 
 }))

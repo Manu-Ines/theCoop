@@ -21,25 +21,18 @@ const voluntSchema = new mongoose.Schema({
         // default: TODO: get the one from org
     },
     type: {
+        type: String,
         enum: ['Puntual', 'Recurrente']
     },
-    date: [{
+    date: [ {
         day: { type: Date },
         periods: [{
           start: { type: Date },
           end: { type: Date }
         }]
-    }],
+    } ],
     assistants: {
         type: Number
-    },
-    goingassitants: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: 'Assistance'
-    },
-    ratings: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: 'Rating'
     },
     msgThankyou: {
         type: String,
@@ -53,8 +46,12 @@ const voluntSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
-}, { timestamps: true }
-)
+}, {
+    timestamps: true,
+    toJSON: {
+        virtuals: true,
+    },
+})
 // Viruals --------------------------
 voluntSchema.virtual('assistance', {
 	ref: 'Assistance',

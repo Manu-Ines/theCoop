@@ -3,7 +3,7 @@ const WEIRD_PATTERN = /[$%|<>#]/
 const regularNum = (num) => {
     // TODO: kata for regulate numbers
 }
-const categs = require('../configs/categs.config')
+const categs = require('../../configs/categs.config')
 
 const projectSchema = new mongoose.Schema({
     owner: {
@@ -21,6 +21,7 @@ const projectSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
+        trim: true,
         maxlength: [ 60, 'El título no puede superar 60 caracteres' ],
         match: [ WEIRD_PATTERN, 'El titular solo acepta letras y números' ],
     },
@@ -39,11 +40,11 @@ const projectSchema = new mongoose.Schema({
     categs: {
         type: String,
         required: true,
-        enum: categs,
+        enum: categs, // categs.configs.js
     },
     msgThankyou: {
         type: String,
-        maxlength: [200, 'El agradecimiento no puede superar 200 caracteres'],
+        maxlength: [ 200, 'El agradecimiento no puede superar 200 caracteres' ],
     },
     boost: {
         type: Boolean,
@@ -53,8 +54,12 @@ const projectSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
-}, { timestamps: true }
-)
+}, {
+    timestamps: true,
+    toJSON: {
+        virtuals: true,
+    },
+})
 // Virtuals -----------------------
 projectSchema.virtual('donations', {
     ref: 'Donation',

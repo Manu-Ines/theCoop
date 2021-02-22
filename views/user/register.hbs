@@ -1,4 +1,4 @@
-<div class="container my-7">
+<div class="container my-7"> 
     <div style="max-width: 450px;" class="mx-auto card p-4">
         <h3><b>Registro de usuario</b></h3>
         <form action="/register" method="POST" class="my-3">
@@ -27,6 +27,9 @@
                 <button type="submit" class="button btn__primary btn-lg">Register</button>
             </div>
         </form>
-        <a class="link__primary" href="/org/register">O regístrate como organización</a>
+        <hr>
+        <a href="/authenticate/google" class="button btn__light border py-2 my-2"><i class="fab fa-google pr-2"></i> Registro con Google</a>
+        <a href="/auth/facebook" class="button btn__light border py-2 mt-2 mb-4"><i class="fab fa-facebook pr-2"></i> Registro con Facebook</a>
+        <small>¿Eres una organización? <a class="link__primary" href="/org/register">regístrate aquí</a></small>
     </div>
 </div>

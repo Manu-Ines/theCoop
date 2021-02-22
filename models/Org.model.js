@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10
 const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@“]+(\.[^<>()[\]\\.,;:\s@“]+)*)|(“.+“))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -7,8 +7,6 @@ const { v4: uuidv4 } = require('uuid');
 /* 
     TODO: faltan los virtuals
     ============================
-    - Proyectos
-    - Voluntariados
     - Mensajes directos
     - Mensajes finalización
     ============================
@@ -80,9 +78,27 @@ const orgSchema = new mongoose.Schema({
         type: Number,
         default: 0 
     }
-}, { timestamps: true })
+}, {
+    timestamps: true,
+    toJSON: {
+        virtuals: true,
+    },
+}
+)
+// Virtuals -----------------------
+orgSchema.virtual('projects', {
+    ref: 'Project',
+	foreignField: 'owner',
+	localField: '_id'
+})
+orgSchema.virtual('volunts', {
+    ref: 'Volunt',
+    foreignField: 'owner',
+	localField: '_id'
+})
+// --------------------------------
 
-orgSchema.methods.checkPassword = function(pass){
+orgSchema.methods.checkPassword = function(pass) {
     return bcrypt.compare(pass, this.password)
 }
 

@@ -5,11 +5,8 @@ const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@“]+(\.[^<>()[\]\\.,;:\s@“]+)*)|(
 const { v4: uuidv4 } = require('uuid');
 
 /* 
-    TODO: faltan los virtuals
+    TODO:
     ============================
-    - Donaciones
-    - Valoraciones ( de los voluntariados)
-    - Historial voluntariado
     - Mensajes directos
     ============================
 */
@@ -61,7 +58,29 @@ const userSchema = new mongoose.Schema({
         enum: ['visible', 'hidden'],
         default: 'visible'
     }
-}, { timestamps: true })
+}, {
+    timestamps: true,
+    toJSON: {
+        virtuals: true,
+    },
+})
+// Virtuals -----------------------
+userSchema.virtual('donations', {
+    ref: 'Donation',
+	foreignField: 'donator',
+	localField: '_id'
+})
+userSchema.virtual('assistances', {
+	ref: 'Assistance',
+	foreignField: 'asistant',
+	localField: '_id'
+})
+userSchema.virtual('ratings', {
+	ref: 'Rating',
+	foreignField: 'user',
+	localField: '_id'
+})
+// --------------------------------
 
 userSchema.methods.checkPassword = function(pass){
     return bcrypt.compare(pass, this.password)

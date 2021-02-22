@@ -20,10 +20,10 @@ transporter.verify(function (error, success) {
 
 module.exports.sendActivationEmail = (email, token) => {
 	transporter.sendMail({
-			from: `"Nodemailer Test" <manu@glow-media.com>`,
+			from: `"Rodiles" <manu@glow-media.com>`,
 			to: email,
-			subject: "Activa tu cuenta de Nodemailer Test",
-			text: "Gracias por registrarte en Nodemailer Test",
+			subject: "Activa tu cuenta",
+			text: "Gracias por registrarte en Rodiles",
 			html: `
 								<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 				<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">

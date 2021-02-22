@@ -12,7 +12,9 @@
                 <input type="password" class="form-control form-control-lg" name="password" placeholder="Password" id="password" required>
             </div>
             {{#if error}}
-                <div class="alert alert-danger">{{error}}</div>
+                <div class="alert alert-danger">
+                    {{error}}
+                </div>
             {{/if}}
             {{#if message}}
                 <div class="alert alert-success">{{message}}</div>
@@ -20,8 +22,8 @@
             <div class="d-grid gap-2 text-center">
                 <button type="submit" class="button btn__primary btn-lg">Sign in</button>
                 <hr>
-                <small>O inicia sesión con</small>
                 <a href="/authenticate/google" class="button btn__light border py-2"><i class="fab fa-google pr-2"></i> Iniciar sesión con Google</a>
+                <a href="/auth/facebook" class="button btn__light border py-2"><i class="fab fa-facebook pr-2"></i> Iniciar sesión con Facebook</a>
             </div>
         </form>
     </div>

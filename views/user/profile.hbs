@@ -1,19 +1,29 @@
 <div class="container my-6">
     {{#if messages}}
-        <div class="alert alert-dark">
-            {{messages}}
-        </div>
+    <div class="alert alert-dark">
+        {{messages}}
+    </div>
     {{/if}}
 
-    <div class="row">
-        <div class="col-lg-1 col-md-3 col-sm-4 col-3">
-            <img src="{{currentUser.profilePicture}}" class="img-thumbnail w-100" alt="profile image">
-        </div>
-        <div class="col-lg-10 col-md-9 col-sm-8 col-9">
-            <h1>{{currentUser.name}}</h1>
-            <p>{{currentUser.username}}</p>
-            <a href="/logout" class="btn btn-dark">Cerrar sesión</a>
-            <a href="/edit-profile" class="btn btn-dark">Editar perfil</a>
+
+    <div class="card p-4">
+        <div class="row">
+            <div class="col-lg-1 col-md-3 col-sm-4 col-3">
+                <img src="{{currentUser.profilePicture}}" class="w-100" alt="profile image">
+            </div>
+            <div class="col-lg-10 col-md-9 col-sm-8 col-9">
+                <h2>{{currentUser.name}}</h2>
+                <p>
+                    {{currentUser.email}}<br>
+                    Perfil:
+                    {{#if currentUser.visibility}}
+                    <span class="text-success">Público</span>
+                    {{else}}
+                    <span class="text-danger">Privado</span>
+                    {{/if}}
+                </p>
+                <a href="/user/edit-profile" class="button btn__light">Editar perfil</a>
+            </div>
         </div>
     </div>
 </div>

@@ -1,15 +1,21 @@
 <div class="main__hero">
     <div class="container py-7">
+        {{#if messages}}
+        <div class="alert alert-dark">
+            {{messages}}
+        </div>
+        {{/if}}
         <div class="text-center mx-auto my-5" style="max-width: 600px;">
             <h1 class="display-4">Unimos personas y organizaciones</h1>
             <p>433.505.259 personas han pasado a la acción. Victorias cada día.</p>
 
             <div class="mt-3"><br>
                 {{#if currentUser}}
-                    <a href="/profile" class="btn btn-dark">Profile</a>
+                <a href="{{#isOrg currentUser.role}}/org/profile{{else}}/user/profile{{/isOrg}}"
+                    class="button btn__primary btn-lg px-5">Profile</a>
                 {{else}}
-                    <a href="/register" class="button btn__primary btn-lg px-5">Register</a>
-                    <a href="/login" class="button btn__light btn-lg px-5 ml-3">Login</a>
+                <a href="/register" class="button btn__primary btn-lg px-5">Register</a>
+                <a href="/login" class="button btn__light btn-lg px-5 ml-3">Login</a>
                 {{/if}}
             </div>
         </div>

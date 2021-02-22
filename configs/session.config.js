@@ -2,23 +2,24 @@ require('dotenv').config()
 const expressSession = require('express-session')
 const connectMongo = require('connect-mongo')
 const mongoose = require('mongoose')
-
 const MongoStore = connectMongo(expressSession)
 
+const SESSION_SECRET = process.env.SESSION_SECRET
+const SESSION_SECURE = process.env.SESSION_SECURE === 'true' ? true : false
+const SESSION_MAX_AGE = Number(process.env.SESSION_MAX_AGE) || 3600000
+
 const session = expressSession({
-    secret:
-        process.env.SESSION_SECRET ||
-        'SbyVv6vTVfy5kuBydrLK76GGHJvRTj7T6rFyfbgUNJGBV',
+    secret: SESSION_SECRET,
     saveUninitialized: false,
     resave: false,
     cookie: {
-        secure: process.env.SESSION_SECURE || false,
+        secure: SESSION_SECURE,
         httpOnly: true,
-        maxAge: Number(process.env.SESSION_MAX_AGE) || 3600000,
+        maxAge: SESSION_MAX_AGE,
     },
     store: new MongoStore({
         mongooseConnection: mongoose.connection,
-        ttl: Number(process.env.SESSION_MAX_AGE) || 3600000,
+        ttl: SESSION_MAX_AGE,
     }),
 })
 

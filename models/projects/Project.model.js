@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const WEIRD_PATTERN = /[$%|<>#]/
 const regularNum = (num) => {
-    // TODO: INES
+    // TODO: kata for regulate numbers
 }
 const categs = require('../configs/categs.config')
 
@@ -10,30 +10,24 @@ const projectSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Org'// REMINDER: controller createProject -> req.body.owner = req.currentUser.id
     },
-    donors: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: 'User'
-    },
-    collection: {
+    sum: {
         type: Number, 
         set: regularNum,
         required: true
     },
-    currentCollection: {
-        type: Number,
-        set: regularNum,
-        default: 0
+    documents: {
+        enum: [ String ]
     },
     title: {
         type: String,
         required: true,
-        maxlength: [60, 'El título no puede superar 60 caracteres'],
-        match: [WEIRD_PATTERN, 'El titular solo acepta letras y números'],
+        maxlength: [ 60, 'El título no puede superar 60 caracteres' ],
+        match: [ WEIRD_PATTERN, 'El titular solo acepta letras y números' ],
     },
     description: {
         type: String,
         required: true,
-        maxlength: [300, 'La descripción no puede superar 300 caracteres'],
+        maxlength: [ 300, 'La descripción no puede superar 300 caracteres' ],
     },
     image: {
         type: String,
@@ -61,6 +55,13 @@ const projectSchema = new mongoose.Schema({
     }
 }, { timestamps: true }
 )
+// Virtuals -----------------------
+projectSchema.virtual('donations', {
+    ref: 'Donation',
+	foreignField: 'project',
+	localField: '_id'
+})
+// --------------------------------
 
 const Project = mongoose.model('Project', projectSchema)
 module.exports = Project

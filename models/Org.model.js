@@ -7,8 +7,6 @@ const { v4: uuidv4 } = require('uuid');
 /* 
     TODO: faltan los virtuals
     ============================
-    - Proyectos // check
-    - Voluntariados
     - Mensajes directos
     - Mensajes finalización
     ============================
@@ -82,6 +80,18 @@ const orgSchema = new mongoose.Schema({
     }
 }, { timestamps: true }
 )
+// Virtuals -----------------------
+orgSchema.virtual('projects', {
+    ref: 'Project',
+	foreignField: 'owner',
+	localField: '_id'
+})
+orgSchema.virtual('volunts', {
+    ref: 'Volunt',
+    foreignField: 'owner',
+	localField: '_id'
+})
+// --------------------------------
 
 orgSchema.methods.checkPassword = function(pass) {
     return bcrypt.compare(pass, this.password)

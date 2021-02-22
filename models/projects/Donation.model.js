@@ -9,13 +9,13 @@ const donationSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Project'
     },
-    anonymous: {
-        type: Boolean,
-        default: false
-    },
     contribution: {
         type: Number,
         required: true
+    },
+    anonymous: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true }
 )

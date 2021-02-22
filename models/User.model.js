@@ -64,20 +64,20 @@ const userSchema = new mongoose.Schema({
 // Virtuals -----------------------
 userSchema.virtual('donations', {
     ref: 'Donation',
-	localField: '_id',
-	foreignField: 'user'
+	foreignField: 'donator',
+	localField: '_id'
 })
 
 userSchema.virtual('assistances', {
 	ref: 'Assistance',
-	localField: '_id',
-	foreignField: 'user'
+	foreignField: 'asistant',
+	localField: '_id'
 })
 
 userSchema.virtual('ratings', {
 	ref: 'Rating',
-	localField: '_id',
-	foreignField: 'user'
+	foreignField: 'user',
+	localField: '_id'
 })
 // --------------------------------
 

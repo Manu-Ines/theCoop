@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const voluntSchema = new mongoose.Schema({
     owner: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'Org'// REMINDER: controller createProject -> req.body.owner = req.currentUser.id
+        ref: 'Org'// REMINDER: controller createVolunt -> req.body.owner = req.currentUser.id
     },
     title: {
         type: String,
@@ -49,20 +49,25 @@ const voluntSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    completed: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true }
 )
-
+// Viruals --------------------------
 voluntSchema.virtual('assistance', {
 	ref: 'Assistance',
+	foreignField: 'volunt',
 	localField: '_id',
-	foreignField: 'user'
 })
 
 voluntSchema.virtual('ratings', {
 	ref: 'Rating',
+	foreignField: 'user',
 	localField: '_id',
-	foreignField: 'user'
 })
+// ----------------------------------
 
 const Volunt = mongoose.model('Volunt', voluntSchema)
 module.exports = Volunt

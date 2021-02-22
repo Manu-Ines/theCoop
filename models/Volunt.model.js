@@ -1,28 +1,9 @@
 const mongoose = require('mongoose')
-const WEIRD_PATTERN = /[$%|<>#]/
-const regularNum = (num) => {
-    // TODO: INES
-}
-const categs = require('../configs/categs.config')
 
-const projectSchema = new mongoose.Schema({
+const voluntSchema = new mongoose.Schema({
     owner: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Org'// REMINDER: controller createProject -> req.body.owner = req.currentUser.id
-    },
-    donors: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: 'User'
-    },
-    collection: {
-        type: Number, 
-        set: regularNum,
-        required: true
-    },
-    currentCollection: {
-        type: Number,
-        set: regularNum,
-        default: 0
     },
     title: {
         type: String,
@@ -39,13 +20,26 @@ const projectSchema = new mongoose.Schema({
         type: String,
         // default: TODO: get the one from org
     },
-    endDate: {
-        type: Date
+    type: {
+        enum: ['Puntual', 'Recurrente']
     },
-    categs: {
-        type: String,
-        required: true,
-        enum: categs,
+    date: [{
+        day: { type: Date },
+        periods: [{
+          start: { type: Date },
+          end: { type: Date }
+        }]
+    }],
+    assistants: {
+        type: Number
+    },
+    goingassitants: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'Assistance'
+    },
+    ratings: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'Rating'
     },
     msgThankyou: {
         type: String,
@@ -55,12 +49,20 @@ const projectSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    completed: {
-        type: Boolean,
-        default: false
-    }
 }, { timestamps: true }
 )
 
-const Project = mongoose.model('Project', projectSchema)
-module.exports = Project
+voluntSchema.virtual('assistance', {
+	ref: 'Assistance',
+	localField: '_id',
+	foreignField: 'user'
+})
+
+voluntSchema.virtual('ratings', {
+	ref: 'Rating',
+	localField: '_id',
+	foreignField: 'user'
+})
+
+const Volunt = mongoose.model('Volunt', voluntSchema)
+module.exports = Volunt

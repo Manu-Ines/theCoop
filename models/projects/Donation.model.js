@@ -16,6 +16,10 @@ const donationSchema = new mongoose.Schema({
     anonymous: {
         type: Boolean,
         default: false
+    },
+    msgfinale: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'Msgfinale'
     }
 }, { timestamps: true }
 )

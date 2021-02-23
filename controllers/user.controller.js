@@ -132,35 +132,19 @@ module.exports.doEditProfile = (req, res, next) => {
         })
     }
 
-    if(req.file){
-        req.body.profilePicture = req.file.path
-    }
-}
-// Settings - Email, password, métodos de pago
-module.exports.settings = (req, res, next) => {
-    res.send('View of settings')
-}
-
-module.exports.doSettings = (req, res, next) => {
-    res.send('POST Settings')
-
-    function renderWithErrors(error) {
-        res.status(400).render('user/edit', {
-            error: error,
-            user: req.body
-        })
-    }
-    if(req.body.password === '' || req.body.password === undefined){
-        delete req.body.password
+    if(req.file) { req.body.profilePicture = req.file.path }
+    if (!req.body.visibility) { req.body.visibility = false }
+    if (req.body.visibility) {
+        req.body.visibility === 'on' ?  req.body.visibility = true : req.body.visibility = false
     }
 
-    if(req.body.name === "" || req.body.email === ""){
-        renderWithErrors('Debes rellenar todos los campos')
+    if(req.body.name === ""){
+        renderWithErrors('Campo obligatorio')
     } else {
         User
-            .findOneAndUpdate({ _id: req.currentUser._id }, req.body, { useFindAndModify: false })
+            .findOneAndUpdate({ _id: req.currentUser.id }, req.body, { runValidators: true, useFindAndModify: false })
             .then(() => {
-                res.redirect('/profile')
+                res.redirect('user/profile')
             })
             .catch(e => {
                 if (e instanceof mongoose.Error.ValidationError) {
@@ -170,6 +154,53 @@ module.exports.doSettings = (req, res, next) => {
                 }
             })
     }
+}
+
+// Settings - Email, password, métodos de pago
+module.exports.settings = (req, res, next) => {
+    res.render('user/settings')
+}
+
+module.exports.doSettingsEmail = (req, res, next) => {
+    function renderWithErrors(error) {
+        res.status(400).render('user/settings', {
+            error: error,
+            user: req.body
+        })
+    }
+    Promise.all([User.findOne({ email: req.body.email }), Org.findOne({ email: req.body.email })])
+        .then(email => {
+            if(email[0] || email[1]){
+                renderWithErrors({
+                    email: 'Ya existe un usuario con este email'
+                })
+            } else {
+                
+                User
+                    .findOneAndUpdate({ _id: req.currentUser.id }, { email: req.body.email }, { runValidators: true, useFindAndModify: false })
+                    .then(() => {
+                        res.render('/user/settings')
+                    })
+                    .catch(e => {
+                        if (e instanceof mongoose.Error.ValidationError) {
+                            renderWithErrors(e.errors)
+                        } else {
+                            next(e)
+                        }
+                    })
+                
+            }
+        })
+    
+}
+
+module.exports.doSettingsPassword = (req, res, next) => {
+    if(req.body.password === '' || req.body.password === undefined){
+        delete req.body.password
+    }
+}
+module.exports.doSettingsBank = (req, res, next) => {
+
 }
 
 module.exports.usersList = (req, res, next) => {

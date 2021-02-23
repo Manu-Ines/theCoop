@@ -54,9 +54,19 @@ router.get(
     userController.settings
 )
 router.post(
-    '/change-settings',
+    '/settings-e',
     secure.isAuthenticated,
-    userController.doSettings
+    userController.doSettingsEmail
+)
+router.post(
+    '/settings-p',
+    secure.isAuthenticated,
+    userController.doSettingsPassword
+)
+router.post(
+    '/settings-b',
+    secure.isAuthenticated,
+    userController.doSettingsBank
 )
 
 // Google auth

@@ -1,10 +1,72 @@
 {{!-- Settings: Email, password y pagos --}}
 
-<div class="form-group mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" id="name" value="{{currentUser.email}}" placeholder="email" required>
+<div class="container my-6">
+    <h2 class="mb-4">Configuración de la cuenta</h2>
+    <hr style="height:3px;border:none;">
+<div class="container">
+        <div class="row mb-4">
+            <div class="col-2">
+                <p><b>Email</b></p>
+            </div>
+            <div class="col d-flex justify-content-start">
+                <p>{{currentUser.email}}</p>
+            </div>
+            <div class="col d-flex justify-content-end">
+                <a class="button btn__secondary">Editar</a>
+            </div>
         </div>
-        <div class="form-group mb-4">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" name="password" placeholder="*********" id="password">
+        <hr>
+        <div class="row mb-4">
+            <div class="col-2">
+                <p><b>Contraseña</b></p>
+            </div>
+            <div class="col d-flex justify-content-start">
+                <p>*********</p>
+            </div>
+            <div class="col d-flex justify-content-end">
+                <a class="button btn__secondary">Editar</a>
+            </div>
         </div>
+    <hr>
+    <form action="/settings-p" method="POST">
+            <div class="row">
+                <div class="col-2">
+                    <label for="password" class="form-label"><b>Métodos de pago</b></label>
+                </div>
+                <div class="col">
+                    <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Visa ...4653
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Master Card ...6473
+                            </label>
+                        </div>
+                    </div>
+                <div class="col-12 col-sm-auto">
+                    <button type="submit" class="button btn__secondary">Actualizar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+<hr style="height:3px;border:none;">
+</div>
+
+{{!-- EMAIL FORM --}}
+
+<form action="/settings-e" method="POST">
+    <label for="email" class="form-label">Email</label>
+    <input type="email" class="form-control {{#if errors.email}}is-invalid{{/if}}" name="email" id="email" value="{{currentUser.email}}" placeholder="email" required>
+    {{errors.email}}
+    <button type="submit" class="button btn__primary">Editar</button>
+</form>
+
+<form action="/settings-p" method="POST">
+    <label for="password" class="form-label"><b>Contraseña</b></label>
+    <input type="password" class="form-control" name="password" placeholder="*********" id="password">
+    <button type="submit" class="button btn__primary">Editar</button>
+</form>

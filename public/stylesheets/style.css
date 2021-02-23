@@ -152,3 +152,29 @@ p {
     outline: 0;
     box-shadow: none !important;
 }
+
+.input-written {
+    outline: 0;
+    border-width: 0 0 2px;
+    border-color: var(--secondary-color-hover);
+    font-size: 1.5em;
+}
+
+.input-file {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.label-file {
+    font-size: 1.2em;
+    border: none;
+}
+
+.label-file:hover {
+    cursor: pointer;
+    border: none;
+}

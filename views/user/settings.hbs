@@ -60,13 +60,16 @@
 
 <form action="/settings-e" method="POST">
     <label for="email" class="form-label">Email</label>
-    <input type="email" class="form-control {{#if errors.email}}is-invalid{{/if}}" name="email" id="email" value="{{currentUser.email}}" placeholder="email" required>
-    {{errors.email}}
+    <input type="email" class="form-control {{#if error.email}}is-invalid{{/if}}" name="email" id="email" value="{{currentUser.email}}" placeholder="email" required>
+    <div class="form-text">Al editar el email de la cuenta tendrás que verificarlo desde el nuevo email, en caso contrario esta cuenta quedará desactivada permanentemente</div>
+    <div class="invalid-feedback">
+        {{error.email}}
+    </div>
     <button type="submit" class="button btn__primary">Editar</button>
 </form>
-
+<hr>
 <form action="/settings-p" method="POST">
-    <label for="password" class="form-label"><b>Contraseña</b></label>
-    <input type="password" class="form-control" name="password" placeholder="*********" id="password">
-    <button type="submit" class="button btn__primary">Editar</button>
+    <label for="password" class="form-label"><b>Contraseña</b></label><br>
+    <div class="form-text">Para cambiar la contraseña se realiza un proceso de doble verificación: 1. Se verifica tu identidad a través de un email -la cuenta quedará desactivada hasta que se verifique- 2. Se requerirá la antigua contraseña </div>
+    <button type="submit" class="button btn__primary">Enviar email de verificación</button>
 </form>

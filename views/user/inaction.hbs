@@ -1,0 +1,21 @@
+<div class="container my-6">
+    {{mesage}}
+    <form action="/do-the-action" method="POST">
+        <div class="form-group has-validation mb-3">
+            <label for="username" class="form-label">Email</label>
+            <input type="email" class="form-control form-control-lg {{#if errors.email}}is-invalid{{/if}}" name="email" id="email" value="{{user.email}}" placeholder="example@example.com" required>
+            <div class="invalid-feedback">
+                {{errors.email}}
+            </div>
+        </div>
+        <label class="form-label">Contraseña</label>
+        <input type="password" class="form-control form-control-lg {{#if error.password}}is-invalid{{/if}}" name="password" placeholder="*********" id="password" required>
+
+        <label class="form-label">Nueva ontraseña</label>
+        <input type="password" class="form-control form-control-lg {{#if error.password}}is-invalid{{/if}}" name="newPassword" placeholder="*********" id="password" required>
+        <label class="form-label">Repite la nueva contraseña</label>
+        <input type="password" class="form-control form-control-lg {{#if error.password}}is-invalid{{/if}}" name="passwordRepeat" placeholder="*********" id="password" required>
+        {{error.password}}
+        <button type="submit">Change password</button>
+    </form>
+</div>

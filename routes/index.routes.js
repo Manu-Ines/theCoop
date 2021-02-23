@@ -36,6 +36,16 @@ router.get(
     userController.activate
 )
 router.get(
+    '/activate-email/:token',
+    secure.isNotAuthenticated,
+    userController.activateNewEmail
+)
+router.get(
+    '/change-inaction/:token',
+    secure.isNotAuthenticated,
+    userController.activateInAction
+)
+router.get(
     '/user/edit-profile',
     secure.checkRoles('USER'),
     secure.isAuthenticated,
@@ -62,6 +72,11 @@ router.post(
     '/settings-p',
     secure.isAuthenticated,
     userController.doSettingsPassword
+)
+router.post(
+    '/do-the-action',
+    secure.isNotAuthenticated,
+    userController.doTheAction
 )
 router.post(
     '/settings-b',

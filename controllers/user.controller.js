@@ -119,7 +119,7 @@ module.exports.activate = (req, res, next) => {
         res.redirect('/')
     }
 }
-
+// Edit profile - Name, Picture, Visibility
 module.exports.editProfile = (req, res, next) => {
     res.render('user/edit')
 }
@@ -135,7 +135,21 @@ module.exports.doEditProfile = (req, res, next) => {
     if(req.file){
         req.body.profilePicture = req.file.path
     }
-    
+}
+// Settings - Email, password, métodos de pago
+module.exports.settings = (req, res, next) => {
+    res.send('View of settings')
+}
+
+module.exports.doSettings = (req, res, next) => {
+    res.send('POST Settings')
+
+    function renderWithErrors(error) {
+        res.status(400).render('user/edit', {
+            error: error,
+            user: req.body
+        })
+    }
     if(req.body.password === '' || req.body.password === undefined){
         delete req.body.password
     }

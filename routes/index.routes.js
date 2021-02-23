@@ -47,6 +47,17 @@ router.post(
     upload.single('profilePicture'),
     userController.doEditProfile
 )
+router.get(
+    '/user/settings',
+    secure.checkRoles('USER'),
+    secure.isAuthenticated,
+    userController.settings
+)
+router.post(
+    '/change-settings',
+    secure.isAuthenticated,
+    userController.doSettings
+)
 
 // Google auth
 router.get(

@@ -11,8 +11,7 @@ router.get('/', (req, res, next) => {
     res.render('index', { messages: req.flash('info') })
 })
 
-// User routes
-// ====================================================================================================================
+// User routes ===================================================================
 router.get('/register', secure.isNotAuthenticated, userController.register)
 router.post(
     '/register',
@@ -22,6 +21,8 @@ router.post(
 )
 router.get('/login', secure.isNotAuthenticated, userController.login)
 router.post('/login', secure.isNotAuthenticated, userController.doLogin)
+
+// Activated user routes ----------------------------------------------------------
 router.get(
     '/user/profile',
     secure.checkRoles('USER'),
@@ -61,8 +62,7 @@ router.get(
 )
 router.get('/auth/facebook/callback', userController.doLoginFacebook)
 
-// Org routes
-// ====================================================================================================================
+// Org routes =======================================================================
 router.get('/org/register', secure.isNotAuthenticated, orgController.register)
 router.post(
     '/org/register',
@@ -70,6 +70,8 @@ router.post(
     upload.single('profilePicture'),
     orgController.doRegister
 )
+
+// Active org routes -----------------------------------------------------------------
 router.get(
     '/org/profile',
     secure.checkRoles('ORG'),

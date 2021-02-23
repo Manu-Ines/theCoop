@@ -4,14 +4,6 @@ const SALT_ROUNDS = 10
 const EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@“]+(\.[^<>()[\]\\.,;:\s@“]+)*)|(“.+“))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const { v4: uuidv4 } = require('uuid');
 
-/* 
-    TODO: faltan los virtuals
-    ============================
-    - Mensajes directos
-    - Mensajes finalización
-    ============================
-*/
-
 const orgSchema = new mongoose.Schema({
     name: {
         type: String,

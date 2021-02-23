@@ -12,6 +12,10 @@ const assistanceSchema = new mongoose.Schema({
     went: {
         type: Boolean,
         default: true
+    },
+    msgfinale: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'Msgfinale'
     }
 })
 

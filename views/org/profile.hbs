@@ -1,0 +1,22 @@
+<div class="container my-6">
+    {{#if messages}}
+    <div class="alert alert-dark">
+        {{messages}}
+    </div>
+    {{/if}}
+
+    <div class="row">
+        <div class="col-lg-1 col-md-3 col-sm-4 col-3">
+            <img src="{{currentUser.profilePicture}}" class="w-100" alt="profile image">
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-8 col-9">
+            <h2>{{currentUser.name}}</h1>
+                <p>
+                    <b>Email:</b> {{currentUser.email}}<br>
+                    <b>CIF/NIF:</b> {{currentUser.cif}}
+
+                </p>
+                <a href="/org/edit-profile" class="button btn__light">Editar perfil</a>
+        </div>
+    </div>
+</div>

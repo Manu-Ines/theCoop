@@ -1,4 +1,33 @@
-<div class="container my-4">
-    <h1>Editar perfil de org</h1>
-    <p class="text-danger"><b>INES: </b>De aquí puedes copiar form de user/edit.hbs 🤘🏼</p>
+<div class="container my-6">
+{{!-- Edición perfil: Nombre, foto y visibility --}}
+    <h1>Editar perfil</h1>
+    <form action="/edit-profile-org" method="POST" enctype="multipart/form-data">
+        <div class="card p-4">
+            <div class="row">
+                <div class="col-2 gx-5">
+                    <img src="{{currentUser.profilePicture}}" class="w-100" alt="profile image">
+                    <label for="profilePicture" class="label-file button btn__light"><i class="fas fa-upload"></i> Agregar</label>
+                    <input type="file" class="input-file" name="profilePicture" id="profilePicture">
+                </div>
+
+                <div class="col gx-5">
+                    <input type="text" class="input-written {{#if error.name}}is-invalid{{/if}}" name="name" id="name" value="{{currentUser.name}}" placeholder="name" autofocus>
+                    {{#if error}}
+                    <div class="invalid-feedback">{{error.name}}</div>
+                    {{/if}}
+                    <div class="my-3">
+                        <label for="textArea" class="form-label">Descripción</label>
+                        <textarea class="form-control {{#if error.bio}}is-invalid{{/if}}" id="textArea" value="{{currentUser.bio}}" name="bio"></textarea>
+                        {{#if error.bio}}
+                        <div class="invalid-feedback">{{error.bio}}</div>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-auto">
+                    <button type="submit" class="button btn__secondary">Actualizar perfil</button>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

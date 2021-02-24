@@ -1,9 +1,17 @@
 require('dotenv').config()
 const mongoose = require('mongoose');
-const User = require('../models/User.model');
-const Org = require('../models/Org.model');
-const { sendActivationEmail } = require("../configs/mailer.config");
-const passport = require('passport');
+const passport = require('passport')
+const User = require('../../models/User.model');
+const Org = require('../../models/Org.model');
+const { sendActivationEmail } = require("../../configs/mailer.config")
+
+/* ----------------
+   - Registration
+   - Activate account
+   - Login/Logout
+   - Profile
+   - Users list
+--------------------- */
 
 module.exports.register = (req, res, next) => {
     res.render('user/register')
@@ -109,7 +117,7 @@ module.exports.activate = (req, res, next) => {
     const { token } = req.params
     if(token){
         Promise
-            .all([User.findOneAndUpdate({ token: token }, { active: true }, { useFindAndModify: false }), Org.findOneAndUpdate({ token: token }, { active: true }, { useFindAndModify: false })])
+            .all([User.findOneAndUpdate({ token: token }, { active: true, token: null }, { useFindAndModify: false }), Org.findOneAndUpdate({ token: token }, { active: true }, { useFindAndModify: false })])
             .then(user => {
                 let userType = user[0] ? 0 : 1
                 res.render('user/login', { user: user[userType], message: "Felicidades, has activado tu cuenta. Ya puedes iniciar sesión" })
@@ -117,44 +125,6 @@ module.exports.activate = (req, res, next) => {
             .catch(e => next(e))
     } else {
         res.redirect('/')
-    }
-}
-
-module.exports.editProfile = (req, res, next) => {
-    res.render('user/edit')
-}
-
-module.exports.doEditProfile = (req, res, next) => {
-    function renderWithErrors(error) {
-        res.status(400).render('user/edit', {
-            error: error,
-            user: req.body
-        })
-    }
-
-    if(req.file){
-        req.body.profilePicture = req.file.path
-    }
-    
-    if(req.body.password === '' || req.body.password === undefined){
-        delete req.body.password
-    }
-
-    if(req.body.name === "" || req.body.email === ""){
-        renderWithErrors('Debes rellenar todos los campos')
-    } else {
-        User
-            .findOneAndUpdate({ _id: req.currentUser._id }, req.body, { useFindAndModify: false })
-            .then(() => {
-                res.redirect('/profile')
-            })
-            .catch(e => {
-                if (e instanceof mongoose.Error.ValidationError) {
-                    renderWithErrors(e.errors)
-                } else {
-                    next(e)
-                }
-            })
     }
 }
 

@@ -18,8 +18,13 @@ require('./configs/views.config')(app);
 require('./configs/locals.config')(app);
 
 // RUTAS
-const routes = require('./routes/index.routes');
-app.use('/', routes);
+const index = require('./routes/index.routes')
+const users = require('./routes/user.routes')
+const orgs = require('./routes/org.routes')
+app.use('/', index)
+app.use('/', users)
+app.use('/', orgs)
+
 
 // EXPORTAR APP PARA USARLO EN BIN/WWW
 module.exports = app;

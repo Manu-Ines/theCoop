@@ -50,6 +50,16 @@ router.post(
     secure.isNotAuthenticated,
     userSettingsController.doTheAction
 )
+router.get(
+    '/change-inaction-social/:token',
+    secure.isNotAuthenticated,
+    userSettingsController.activateInActionSocial
+)
+router.post(
+    '/do-the-action-social',
+    secure.isNotAuthenticated,
+    userSettingsController.doTheActionSocial
+)
 router.post(
     '/settings-b',
     secure.isAuthenticated,

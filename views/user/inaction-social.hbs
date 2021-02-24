@@ -1,0 +1,23 @@
+<div class="container my-6">
+    <h1>Cambio de contraseña</h1>
+    {{message}}
+    <hr style="height:3px;border:none;">
+    <form action="/do-the-action-social" method="POST">
+        <div class="form-group has-validation my-3">
+            <label for="username" class="form-label">Email</label>
+            <input type="email" class="form-control form-control-lg {{#if errors}}is-invalid{{/if}}" name="email" id="email" value="{{user.email}}" required>
+            <div class="invalid-feedback">
+                {{errors.email}}
+            </div>
+            {{errors.email}}
+            {{error.email}}
+        </div>
+        <label class="form-label">Nueva ontraseña</label>
+        <input type="password" class="form-control form-control-lg {{#if error}}is-invalid{{/if}}" name="newPassword" required>
+        
+        <label class="form-label">Repite la nueva contraseña</label>
+        <input type="password" class="form-control form-control-lg {{#if error}}is-invalid{{/if}}" name="passwordRepeat" required>
+        <div class="invalid-feedback">{{error.password}}</div>
+        <button type="submit" class="button btn__primary">Cambia la contraseña y accede</button>
+    </form>
+</div>

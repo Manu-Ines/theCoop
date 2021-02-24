@@ -5,7 +5,7 @@ const User = require('../../models/User.model')
 /* ----------------
    Edit:
    - Name
-   - Picture // TODO: real time picture before updating
+   - Picture
    - Visibility
 --------------------- */
 

@@ -5,9 +5,9 @@
         <div class="card p-4">
             <div class="row">
                 <div class="col-2 gx-5">
-                    <img src="{{currentUser.profilePicture}}" class="w-100" alt="profile image">
-                    <label for="profilePicture" class="label-file button btn__light"><i class="fas fa-upload"></i> Agregar</label>
-                    <input type="file" class="input-file" name="profilePicture" id="profilePicture">
+                    <img src="{{currentUser.profilePicture}}" class="w-100" id="uploadPreview" alt="profile image">
+                    <label for="uploadImage" class="label-file button btn__light"><i class="fas fa-upload"></i> Agregar</label>
+                    <input id="uploadImage" type="file" name="profilePicture" class="input-file" onchange="PreviewImage();"/>
                 </div>
 
                 <div class="col gx-5">
@@ -28,3 +28,14 @@
         </div>
     </form>
 </div>
+
+
+<script type="text/javascript">
+    function PreviewImage() {
+        var oFReader = new FileReader()
+        oFReader.readAsDataURL(document.getElementById("uploadImage").files[0])
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("uploadPreview").src = oFREvent.target.result
+        }
+    }
+</script>

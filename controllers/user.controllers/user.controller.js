@@ -4,6 +4,7 @@ const passport = require('passport')
 const User = require('../../models/User.model');
 const Org = require('../../models/Org.model');
 const { sendActivationEmail } = require("../../configs/mailer.config")
+const { checkEmailExists } = require('../../helpers/checkEmail.helper')
 
 /* ----------------
    - Registration
@@ -26,9 +27,9 @@ module.exports.doRegister = (req, res, next) => {
         })
     }
 
-    Promise.all([User.findOne({ email: req.body.email }), Org.findOne({ email: req.body.email })])
+    checkEmailExists(req.body.email)
         .then(user => {
-            if(user[0] || user[1]){
+            if(user[0] || user[1]) {
                 renderWithErrors({
                     email: 'Ya existe un usuario con este email'
                 })
@@ -50,7 +51,6 @@ module.exports.doRegister = (req, res, next) => {
                             next(e)
                         }
                     })
-                
             }
         })
 }

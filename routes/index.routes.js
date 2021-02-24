@@ -79,6 +79,11 @@ router.post(
     userController.doTheAction
 )
 router.post(
+    '/settings-delete-account',
+    secure.isAuthenticated,
+    userController.doDelete
+)
+router.post(
     '/settings-b',
     secure.isAuthenticated,
     userController.doSettingsBank

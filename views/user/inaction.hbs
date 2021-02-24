@@ -1,21 +1,30 @@
 <div class="container my-6">
-    {{mesage}}
+    <h1>Cambio de contraseña</h1>
+    {{message}}
+    <hr style="height:3px;border:none;">
     <form action="/do-the-action" method="POST">
-        <div class="form-group has-validation mb-3">
+        <div class="form-group has-validation my-3">
             <label for="username" class="form-label">Email</label>
-            <input type="email" class="form-control form-control-lg {{#if errors.email}}is-invalid{{/if}}" name="email" id="email" value="{{user.email}}" placeholder="example@example.com" required>
+            <input type="email" class="form-control form-control-lg {{#if errors}}is-invalid{{/if}}" name="email" id="email" value="{{user.email}}" required>
             <div class="invalid-feedback">
                 {{errors.email}}
             </div>
+            {{errors.email}}
+            {{error.email}}
         </div>
         <label class="form-label">Contraseña</label>
-        <input type="password" class="form-control form-control-lg {{#if error.password}}is-invalid{{/if}}" name="password" placeholder="*********" id="password" required>
-
+        <input type="password" class="form-control form-control-lg {{#if error}}is-invalid{{/if}}" name="password" required>
+         {{#if error}}
+                <div class="alert alert-danger">
+                    {{error}}
+                </div>
+        {{/if}}
         <label class="form-label">Nueva ontraseña</label>
-        <input type="password" class="form-control form-control-lg {{#if error.password}}is-invalid{{/if}}" name="newPassword" placeholder="*********" id="password" required>
+        <input type="password" class="form-control form-control-lg {{#if error}}is-invalid{{/if}}" name="newPassword" required>
+        
         <label class="form-label">Repite la nueva contraseña</label>
-        <input type="password" class="form-control form-control-lg {{#if error.password}}is-invalid{{/if}}" name="passwordRepeat" placeholder="*********" id="password" required>
-        {{error.password}}
-        <button type="submit">Change password</button>
+        <input type="password" class="form-control form-control-lg {{#if error}}is-invalid{{/if}}" name="passwordRepeat" required>
+        <div class="invalid-feedback">{{error.password}}</div>
+        <button type="submit" class="button btn__primary">Cambia la contraseña y accede</button>
     </form>
 </div>

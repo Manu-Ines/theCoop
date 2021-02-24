@@ -1,12 +1,9 @@
 require('dotenv').config()
 const mongoose = require('mongoose');
+const passport = require('passport')
 const User = require('../models/User.model');
 const Org = require('../models/Org.model');
 const { sendActivationEmail } = require("../configs/mailer.config")
-const { sendUpdateEmail } = require("../configs/mailer.config")
-const { sendChangePassEmail } = require("../configs/mailer.config")
-const passport = require('passport');
-const { v4: uuidv4 } = require('uuid')
 
 module.exports.register = (req, res, next) => {
     res.render('user/register')
@@ -122,6 +119,7 @@ module.exports.activate = (req, res, next) => {
         res.redirect('/')
     }
 }
+
 // Edit profile - Name, Picture, Visibility
 module.exports.editProfile = (req, res, next) => {
     res.render('user/edit')
@@ -264,21 +262,26 @@ module.exports.doTheAction = (req, res, next) => {
             next(error);
         } else if (!user) {
             res.status(400).render('user/inaction', { user: req.body, error: validations.error })
-            console.log('266 -> no ha encontrado user')
         } else if (req.body.newPassword !== req.body.passwordRepeat) {
             res.status(400).render('user/inaction', { user: req.body, error: 'Las contraseñas no coinciden' });
-            console.log('269 -> las contraseñas no coinciden')
         } else {
             req.login(user, loginErr => {
                 if (!loginErr) {
-                    console.log('274 -> ha logeado, cambia contras?')
-                        // debería pasar por pre save modifyed (No puedo modificar modelos desde esta rama)
+                        // TODO: Modelo user eliminar Max 50 - al update no me deja (No puedo modificar modelos desde esta rama)
                         User
                             .findOneAndUpdate({ email: req.body.email }, { password: req.body.newPassword }, { runValidators: true, useFindAndModify: false })
                             .then(() => {
                                 res.redirect('/')
                             })
-                        
+                            .catch(e => {
+                                if (e instanceof mongoose.Error.ValidationError) {
+                                    renderWithErrors(e.errors)
+                                    req.logout()
+                                } else {
+                                    req.logout()
+                                    next(e)
+                                }
+                            })
                 } else {
                     next(loginErr)
                 }
@@ -289,6 +292,20 @@ module.exports.doTheAction = (req, res, next) => {
 
 module.exports.doSettingsBank = (req, res, next) => {
 
+}
+
+module.exports.doDelete = (req, res, next) => {
+    /* InactivatedUser // TODO: Model why?
+        .create(req.body) 
+        .then(() => { */
+            User
+                .findOneAndDelete({ _id: req.currentUser.id  })
+                .then(() => {
+                    res.send(`<h1>Create view for -> Sorry to se you go</h1>`)
+                })
+                .catch((e) => next(e))
+        /* })
+        .catch((e) => next(e)) */
 }
 
 module.exports.usersList = (req, res, next) => {

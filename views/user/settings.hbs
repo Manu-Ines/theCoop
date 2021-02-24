@@ -54,7 +54,14 @@
         </form>
     </div>
 <hr style="height:3px;border:none;">
+<div class="d-flex flex-row-reverse bd-highlight">
+    <div class="p-2">
+        <a href="#" class="button btn-danger">Eliminar cuenta</a>
+    </div>
 </div>
+</div>
+
+
 
 {{!-- EMAIL FORM --}}
 
@@ -73,3 +80,10 @@
     <div class="form-text">Para cambiar la contraseña se realiza un proceso de doble verificación: 1. Se verifica tu identidad a través de un email -la cuenta quedará desactivada hasta que se verifique- 2. Se requerirá la antigua contraseña </div>
     <button type="submit" class="button btn__primary">Enviar email de verificación</button>
 </form>
+<hr>
+
+<form action="/settings-delete-account" method="POST">
+    <button type="submit" class="btn btn-danger">Eliminar mi cuenta</button>
+</form>
+
+<hr>

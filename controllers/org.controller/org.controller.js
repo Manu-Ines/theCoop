@@ -49,7 +49,3 @@ module.exports.doRegister = (req, res, next) => {
 module.exports.profile = (req, res, next) => {
     res.render('org/profile', { messages: req.flash('info') })
 }
-
-module.exports.editProfile = (req, res, next) => {
-    res.render('org/edit')
-}

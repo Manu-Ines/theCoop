@@ -71,11 +71,5 @@ router.get(
     secure.isAuthenticated,
     orgController.profile
 )
-router.get(
-    '/org/edit-profile',
-    secure.checkRoles('ORG'),
-    secure.isAuthenticated,
-    orgController.editProfile
-)
 
 module.exports = router

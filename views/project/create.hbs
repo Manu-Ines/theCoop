@@ -1,0 +1,49 @@
+<div class="container my-6">
+    <h2>Crear nuevo proyecto</h2>
+    <hr>
+    <form action="/project/create" method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Título</label>
+                    <input class="form-control form-control-lg" type="text" id="title" name="title" placeholder="Title"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Descripción</label>
+                    <textarea class="form-control form-control-lg" name="description" placeholder="Descripción"
+                        required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="sum" class="form-label">Cantidad</label>
+                    <input class="form-control form-control-lg" type="number" id="sum" name="sum"
+                        placeholder="Cantidad a recaudar" required>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="mb-3">
+                    <label for="image" class="form-label">Fecha límite</label>
+                    <input class="form-control" type="file" name="image" id="image">
+                </div>
+                <div class="mb-3">
+                    <label for="endDate" class="form-label">Fecha límite</label>
+                    <input class="form-control form-control-lg" type="date" id="endDate" name="endDate"
+                        placeholder="Fecha límite" required>
+                </div>
+                <div class="mb-3">
+                    <label for="categs" class="form-label">Categoría</label>
+                    <select id="categs" name="categs" class="form-select form-select-lg" required>
+                        <option>Seleccionar...</option>
+                        {{#each categs as |categ|}}
+                        <option value="{{categ}}">{{categ}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="button btn__primary mt-3 btn-lg px-4">
+            Crear proyecto
+        </button>
+
+    </form>
+</div>

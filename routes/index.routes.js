@@ -63,9 +63,9 @@ router.get(
     orgController.profile
 )
 
-// Common routes routes =======================================================================
+// Common routes =======================================================================
 
-router.get(
+router.post(
     '/send-reset-email',
     secure.isNotAuthenticated,
     commonController.sendForgotPasswordEmail
@@ -76,7 +76,7 @@ router.get(
     commonController.activationForgotPassword
 )
 router.post(
-    'do-reset',
+    '/do-reset',
     secure.isNotAuthenticated,
     commonController.resetPassword
 )

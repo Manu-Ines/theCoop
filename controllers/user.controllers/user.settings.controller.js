@@ -169,7 +169,7 @@ module.exports.activateInActionSocial = (req, res, next) => {
     helper.activateFromEmail(
         token,
         'user/inaction-social',
-        'Email verificado correctamente. Ya puedes editar la contraseña',
+        'Email verificado correctamente',
         '/',
         res,
         next

@@ -13,7 +13,7 @@
                 <input type="password" class="form-control form-control-lg" name="password" placeholder="Password"
                     id="password" required>
             </div>
-            <p>¿Has olvidado la contraseña? Haz click <a class="link__primary" href="/register"> aquí</a></p>
+            <p>¿Has olvidado la contraseña? Haz click <a class="link__primary" href="/login"> aquí</a></p>
             {{#if error}}
             <div class="alert alert-danger">
                 {{error}}
@@ -35,7 +35,7 @@
 </div>
 
 <div class="container my-4">
-    <form action="'/send-reset-email'" method="POST">
+    <form action="/send-reset-email" method="POST">
         <label for="password" class="form-label"><b>He olvidado la contraseña</b></label><br>
         <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Se enviará un email de verificación al
             correo proporcionado</div>

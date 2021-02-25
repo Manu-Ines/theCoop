@@ -23,7 +23,6 @@ const orgSchema = new mongoose.Schema({
         type: String,
         trim: true,
         required: 'Es necesario introducir una contraseña',
-        maxlength: [50, 'La contraseña es demasiado larga (Máximo 50 caracteres)'],
         minlength: [6, 'La contraseña es demasiado corta (Mínimo 6 caracteres)']
     },
     cif: {

@@ -1,11 +1,11 @@
-require("dotenv").config()
-const passport = require("passport")
-const mongoose = require("mongoose")
-const localStrategy = require("passport-local").Strategy
-const GoogleStrategy = require("passport-google-oauth2").Strategy
-const FacebookStrategy = require("passport-facebook").Strategy
-const User = require("../models/User.model")
-const Org = require("../models/Org.model")
+require('dotenv').config()
+const passport = require('passport')
+const mongoose = require('mongoose')
+const localStrategy = require('passport-local').Strategy
+const GoogleStrategy = require('passport-google-oauth2').Strategy
+const FacebookStrategy = require('passport-facebook').Strategy
+const User = require('../models/User.model')
+const Org = require('../models/Org.model')
 const helper = require('../helpers/email.helper')
 
 passport.serializeUser(function (user, next) {
@@ -13,7 +13,7 @@ passport.serializeUser(function (user, next) {
 })
 
 passport.deserializeUser((id, next) => {
-    Promise.all([User.findById(id), Org.findById(id)])
+    Promise.all([User.findById(id), Org.findById(id).populate('projects')])
         .then((user) => {
             user[0] ? next(null, user[0]) : next(null, user[1])
         })
@@ -21,19 +21,20 @@ passport.deserializeUser((id, next) => {
 })
 
 passport.use(
-    "local-auth",
+    'local-auth',
     new localStrategy(
         {
-            usernameField: "email",
-            passwordField: "password",
+            usernameField: 'email',
+            passwordField: 'password',
         },
         (email, password, next) => {
-            helper.checkEmailExists(email)
+            helper
+                .checkEmailExists(email)
                 .then((users) => {
                     if (!users[0] && !users[1]) {
                         next(null, false, {
                             error:
-                                "El correo electrónico o la contraseña no son correctos",
+                                'El correo electrónico o la contraseña no son correctos',
                         })
                     } else {
                         let userType = users[0] ? 0 : 1
@@ -46,12 +47,12 @@ passport.use(
                                 } else if (match && !users[userType].active) {
                                     next(null, false, {
                                         error:
-                                            "Tu cuenta no está activa, revisa tu email",
+                                            'Tu cuenta no está activa, revisa tu email',
                                     })
                                 } else {
                                     next(null, false, {
                                         error:
-                                            "El correo electrónico o la contraseña no son correctos",
+                                            'El correo electrónico o la contraseña no son correctos',
                                     })
                                 }
                             })
@@ -64,13 +65,13 @@ passport.use(
 )
 
 passport.use(
-    "google-auth",
+    'google-auth',
     new GoogleStrategy(
         {
             clientID: process.env.G_CLIENT_ID,
             clientSecret: process.env.G_CLIENT_SECRET,
             callbackURL:
-                process.env.G_REDIRECT_URI || "/authenticate/google/cb",
+                process.env.G_REDIRECT_URI || '/authenticate/google/cb',
         },
         (accessToken, refreshToken, profile, next) => {
             const googleID = profile.id
@@ -84,7 +85,7 @@ passport.use(
             if (googleID && email) {
                 Promise.all([
                     User.findOne({
-                        $or: [{ email: email }, { "social.google": googleID }],
+                        $or: [{ email: email }, { 'social.google': googleID }],
                     }),
                     Org.findOne({ email: email }),
                 ])
@@ -93,7 +94,7 @@ passport.use(
                             User.create({
                                 name,
                                 email,
-                                password: "Aa1" + mongoose.Types.ObjectId(),
+                                password: 'Aa1' + mongoose.Types.ObjectId(),
                                 profilePicture,
                                 social: {
                                     google: googleID,
@@ -101,33 +102,33 @@ passport.use(
                                 active: true,
                             }).then((newUser) => next(null, newUser))
                         } else if (user[0]) {
-                            console.log("login correcto")
+                            console.log('login correcto')
                             next(null, user[0])
                         } else {
                             next(
                                 null,
                                 null,
-                                "No es posible iniciar sesión con Google si eres una organización"
+                                'No es posible iniciar sesión con Google si eres una organización'
                             )
                         }
                     })
                     .catch(next)
             } else {
-                next(null, null, "Error conectando con Google OAuth")
+                next(null, null, 'Error conectando con Google OAuth')
             }
         }
     )
 )
 
 passport.use(
-    "facebook-auth",
+    'facebook-auth',
     new FacebookStrategy(
         {
             clientID: process.env.F_CLIENT_ID,
             clientSecret: process.env.F_CLIENT_SECRET,
             callbackURL:
-                process.env.F_REDIRECT_URI || "/auth/facebook/callback",
-            profileFields: ["id", "displayName", "emails"],
+                process.env.F_REDIRECT_URI || '/auth/facebook/callback',
+            profileFields: ['id', 'displayName', 'emails'],
         },
         (accessToken, refreshToken, profile, next) => {
             const facebookID = profile.id
@@ -140,7 +141,7 @@ passport.use(
                     User.findOne({
                         $or: [
                             { email: email },
-                            { "social.facebook": facebookID },
+                            { 'social.facebook': facebookID },
                         ],
                     }),
                     Org.findOne({ email: email }),
@@ -150,7 +151,7 @@ passport.use(
                             User.create({
                                 name,
                                 email,
-                                password: "Aa1" + mongoose.Types.ObjectId(),
+                                password: 'Aa1' + mongoose.Types.ObjectId(),
                                 profilePicture,
                                 social: {
                                     facebook: facebookID,
@@ -163,13 +164,13 @@ passport.use(
                             next(
                                 null,
                                 null,
-                                "No es posible iniciar sesión con Facebook si eres una organización"
+                                'No es posible iniciar sesión con Facebook si eres una organización'
                             )
                         }
                     })
                     .catch(next)
             } else {
-                next(null, false, "Error conectando con Facebook")
+                next(null, false, 'Error conectando con Facebook')
             }
         }
     )

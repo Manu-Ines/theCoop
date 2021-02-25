@@ -28,7 +28,7 @@ module.exports.doRegister = (req, res, next) => {
         } else {
             req.file
                 ? (req.body.profilePicture = `${process.env.HOST}/uploads/${req.file.filename}`)
-                : (req.body.profilePicture = `${process.env.HOST}/uploads/no-photo.jpg`)
+                : (req.body.profilePicture = `https://res.cloudinary.com/dd5wme5hw/image/upload/v1614264579/express/default/rfseib41pqo7ej14hbsw.png`)
 
             Org.create(req.body)
                 .then((u) => {

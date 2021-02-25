@@ -1,4 +1,26 @@
-<div class="container my-6">
+<div class="main__profile">
+    <div class="container py-1">
+        {{#if messages}}
+        <div class="alert alert-dark">
+            {{messages}}
+        </div>
+        {{/if}}
+        <div class="text-center mx-auto my-5" style="max-width: 600px;">
+            <img src="{{currentUser.profilePicture}}" height="100px" class="mb-3" alt="profile image">
+            <h2>{{currentUser.name}}</h1>
+                <p>
+                    {{currentUser.email}}<br>
+                    <b>CIF/NIF:</b> {{currentUser.cif}}
+                </p>
+                <a href="/org/edit-profile" class="button btn__light">Editar perfil</a>
+                <a href="/project/create" class="button btn__primary">Nuevo proyecto</a>
+                <a href="/volunt/create" class="button btn__primary">Nuevo voluntariado</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="container my-4">
     {{#if messages}}
     <div class="alert alert-dark">
         {{messages}}
@@ -6,20 +28,31 @@
     {{/if}}
 
     <div class="row">
-        <div class="col-lg-1 col-md-3 col-sm-4 col-3">
-            <img src="{{currentUser.profilePicture}}" class="w-100" alt="profile image">
+        <div class="col-sm-6">
+            <div class="my-5">
+                <h3>Proyectos</h3><br>
+                {{#each currentUser.projects as |project|}}
+                <div class="card p-3 mb-2">
+                    {{project.title}}
+                    <div class="row">
+                        <div class="col mt-2">
+                            <a href="/project/{{project.slug}}" class="button btn__primary btn-sm">Ver
+                                proyecto</a>
+                            <a href="/project/edit/{{project.slug}}" class="button btn__light btn-sm">Editar
+                                proyecto</a>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
         </div>
-        <div class="col-lg-10 col-md-9 col-sm-8 col-9">
-            <h2>{{currentUser.name}}</h1>
-                <p>
-                    <b>Email:</b> {{currentUser.email}}<br>
-                    <b>CIF/NIF:</b> {{currentUser.cif}}
-
-                </p>
-                <a href="/org/edit-profile" class="button btn__light">Editar perfil</a>
-                <hr>
-                <a href="/new-project" class="button btn__light">Nuevo proyecto</a>
-                <a href="/new-volunt" class="button btn__light">Nuevo proyecto</a>
+        <div class="col-sm-6" hidden>
+            <div class="my-5">
+                <h3>Voluntariados</h3><br>
+                {{#each currentUser.volunts as |volunt|}}
+                <div class="card p-3 mb-2">{{volunt.title}}</div>
+                {{/each}}
+            </div>
         </div>
     </div>
 </div>

@@ -1,5 +1,9 @@
 
-// Forgot password
+/* ----------------
+   - Forgot password
+   - 
+--------------------- */
+
 module.exports.forgotPassword = (req, res, next) => {
     User
         .findOneAndUpdate({ email: req.body.email }, { token: newToken, active: false }, { runValidators: true, useFindAndModify: false })

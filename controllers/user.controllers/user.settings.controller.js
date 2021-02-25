@@ -9,9 +9,9 @@ const mailer = require("../../configs/mailer.config")
 const helper = require('../../helpers/email.helper')
 
 /* ----------------
-    - Email
-    - Password
-    - Delete account (modelo GoneUser ++)
+    - Email change
+    - Password change
+    - Delete account (modelo GoneUser+)
     -* Métodos de pago
 --------------------- */
 

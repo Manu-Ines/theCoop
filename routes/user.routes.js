@@ -61,11 +61,6 @@ router.post(
     userSettingsController.doTheActionSocial
 )
 router.post(
-    '/settings-b',
-    secure.isAuthenticated,
-    userSettingsController.doSettingsBank
-)
-router.post(
     '/settings-delete-account',
     secure.isAuthenticated,
     userSettingsController.doDelete

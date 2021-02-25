@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
+const commonController = require('../controllers/common.controller')
 const userController = require('../controllers/user.controllers/user.controller')
 const orgController = require('../controllers/org.controller/org.controller')
 const secure = require('../middlewares/secure.middleware')
@@ -12,53 +13,43 @@ router.get('/', (req, res, next) => {
 })
 
 // User routes ===================================================================
-router.get ('/register', 
-    secure.isNotAuthenticated, 
-    userController.register
-)
-router.post ('/register',
+router.get('/register', secure.isNotAuthenticated, userController.register)
+router.post(
+    '/register',
     secure.isNotAuthenticated,
     upload.single('profilePicture'),
     userController.doRegister
 )
-router.get ('/login',
-    secure.isNotAuthenticated,
-    userController.login
-)
-router.post ('/login',
-    secure.isNotAuthenticated,
-    userController.doLogin
-)
-router.get ('/user/profile',
+router.get('/login', secure.isNotAuthenticated, userController.login)
+router.post('/login', secure.isNotAuthenticated, userController.doLogin)
+router.get(
+    '/user/profile',
     secure.checkRoles('USER'),
     secure.isAuthenticated,
     userController.profile
 )
-router.get ('/logout',
-    secure.isAuthenticated,
-    userController.doLogout
-)
-router.get ('/activate/:token', 
+router.get('/logout', secure.isAuthenticated, userController.doLogout)
+router.get(
+    '/activate/:token',
     secure.isNotAuthenticated,
     userController.activate
 )
 
 // Social auth
-router.get( '/authenticate/google',
+router.get(
+    '/authenticate/google',
     passport.authenticate('google-auth', { scope: ['email', 'profile'] })
 )
-router.get( '/authenticate/google/cb', userController.doLoginGoogle)
+router.get('/authenticate/google/cb', userController.doLoginGoogle)
 
-router.get( '/auth/facebook',
+router.get(
+    '/auth/facebook',
     passport.authenticate('facebook-auth', { scope: 'email' })
 )
 router.get('/auth/facebook/callback', userController.doLoginFacebook)
 
 // Org routes =======================================================================
-router.get('/org/register',
-    secure.isNotAuthenticated,
-    orgController.register
-)
+router.get('/org/register', secure.isNotAuthenticated, orgController.register)
 router.post(
     '/org/register',
     secure.isNotAuthenticated,
@@ -70,6 +61,24 @@ router.get(
     secure.checkRoles('ORG'),
     secure.isAuthenticated,
     orgController.profile
+)
+
+// Common routes routes =======================================================================
+
+router.get(
+    '/send-reset-email',
+    secure.isNotAuthenticated,
+    commonController.sendForgotPasswordEmail
+)
+router.get(
+    '/reset-password/:token',
+    secure.isNotAuthenticated,
+    commonController.activationForgotPassword
+)
+router.post(
+    'do-reset',
+    secure.isNotAuthenticated,
+    commonController.resetPassword
 )
 
 module.exports = router

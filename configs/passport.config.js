@@ -6,7 +6,7 @@ const GoogleStrategy = require("passport-google-oauth2").Strategy
 const FacebookStrategy = require("passport-facebook").Strategy
 const User = require("../models/User.model")
 const Org = require("../models/Org.model")
-const { checkEmailExists } = require('../helpers/checkEmail.helper')
+const helper = require('../helpers/email.helper')
 
 passport.serializeUser(function (user, next) {
     next(null, user.id)
@@ -28,7 +28,7 @@ passport.use(
             passwordField: "password",
         },
         (email, password, next) => {
-            checkEmailExists(email)
+            helper.checkEmailExists(email)
                 .then((users) => {
                     if (!users[0] && !users[1]) {
                         next(null, false, {

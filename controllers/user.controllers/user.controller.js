@@ -1,10 +1,10 @@
 require('dotenv').config()
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 const passport = require('passport')
-const User = require('../../models/User.model');
-const Org = require('../../models/Org.model');
-const { sendActivationEmail } = require("../../configs/mailer.config")
-const { checkEmailExists } = require('../../helpers/checkEmail.helper')
+
+const User = require('../../models/User.model')
+const mailer = require("../../configs/mailer.config")
+const helper = require('../../helpers/email.helper')
 
 /* ----------------
    - Registration
@@ -27,7 +27,7 @@ module.exports.doRegister = (req, res, next) => {
         })
     }
 
-    checkEmailExists(req.body.email)
+    helper.checkEmailExists(req.body.email)
         .then(user => {
             if(user[0] || user[1]) {
                 renderWithErrors({
@@ -39,20 +39,31 @@ module.exports.doRegister = (req, res, next) => {
                     : req.body.profilePicture = `${process.env.HOST}/uploads/no-photo.jpg`
 
                 User
-                    .create(req.body)
-                    .then(u => {
-                        sendActivationEmail(u.email, u.token)
-                        res.redirect('/login')
-                    })
-                    .catch(e => {
-                        if (e instanceof mongoose.Error.ValidationError) {
-                            renderWithErrors(e.errors)
-                        } else {
-                            next(e)
-                        }
-                    })
+                .create(req.body)
+                .then(user => {
+                    mailer.sendActivationEmail(user.email, user.token)
+                    res.redirect('/login')
+                })
+                .catch(e => {
+                    if (e instanceof mongoose.Error.ValidationError) {
+                        renderWithErrors(e.errors)
+                    } else {
+                        next(e)
+                    }
+                })
             }
         })
+}
+
+module.exports.activate = (req, res, next) => {
+    const { token } = req.params
+    helper.activateFromEmail(
+        token,
+        'user/login',
+        'Felicidades, has activado tu cuenta. Ya puedes iniciar sesión',
+        '/',
+        res, next
+    )
 }
 
 module.exports.login = (req, res, next) => {
@@ -111,21 +122,6 @@ module.exports.profile = (req, res, next) => {
 module.exports.doLogout = (req, res, next) => {
     req.logout()
     res.redirect('/')
-}
-
-module.exports.activate = (req, res, next) => {
-    const { token } = req.params
-    if(token){
-        Promise
-            .all([User.findOneAndUpdate({ token: token }, { active: true, token: null }, { useFindAndModify: false }), Org.findOneAndUpdate({ token: token }, { active: true }, { useFindAndModify: false })])
-            .then(user => {
-                let userType = user[0] ? 0 : 1
-                res.render('user/login', { user: user[userType], message: "Felicidades, has activado tu cuenta. Ya puedes iniciar sesión" })
-            })
-            .catch(e => next(e))
-    } else {
-        res.redirect('/')
-    }
 }
 
 module.exports.usersList = (req, res, next) => {

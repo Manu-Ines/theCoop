@@ -23,7 +23,6 @@ const orgSchema = new mongoose.Schema({
         type: String,
         trim: true,
         required: 'Es necesario introducir una contraseña',
-        maxlength: [50, 'La contraseña es demasiado larga (Máximo 50 caracteres)'],
         minlength: [6, 'La contraseña es demasiado corta (Mínimo 6 caracteres)']
     },
     cif: {
@@ -107,14 +106,14 @@ orgSchema.pre('save', function(next) {
     }
 })
 
-orgSchema.pre('findOneAndUpdate', function(next) {
-    if(this._update.password){
+orgSchema.pre('findOneAndUpdate', function (next) {
+    if (this._update.password) {
         bcrypt
-            .hash(this._update.password, SALT_ROUNDS)
-            .then(hash => {
-                this._update.password = hash
-                next()
-            })
+        .hash(this._update.password, SALT_ROUNDS)
+        .then((hash) => {
+            this._update.password = hash
+            next()
+        })
     } else {
         next()
     }

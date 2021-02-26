@@ -6,38 +6,44 @@
         </div>
         <form action="/login" method="POST" class="my-3">
             <div class="form-group mb-3">
-                <input type="email" class="form-control form-control-lg" name="email" id="email" value="{{user.email}}" placeholder="Correo electrónico" autofocus required>
+                <input type="email" class="form-control form-control-lg" name="email" id="email" value="{{user.email}}"
+                    placeholder="Correo electrónico" autofocus required>
             </div>
             <div class="form-group mb-4">
-                <input type="password" class="form-control form-control-lg" name="password" placeholder="Password" id="password" required>
+                <input type="password" class="form-control form-control-lg" name="password" placeholder="Password"
+                    id="password" required>
             </div>
-                    <p>¿Has olvidado la contraseña? Haz click <a class="link__primary" href="/register"> aquí</a></p>
+            <p>¿Has olvidado la contraseña? Haz click <a class="link__primary" href="/login"> aquí</a></p>
             {{#if error}}
-                <div class="alert alert-danger">
-                    {{error}}
-                </div>
+            <div class="alert alert-danger">
+                {{error}}
+            </div>
             {{/if}}
             {{#if message}}
-                <div class="alert alert-success">{{message}}</div>
+            <div class="alert alert-success">{{message}}</div>
             {{/if}}
             <div class="d-grid gap-2 text-center">
                 <button type="submit" class="button btn__primary btn-lg">Sign in</button>
                 <hr>
-                <a href="/authenticate/google" class="button btn__light border py-2"><i class="fab fa-google pr-2"></i> Iniciar sesión con Google</a>
-                <a href="/auth/facebook" class="button btn__light border py-2"><i class="fab fa-facebook pr-2"></i> Iniciar sesión con Facebook</a>
+                <a href="/authenticate/google" class="button btn__light border py-2"><i class="fab fa-google pr-2"></i>
+                    Iniciar sesión con Google</a>
+                <a href="/auth/facebook" class="button btn__light border py-2"><i class="fab fa-facebook pr-2"></i>
+                    Iniciar sesión con Facebook</a>
             </div>
         </form>
     </div>
 </div>
 
 <div class="container my-4">
-   <form action="/settings-p" method="POST">
+    <form action="/send-reset-email" method="POST">
         <label for="password" class="form-label"><b>He olvidado la contraseña</b></label><br>
-        <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Se enviará un email de verificación al correo proporcionado</div>
-        <input type="email" class="form-control form-control-lg" name="email" id="email" value="{{user.email}}" placeholder="Correo electrónico" required>
-        
+        <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Se enviará un email de verificación al
+            correo proporcionado</div>
+        <input type="email" class="form-control form-control-lg" name="email" id="email" value="{{user.email}}"
+            placeholder="Correo electrónico" required>
+
         {{error.email}}
-        
+
         <button type="submit" class="button btn__primary mb-4">Enviar email de verificación</button>
     </form>
 </div>

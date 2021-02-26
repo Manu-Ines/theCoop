@@ -4,6 +4,8 @@ const orgEditController = require('../controllers/org.controller/org.edit.contro
 const secure = require('../middlewares/secure.middleware')
 const upload = require('../configs/storage.config')
 
+// Edit org ------------------------------------
+
 router.get ('/org/edit-profile',
     secure.checkRoles('ORG'),
     secure.isAuthenticated,
@@ -11,8 +13,10 @@ router.get ('/org/edit-profile',
 )
 router.post ('/edit-profile-org',
     secure.checkRoles('ORG'),
+    upload.single('profilePicture'),
     secure.isAuthenticated,
-    orgEditController.doEditProfile
+    orgEditController.doEditProfileOrg
 )
+// Settings org ---------------------------------
 
 module.exports = router

@@ -1,5 +1,4 @@
 require('dotenv').config()
-const mongoose = require('mongoose')
 const Project = require('../models/projects/Project.model')
 const categs = require('../configs/categs.config')
 

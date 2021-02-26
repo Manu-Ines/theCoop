@@ -16,8 +16,8 @@ module.exports.editProfile = (req, res, next) => {
     res.render('org/edit')
 }
 
-module.exports.doEditProfile = (req, res, next) => {
-    function renderWithErrors(error) {
+module.exports.doEditProfileOrg = (req, res, next) => {
+    /* function renderWithErrors(error) {
         res.status(400).render('user/edit', {
             error: error,
             user: req.body
@@ -28,9 +28,14 @@ module.exports.doEditProfile = (req, res, next) => {
 
     if (req.body.name === '') {
         renderWithErrors('Campo obligatorio')
-    } else {
-        Org
-        .findOneAndUpdate({ _id: req.currentUser.id }, { name: req.body.name, bio: req.body.bio, profilePicture: req.body.profilePicture }, { runValidators: true, useFindAndModify: false })
+    } else { */
+        console.log(req.body)
+        console.log(req.currentUser)
+        /* Org
+        .findOneAndUpdate(
+            { _id: req.currentUser.id },
+            req.body,
+            { runValidators: true, useFindAndModify: false })
         .then(() => {
             res.redirect('org/profile')
         })
@@ -40,6 +45,7 @@ module.exports.doEditProfile = (req, res, next) => {
             } else {
                 next(e)
             }
-        })
+        }) 
     }
+    */
 }

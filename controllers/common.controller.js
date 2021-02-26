@@ -51,8 +51,7 @@ module.exports.activationForgotPassword = (req, res, next) => {
         'user/reset-password',
         'Email verificado correctamente. Ya puedes editar la contraseña',
         '/',
-        res,
-        next
+        req, res, next
     )
 }
 

@@ -96,7 +96,9 @@ userSchema.pre('save', function (next) {
 
 userSchema.pre('findOneAndUpdate', function (next) {
     if (this._update.password) {
-        bcrypt.hash(this._update.password, SALT_ROUNDS).then((hash) => {
+        bcrypt
+        .hash(this._update.password, SALT_ROUNDS)
+        .then((hash) => {
             this._update.password = hash
             next()
         })

@@ -62,7 +62,7 @@ module.exports.activate = (req, res, next) => {
         'user/login',
         'Felicidades, has activado tu cuenta. Ya puedes iniciar sesión',
         '/',
-        res, next
+        req, res, next
     )
 }
 

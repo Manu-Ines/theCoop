@@ -60,8 +60,7 @@ module.exports.activateNewEmail = (req, res, next) => {
         'user/login',
         'Email verificado correctamente. Ya puedes iniciar sesión',
         '/',
-        res,
-        next
+        req, res, next
     )
 }
 
@@ -89,7 +88,9 @@ module.exports.doSettingsPassword = (req, res, next) => {
                     newToken
                 )
             } else {
-                mailer.sendChangePassEmail(req.currentUser.email, newToken)
+                mailer.sendChangePassEmail(
+                    req.currentUser.email,
+                    newToken)
             }
             req.logout()
             res.redirect('/')
@@ -110,8 +111,7 @@ module.exports.activateInAction = (req, res, next) => {
         'user/inaction',
         'Email verificado correctamente. Ya puedes editar la contraseña',
         '/',
-        res,
-        next
+        req, res, next
     )
 }
 
@@ -122,6 +122,8 @@ module.exports.doTheAction = (req, res, next) => {
             user: req.body,
         })
     }
+
+    console.log(req.body)
 
     if (req.body.newPassword !== req.body.passwordRepeat) {
         renderWithErrors('Las contraseñas no coinciden')
@@ -137,7 +139,7 @@ module.exports.doTheAction = (req, res, next) => {
                 req.login(user, (loginErr) => {
                     if (!loginErr) {
                         User.findOneAndUpdate(
-                            { email: req.body.email },
+                            { email: req.body.email, token: req.body.token },
                             { password: req.body.newPassword },
                             { runValidators: true, useFindAndModify: false }
                         )
@@ -171,8 +173,7 @@ module.exports.activateInActionSocial = (req, res, next) => {
         'user/inaction-social',
         'Email verificado correctamente',
         '/',
-        res,
-        next
+        req, res, next
     )
 }
 
@@ -183,14 +184,14 @@ module.exports.doTheActionSocial = (req, res, next) => {
             user: req.body,
         })
     }
-
+    console.log(req.body)
     if (req.body.newPassword !== req.body.passwordRepeat) {
         renderWithErrors('Las contraseñas no coinciden')
     } else if (req.body.newPassword.length < 6) {
         renderWithErrors('La contraseña debe tener al menos 6 caracteres')
     } else {
         User.findOneAndUpdate(
-            { email: req.body.email },
+            { email: req.body.email, token: req.body.token },
             { password: req.body.newPassword },
             { runValidators: true, useFindAndModify: false }
         )

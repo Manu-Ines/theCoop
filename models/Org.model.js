@@ -106,14 +106,14 @@ orgSchema.pre('save', function(next) {
     }
 })
 
-orgSchema.pre('findOneAndUpdate', function(next) {
-    if(this._update.password){
+orgSchema.pre('findOneAndUpdate', function (next) {
+    if (this._update.password) {
         bcrypt
-            .hash(this._update.password, SALT_ROUNDS)
-            .then(hash => {
-                this._update.password = hash
-                next()
-            })
+        .hash(this._update.password, SALT_ROUNDS)
+        .then((hash) => {
+            this._update.password = hash
+            next()
+        })
     } else {
         next()
     }

@@ -76,7 +76,7 @@ router.get(
     commonController.activationForgotPassword
 )
 router.post(
-    '/do-reset',
+    '/reset-password',
     secure.isNotAuthenticated,
     commonController.resetPassword
 )

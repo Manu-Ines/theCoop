@@ -13,7 +13,6 @@
                 <input type="password" class="form-control form-control-lg" name="password" placeholder="Password"
                     id="password" required>
             </div>
-            <p>¿Has olvidado la contraseña? Haz click <a class="link__primary" href="/login"> aquí</a></p>
             {{#if error}}
             <div class="alert alert-danger">
                 {{error}}
@@ -24,6 +23,8 @@
             {{/if}}
             <div class="d-grid gap-2 text-center">
                 <button type="submit" class="button btn__primary btn-lg">Sign in</button>
+                <small>¿Has olvidado la contraseña? Haz click <a class="link__primary" href="#" data-bs-toggle="modal"
+                        data-bs-target="#resetPasswordPopup"> aquí</a></small>
                 <hr>
                 <a href="/authenticate/google" class="button btn__light border py-2"><i class="fab fa-google pr-2"></i>
                     Iniciar sesión con Google</a>
@@ -32,18 +33,4 @@
             </div>
         </form>
     </div>
-</div>
-
-<div class="container my-4">
-    <form action="/send-reset-email" method="POST">
-        <label for="password" class="form-label"><b>He olvidado la contraseña</b></label><br>
-        <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Se enviará un email de verificación al
-            correo proporcionado</div>
-        <input type="email" class="form-control form-control-lg" name="email" id="email" value="{{user.email}}"
-            placeholder="Correo electrónico" required>
-
-        {{error.email}}
-
-        <button type="submit" class="button btn__primary mb-4">Enviar email de verificación</button>
-    </form>
 </div>

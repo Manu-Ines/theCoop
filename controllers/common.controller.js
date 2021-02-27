@@ -12,13 +12,15 @@ const { v4: uuidv4 } = require('uuid')
 
 module.exports.sendForgotPasswordEmail = (req, res, next) => {
     function renderWithErrors(error) {
-        res.status(400).render('user/login', {
-            error,
-            user: req.body,
+        res.json({
+            status: 400,
+            data: error,
         })
     }
 
     let token = uuidv4()
+
+    console.log(req.body.email)
 
     helper.checkEmailExists(req.body.email).then((user) => {
         if (!user[0] && !user[1]) {
@@ -28,7 +30,10 @@ module.exports.sendForgotPasswordEmail = (req, res, next) => {
 
             const mailAndRedirect = () => {
                 mailer.sendForgotPasswordEmail(user[userType].email, token)
-                res.redirect('/')
+                res.json({
+                    status: 200,
+                    data: 'Email enviado correctamente',
+                })
             }
 
             if (userType === 0) {

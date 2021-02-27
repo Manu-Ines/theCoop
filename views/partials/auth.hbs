@@ -46,14 +46,15 @@
                 <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Se enviará un email de
                     verificación al correo proporcionado</div>
             </div>
-            <form action="/send-reset-email" class="mt-4" method="POST">
+            <form id="resetPassWord">
 
                 <div class="mb-3">
-                    <input type="email" class="form-control form-control-lg" name="email" id="email"
+                    <input type="email" class="form-control form-control-lg" name="email" id="forgotPassEmail"
                         value="{{user.email}}" placeholder="Correo electrónico" required>
                 </div>
 
-                {{error.email}}
+                <div id="forgotPassError"></div>
+
                 <div class="d-grid gap-2 text-center">
                     <button type="submit" class="button btn__primary btn-lg mb-4">Enviar email de verificación</button>
                 </div>

@@ -4,13 +4,12 @@ const passport = require('passport')
 const commonController = require('../controllers/common.controller')
 const userController = require('../controllers/user.controllers/user.controller')
 const orgController = require('../controllers/org.controller/org.controller')
+const indexController = require('../controllers/index.controller')
 const secure = require('../middlewares/secure.middleware')
 const upload = require('../configs/storage.config')
 
 /* GET home page */
-router.get('/', (req, res, next) => {
-    res.render('index', { messages: req.flash('info') })
-})
+router.get('/', indexController.index)
 
 // User routes ===================================================================
 router.get('/register', secure.isNotAuthenticated, userController.register)

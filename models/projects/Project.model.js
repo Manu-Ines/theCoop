@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const WEIRD_PATTERN = /^[A-Za-z0-9\s]+$/g
 const regularNum = (num) => {
     // TODO: kata for regulate numbers
 }
@@ -24,7 +23,6 @@ const projectSchema = new mongoose.Schema(
             required: true,
             trim: true,
             maxlength: [150, 'El título no puede superar 150 caracteres'],
-            match: [WEIRD_PATTERN, 'El titular solo acepta letras y números'],
         },
         slug: {
             type: String,
@@ -33,7 +31,10 @@ const projectSchema = new mongoose.Schema(
         description: {
             type: String,
             required: true,
-            maxlength: [3000, 'La descripción no puede superar 300 caracteres'],
+            maxlength: [
+                3000,
+                'La descripción no puede superar 3000 caracteres',
+            ],
         },
         image: {
             type: String,
@@ -80,10 +81,17 @@ projectSchema.virtual('donations', {
 
 projectSchema.pre('save', function (next) {
     if (this.isModified('title')) {
+        let randomNumber = Math.floor(Math.random() * (9999 - 1) + 1)
+        let chars = { ñ: 'n', á: 'a', é: 'e', í: 'i', ó: 'o', ú: 'u', ü: 'u' }
         this.slug =
-            this.title.split(' ').join('-') +
+            this.title
+                .trim()
+                .toLowerCase()
+                .replace(/[ñáéíóúü]/g, (m) => chars[m])
+                .split(' ')
+                .join('-') +
             '-' +
-            Math.floor(Math.random() * (9999 - 1) + 1)
+            randomNumber
         next()
     } else {
         next()

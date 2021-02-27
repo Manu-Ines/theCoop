@@ -187,3 +187,15 @@ p {
     background-color: var(--background-light-color);
     color: var(--color-dark-black) !important;
 }
+
+.project__card {
+    text-decoration: none !important;
+    color: var(--color-dark-black);
+    border: 1px solid #dbd9db !important;
+}
+
+.project__card:hover {
+    text-decoration: none !important;
+    color: var(--main-color);
+    border: 1px solid var(--main-color) !important;
+}

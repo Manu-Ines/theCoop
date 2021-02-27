@@ -16,7 +16,7 @@ module.exports.checkRoles = (role) => (req, res, next) => {
     if (req.isAuthenticated() && req.user.role === role) {
         return next()
     } else {
-        req.flash('info', 'No tienes permiso')
+        req.flash('flashMessage', 'No tienes permiso para acceder a la página')
         res.redirect('/')
     }
 }

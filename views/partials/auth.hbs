@@ -24,15 +24,38 @@
                 {{/if}}
                 <div class="d-grid gap-2 text-center">
                     <button type="submit" class="button btn__primary btn-lg">Sign in</button>
-                    <small class="mt-1">
-                        ¿Has olvidado la contraseña? Haz click
-                        <a class="link__primary" href="/login">aquí</a>
-                    </small>
+                    <small>¿Has olvidado la contraseña? Haz click <a class="link__primary" href="#"
+                            data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#resetPasswordPopup">
+                            aquí</a></small>
                     <hr>
                     <a href="/authenticate/google" class="button btn__light border py-2"><i
                             class="fab fa-google pr-2"></i> Iniciar sesión con Google</a>
                     <a href="/auth/facebook" class="button btn__light border py-2"><i class="fab fa-facebook pr-2"></i>
                         Iniciar sesión con Facebook</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="resetPasswordPopup" tabindex="-1" aria-labelledby="resetPasswordPopup" aria-hidden="true">
+    <div class="modal-dialog">
+        <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
+            <div>
+                <h3><b>He olvidado la contraseña</b></h3>
+                <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Se enviará un email de
+                    verificación al correo proporcionado</div>
+            </div>
+            <form action="/send-reset-email" class="mt-4" method="POST">
+
+                <div class="mb-3">
+                    <input type="email" class="form-control form-control-lg" name="email" id="email"
+                        value="{{user.email}}" placeholder="Correo electrónico" required>
+                </div>
+
+                {{error.email}}
+                <div class="d-grid gap-2 text-center">
+                    <button type="submit" class="button btn__primary btn-lg mb-4">Enviar email de verificación</button>
                 </div>
             </form>
         </div>

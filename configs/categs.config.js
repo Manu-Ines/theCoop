@@ -3,7 +3,8 @@ const categs = [
     'educación',
     'reforma',
     'investigación',
-    'desastre natural'
+    'desastre natural',
+    'Sin categorizar',
 ]
 
 module.exports = categs

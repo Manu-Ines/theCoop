@@ -12,7 +12,8 @@
                 <a href="{{#isOrg currentUser.role}}/org/profile{{else}}/user/profile{{/isOrg}}"
                     class="button btn__primary btn-lg px-5">Profile</a>
                 {{else}}
-                <a href="/register" class="button btn__primary btn-lg px-5">Register</a>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#registerPopup"
+                    class="button btn__primary mr-2 btn-lg px-5">Register</button>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#loginPopup"
                     class="button btn__light btn-lg px-5 ml-3">Login</button>
                 {{/if}}
@@ -21,6 +22,7 @@
     </div>
 </div>
 
+{{#if projects}}
 <div class="container my-4">
     <div class="text-center my-5">
         <h2>Apoya un proyecto</h2>
@@ -40,3 +42,26 @@
         {{/each}}
     </div>
 </div>
+{{/if}}
+
+{{#if volunts}}
+<div class="container my-4">
+    <div class="text-center my-5">
+        <h2>Únete a un voluntariado</h2>
+        <p>Asiste a voluntariados de tu zona</p>
+    </div>
+    <div class="row">
+        {{#each volunts as |volunt|}}
+        <div class="col-sm-4 mb-3">
+            <a href="/volunt/{{volunt.slug}}" class="card project__card p-4">
+                <h5>{{volunt.title}}</h5>
+                <small>
+                    <img src="{{volunt.owner.profilePicture}}" height="20px" alt="">
+                    {{volunt.owner.name}}
+                </small>
+            </a>
+        </div>
+        {{/each}}
+    </div>
+</div>
+{{/if}}

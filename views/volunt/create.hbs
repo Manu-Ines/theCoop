@@ -24,36 +24,38 @@
 <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
 
 <div class="container my-6 p-5 rounded__custom border" style="max-width: 600px;" class="mx-auto">
-    <form action="/project/create" method="POST" enctype="multipart/form-data">
+    <form action="/volunt/create" method="POST" enctype="multipart/form-data">
         <div id="step-1">
+
             <span class="fa-stack fa-2x mb-3" style="margin-left: -12px; margin-top: -25px;">
                 <i class="fas fa-square fa-stack-2x" style="color: #cce7de;"></i>
-                <i class="fas fa-hand-holding-usd fa-stack-1x" style="color: #079669;"></i>
+                <i class="fas fa-hands-helping fa-stack-1x" style="color: #079669;"></i>
             </span>
 
-            <h2>Escoge un título para tu proyecto</h2>
-            <p class="mb-4">Es importante escoger un buen título para tu proyecto, para ello, debe llamar la atención y
+            <h2>Escoge un título para tu voluntariado</h2>
+            <p class="mb-4">Es importante escoger un buen título para tu voluntariado, para ello, debe llamar la
+                atención y
                 resumir en
-                una sóla línea la finalidad del proyecto.</p>
+                una sóla línea la finalidad del mismo.</p>
 
             <div class="my-3">
-                <label for="title" class="form-label h6">Título del proyecto</label>
+                <label for="title" class="form-label h6">Título del voluntariado</label>
                 <input class="form-control form-control-lg" type="text" id="title" name="title"
-                    placeholder="Título del proyecto" autocomplete="off" autofocus required>
+                    placeholder="Título del voluntariado" autocomplete="off" autofocus required>
             </div>
             <button type="button" id="step-1-btn" class="button btn__primary mt-3 btn-lg px-4 pull-right">
                 Continuar
             </button>
         </div>
         <div id="step-2" style="display: none;">
-            <h2>Escoge una descripción para tu proyecto</h2>
-            <p class="mb-5">En la descripción del proyecto debes contar a los demás para qué necesitas recaudar el
-                dinero.</p>
+            <h2>Escoge una descripción para tu voluntariado</h2>
+            <p class="mb-5">En la descripción debes contar a los demás para qué necesitas voluntarios y por qué deberían
+                ayudarte.</p>
 
             <div class="my-3">
                 <label for="description" class="form-label h6">Descripción</label>
                 <textarea class="form-control form-control-lg" id="description" name="description"
-                    placeholder="Aquí va la descripción de tu proyecto" rows="25"></textarea>
+                    placeholder="Aquí va la descripción de tu voluntariado" rows="25"></textarea>
             </div>
             <button type="button" id="step-2-back-btn" class="button btn__light mt-3 btn-lg px-4 pull-right">
                 Volver
@@ -63,13 +65,13 @@
             </button>
         </div>
         <div id="step-3" style="display: none;">
-            <h2>¿Cuánto necesitas recaudar?</h2>
-            <p class="mb-5">¿Cuánto dinero necesitas recaudar y para cuándo lo neceitas?</p>
+            <h2>¿Cuántos voluntarios necesitas?</h2>
+            <p class="mb-5">Dinos cuántos voluntarios necesitas para tu proyecto y para cuándo los necesitas.</p>
 
             <div class="my-3">
-                <label for="sum" class="form-label h6">Cantidad</label>
-                <input class="form-control form-control-lg" type="text" id="sum" name="sum"
-                    placeholder="Cantidad a recaudar" required>
+                <label for="assistants" class="form-label h6">Voluntarios</label>
+                <input class="form-control form-control-lg" type="text" id="assistants" name="assistants"
+                    placeholder="Número de voluntarios" required>
             </div>
             <div class="mb-3">
                 <label for="endDate" class="form-label h6">Fecha límite</label>
@@ -85,7 +87,8 @@
         </div>
         <div id="step-4" style="display: none;">
             <h2>Un último paso</h2>
-            <p class="mb-5">Selecciona una imagen que describa tu proyecto y llame la atención de los usuarios y dinos
+            <p class="mb-5">Selecciona una imagen que describa tu voluntariado y llame la atención de los usuarios y
+                dinos
                 en que categoría incluirlo.</p>
 
             <div class="my-3">
@@ -105,7 +108,7 @@
                 Volver
             </button>
             <button type="submit" class="button btn__primary mt-3 btn-lg px-4">
-                Crear proyecto
+                Crear voluntariado
             </button>
         </div>
     </form>
@@ -116,7 +119,7 @@
         mask: /^[0-9a-zñáéíóúü\s]+$/i
     });
 
-    IMask(document.getElementById('sum'), {
+    IMask(document.getElementById('assistants'), {
         mask: Number,
         min: 1,
         max: 1000000,
@@ -168,7 +171,7 @@
         })
 
         step3btn.addEventListener('click', () => {
-            const sum = document.getElementById('sum').value
+            const sum = document.getElementById('assistants').value
             const endDate = document.getElementById('endDate').value
             if (sum > 0 && endDate !== '') {
                 step3div.style.display = 'none'

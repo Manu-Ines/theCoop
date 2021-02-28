@@ -1,7 +1,9 @@
 require('dotenv').config()
 const Project = require('../models/projects/Project.model')
 const categs = require('../configs/categs.config')
+const mongoose = require('mongoose')
 
+// Create project
 module.exports.create = (req, res, next) => {
     res.render('project/create', { categs: categs })
 }
@@ -17,10 +19,57 @@ module.exports.doCreate = (req, res, next) => {
         .catch(next)
 }
 
+// View project
 module.exports.detail = (req, res, next) => {
-    Project.find({ slug: req.params.slug })
+    Project.findOne({ slug: req.params.slug })
         .populate('owner')
         .then((project) => {
-            res.render('project/detail', { project: project[0] })
+            res.render('project/detail', { project })
         })
+}
+
+// Edit project
+module.exports.edit = (req, res, next) => {
+    Project.findOne({ slug: req.params.slug }).then((project) => {
+        if (project.owner.equals(req.currentUser._id)) {
+            let createDate = new Date(project.endDate)
+            let date = `${createDate.getFullYear()}-${(
+                '0' + createDate.getMonth()
+            ).slice(-2)}-${createDate.getDate()}`
+
+            res.render('project/edit', {
+                project,
+                date,
+                categs: categs,
+            })
+        } else {
+            req.flash('flashMessage', 'No puedes editar este proyecto')
+            res.redirect('/')
+        }
+    })
+}
+
+module.exports.doEdit = (req, res, next) => {
+    if (req.file) {
+        req.body.image = req.file.path
+    }
+
+    Project.findByIdAndUpdate({ _id: req.params.id }, req.body, {
+        useFindAndModify: false,
+    })
+        .then((project) => {
+            res.redirect(`/project/${project.slug}`)
+        })
+        .catch(next)
+}
+
+module.exports.delete = (req, res, next) => {
+    Project.findOne({ slug: req.params.slug }).then((project) => {
+        if (project.owner.equals(req.currentUser._id)) {
+            // TODO: Si tiene 0 donaciones, puedes eliminar, sino solo puedes editar o solicitar eliminacion
+        } else {
+            req.flash('flashMessage', 'No puedes eliminar este proyecto')
+            res.redirect('/')
+        }
+    })
 }

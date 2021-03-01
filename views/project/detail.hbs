@@ -30,8 +30,8 @@
             </div>
             <div class="card p-4">
                 <h4>Aporta al proyecto</h4>
-                <p><b>58.892</b> personas han ayudado con 60.002€. ¡Ayuda a conseguir 75.000€!</p>
-                <a href="#" class="button btn__primary btn-lg my-2">Apoyar al proyecto</a>
+                <p><b>{{project.donorsQ}}</b> personas han ayudado con {{project.collected}}€. ¡Ayuda a conseguir {{project.sum}}€!</p>
+                <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal" data-bs-target="{{#if currentUser}}#donationPopup{{else}}#loginActionPopup{{/if}}">Apoyar al proyecto</a>
                 <br>
                 <small>Puedes apoyar al proyecto desde 1€, de forma pública o totalmente privada.</small>
             </div>

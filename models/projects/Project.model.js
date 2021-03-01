@@ -8,12 +8,20 @@ const projectSchema = new mongoose.Schema(
     {
         owner: {
             type: mongoose.SchemaTypes.ObjectId,
-            ref: 'Org', // REMINDER: controller createProject -> req.body.owner = req.currentUser.id
+            ref: 'Org',
         },
         sum: {
             type: Number,
             //set: regularNum,
             required: true,
+        },
+        collected: {
+            type: Number,
+            default: 1
+        },
+        donorsQ: {
+            type: Number,
+            default: 1
         },
         documents: {
             enum: [String],
@@ -54,6 +62,7 @@ const projectSchema = new mongoose.Schema(
                 200,
                 'El agradecimiento no puede superar 200 caracteres',
             ],
+            default: 'Al crear el proyecto las orgs en step 4 msgThankyou: Gracias por su donación',
         },
         boost: {
             type: Boolean,
@@ -79,6 +88,7 @@ projectSchema.virtual('donations', {
 })
 // --------------------------------
 
+projectSchema.once
 projectSchema.pre('save', function (next) {
     if (this.isModified('title')) {
         let randomNumber = Math.floor(Math.random() * (9999 - 1) + 1)

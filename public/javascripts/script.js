@@ -37,10 +37,11 @@ window.addEventListener('load', () => {
                 reason
             }
         })
-            .then((res) => {
-                deleteOrg.innerHTML = `<div class="alert alert-success my-3">${res.data.data}</div>`
-            })
-            .catch((e) => console.log(e))
+        .then((res) => {
+            deleteOrg.innerHTML = `<div class="alert alert-success my-3">${res.data.data}</div>`
+        })
+        .catch((e) => console.log(e))
     })
+
 
 })

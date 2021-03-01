@@ -1,7 +1,6 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 const Org = require('../../models/Org.model')
-const User = require('../../models/User.model')
 const { sendActivationEmail } = require('../../configs/mailer.config')
 const passport = require('passport')
 
@@ -10,6 +9,7 @@ const passport = require('passport')
    - Name
    - Picture // TODO: real time picture before updating
    - Bio
+   - Email
 --------------------- */
 
 module.exports.editProfile = (req, res, next) => {
@@ -17,8 +17,8 @@ module.exports.editProfile = (req, res, next) => {
 }
 
 module.exports.doEditProfileOrg = (req, res, next) => {
-    /* function renderWithErrors(error) {
-        res.status(400).render('user/edit', {
+    function renderWithErrors(error) {
+        res.status(400).render('org/edit', {
             error: error,
             user: req.body
         })
@@ -28,10 +28,8 @@ module.exports.doEditProfileOrg = (req, res, next) => {
 
     if (req.body.name === '') {
         renderWithErrors('Campo obligatorio')
-    } else { */
-        console.log(req.body)
-        console.log(req.currentUser)
-        /* Org
+    } else {
+        Org
         .findOneAndUpdate(
             { _id: req.currentUser.id },
             req.body,
@@ -47,5 +45,4 @@ module.exports.doEditProfileOrg = (req, res, next) => {
             }
         }) 
     }
-    */
 }

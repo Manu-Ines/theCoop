@@ -9,14 +9,15 @@
                     <label for="profilePicture" class="label-file button btn__light"><i class="fas fa-upload"></i> Agregar</label>
                     <input type="file" class="input-file" name="profilePicture" id="profilePicture">
                 </div>
-
                 <div class="col gx-5">
                     <input type="text" class="input-written" name="name" id="name" value="{{currentUser.name}}" placeholder="name" autofocus>
-                    
+                    <div class="my-3">
+                        <label class="form-label">Sitio web</label>
+                        <input name="web" class="form-control mb-2" value="{{currentUser.web}}" placeholder="Dirección web">
+                    </div>
                     <div class="my-3">
                         <label for="textArea" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="textArea" value="{{currentUser.bio}}" name="bio"></textarea>
-                       
+                        <textarea class="form-control" id="textArea" value="{{currentUser.bio}}" name="bio"></textarea>  
                     </div>
                 </div>
 

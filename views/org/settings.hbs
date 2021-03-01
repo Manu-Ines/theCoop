@@ -1,0 +1,144 @@
+{{!-- ORG Settings: Email, password, CIF, documents, web,  --}}
+
+<div class="container my-6">
+    <h2 class="mb-2">Configuración de la cuenta</h2>
+    <hr style="height:3px;border:none;">
+<div class="container">
+        <div class="row mb-4">
+            <div class="col-2">
+                <p><b>Email</b></p>
+            </div>
+            <div class="col d-flex justify-content-start">
+                <p>{{currentUser.email}}</p>
+            </div>
+            <div class="col d-flex justify-content-end">
+                <a class="button btn__secondary">Editar</a>
+            </div>
+        </div>
+        <hr>
+        <div class="row mb-4">
+            <div class="col-2">
+                <p><b>Contraseña</b></p>
+            </div>
+            <div class="col d-flex justify-content-start">
+                <p>*********</p>
+            </div>
+            <div class="col d-flex justify-content-end">
+                <a class="button btn__secondary">Editar</a>
+            </div>
+        </div>
+        <hr style="height:3px;border:none;">
+        <div class="d-flex flex-row-reverse bd-highlight">
+        <div class="p-2">
+            <a href="#" class="button btn-danger">Eliminar cuenta</a>
+        </div>
+        </div>
+<br><br>
+        <h2 class="mt-5">Configuración de datos</h2>
+        <hr style="height:3px;border:none;">
+        <div class="row mb-4">
+            <div class="col-2">
+                <label for="password" class="form-label"><b>CIF</b></label>
+            </div>
+            <div class="col">
+                <p>{{currentUser.cif}}</p>
+            </div>
+            <div class="col-12 col-sm-auto">
+                <a class="button btn__secondary">Editar</a>
+            </div>
+        </div>
+        <hr>
+        <div class="row mb-4">
+            <div class="col-2">
+                <label for="password" class="form-label"><b>Documentos de acreditación</b></label>
+            </div>
+            <div class="col">
+                <p>{{currentUser.bank}}</p>
+            </div>
+            <div class="col-12 col-sm-auto">
+                <a class="button btn__secondary">Editar</a>
+            </div>
+        </div>
+         <hr>
+        <div class="row mb-4">
+            <div class="col-2">
+                <label for="password" class="form-label"><b>Datos bancarios</b></label>
+            </div>
+            <div class="col">
+                <p>{{currentUser.bank}}</p>
+            </div>
+            <div class="col-12 col-sm-auto">
+                <a class="button btn__secondary">Editar</a>
+            </div>
+        </div>
+    </div>
+<hr style="height:3px;border:none;">
+</div>
+
+{{!-- FUTUROS MODALES --}}
+<br><br><br><br><br><br><br>
+<div class="container my-6 p-5">
+
+    {{!-- EMAIL FORM --}}
+    <form action="/settings-org-e" method="POST">
+        <label for="email" class="form-label"><b>Email</b></label>
+        <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i>  Al editar el email de la cuenta tendrás que verificarlo desde el nuevo email, en caso contrario esta cuenta quedará desactivada permanentemente</div>
+        <input type="email" class="form-control mb-2 {{#if error.email}}is-invalid{{/if}}" name="email" id="email" placeholder="Nuevo email" required>
+        <div class="invalid-feedback">
+            {{error.email}}
+        </div>
+        <button type="submit" class="button btn__primary mb-4">Enviar email de verificación al nuevo email</button>
+    </form>
+
+    {{!-- PASSWORD FORM --}}
+    <form action="/settings-p" method="POST">
+        <label for="password" class="form-label"><b>Contraseña</b></label><br>
+        <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Para cambiar la contraseña se realiza un proceso de doble verificación: <br> 
+        1. Se verifica tu identidad a través de un email -la cuenta quedará desactivada hasta que se verifique- <br>
+        2. Se requerirá la antigua contraseña </div>
+        <button type="submit" class="button btn__primary mb-4">Enviar email de verificación</button>
+    </form>
+
+    {{!-- DELETE ACCOUNT FORM --}}
+    <form id="deleteOrg">
+        <label for="email" class="form-label"><b>Eliminar cuenta</b></label>
+        <select id="reason-delete-org" name="reason" class="form-select" aria-label="Default select example">
+            <option selected>¿Por qué desea eliminar la cuenta de la organización?</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+        <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i>  Las organizaciones deben solicitar la eliminación d su cuenta </div>
+        <button type="submit" class="btn btn-danger">Enviar solicitud de eleminar cuenta</button>
+    </form>
+
+    <hr style="height:3px;border:none;">
+    
+    {{!-- CIF --}}
+    <form action="/settings-cif" method="POST">
+        <label></label>
+        <input name="cif" class="form-control mb-2" placeholder="Nuevo CIF">
+            {{error}}
+            {{error.cif}}
+        <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Se requerirá verificarlo con un documento de acreditación en la siguiente sección </div>
+        <button type="submit" class="button btn__primary mb-4">Actualizar CIF</button>
+    </form>
+{{!--     Acreditación: CIF, ONG
+    <form action="" method="POST">
+        <label></label>
+        <input name="">
+        <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Los documentos deben verificar: bla bla. En caso de no cumplir estos requisitos todas las contribuciones quedarán bloqueadas hasta su actualización </div>
+        <button type="submit" class="button btn__primary mb-4"> Actualizar documentos de acreditación</button>
+    </form> --}}
+
+    {{!-- IBAN --}}
+    <form action="/settings-b" method="POST">
+        <label><b>IBAN</b></label>
+        <input name="bank" class="form-control mb-2" placeholder="Nueva dirección web">
+            {{error}}
+            {{error.bank}}
+        <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Se requerirá verificación de email </div>
+        <button type="submit" class="button btn__primary mb-4">Actualizar beneficiario</button>
+    </form>
+
+</div>

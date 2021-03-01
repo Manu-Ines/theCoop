@@ -7,7 +7,6 @@ const { v4: uuidv4 } = require('uuid')
 
 /* ----------------
     - Forgot password
-    - 
 --------------------- */
 
 module.exports.sendForgotPasswordEmail = (req, res, next) => {
@@ -19,8 +18,6 @@ module.exports.sendForgotPasswordEmail = (req, res, next) => {
     }
 
     let token = uuidv4()
-
-    console.log(req.body.email)
 
     helper.checkEmailExists(req.body.email).then((user) => {
         if (!user[0] && !user[1]) {

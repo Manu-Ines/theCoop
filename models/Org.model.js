@@ -50,7 +50,9 @@ const orgSchema = new mongoose.Schema({
     },
     bank: {
         type: String,
-        trim: true
+        trim: true,
+        minlength: [24, 'El número IBAN se compone de 24 caracteres comenzando por el código del país y siguiendo con 22 números'],
+        maxlength: [24, 'El número IBAN se compone de 24 caracteres comenzando por el código del país y siguiendo con 22 números'],
     },
     active: {
         type: Boolean,

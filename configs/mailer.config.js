@@ -1535,3 +1535,16 @@ module.exports.sendForgotPasswordEmail = (email, token) => {
         .then((mail) => console.log('Email de activación enviado!'))
         .catch((e) => console.log(e))
 }
+
+module.exports.sendRequestDelete = (reciever, sender, reason) => {
+	transporter
+	.sendMail({
+		from: `"Rodiles" <manu@glow-media.com>`,
+		to: reciever,
+		subject: 'Request to delete org account',
+		text: 'Quieren borrar una cuenta',
+		html: `La organización ${sender} require borrar su cuenta por ${reason}`
+		})
+		.then((mail) => console.log('Email de solicitud de eliminar cuenta enviado!'))
+		.catch((e) => console.log(e))
+}

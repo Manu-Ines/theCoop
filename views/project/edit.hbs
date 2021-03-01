@@ -1,0 +1,93 @@
+<script src="https://cdn.tiny.cloud/1/bxbm94pkk0onbqvbkrwp8xh9ly9aj2g61n7lsz2i4sv9gvvt/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#description',
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        menubar: false,
+        min_height: 300,
+        toolbar_mode: 'floating',
+        toolbar: 'undo | formatselect | ' + 'image bold italic' + '| bullist numlist |' + 'fullscreen',
+        image_title: true,
+        automatic_uploads: true,
+        file_picker_types: 'image',
+        //images_upload_url: 'server/upload-image.php'
+    });
+</script>
+<script src="https://unpkg.com/imask"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
+
+<div class="container my-6">
+    <h2>Editar proyecto</h2>
+    <hr>
+    <form action="/project/edit/{{project._id}}" method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Título</label>
+                    <input class="form-control form-control-lg" type="text" id="title" name="title" placeholder="Title"
+                        value="{{project.title}}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Descripción</label>
+                    <textarea class="form-control form-control-lg" id="description" name="description"
+                        placeholder="Descripción">{{project.description}}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="sum" class="form-label">Cantidad</label>
+                    <input class="form-control form-control-lg" type="text" id="sum" name="sum"
+                        placeholder="Cantidad a recaudar" value="{{project.sum}}" required>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="mb-3">
+                    <label for="image" class="form-label">Imagen de portada</label>
+                    <input class="form-control" type="file" name="image" id="image">
+                </div>
+                <div class="mb-3">
+                    <label for="endDate" class="form-label">Fecha límite</label>
+                    <input class="form-control form-control-lg" type="text" id="endDate" name="endDate"
+                        placeholder="Fecha límite" value="{{date}}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="categs" class="form-label">Categoría</label>
+                    <select id="categs" name="categs" class="form-select form-select-lg" required>
+                        <option value="{{project.categs}}">{{project.categs}}</option>
+                        {{#each categs as |categ|}}
+                        <option value="{{categ}}">{{categ}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="button btn__primary mt-3 btn-lg px-4">
+            Editar proyecto
+        </button>
+
+    </form>
+</div>
+
+<script>
+    var patternMask = IMask(document.getElementById('sum'), {
+        mask: Number,
+        min: 1,
+        max: 1000000,
+        scale: 0,
+    });
+
+    flatpickr.l10ns.default.firstDayOfWeek = 1; // Monday 1st day
+    flatpickr(document.getElementById('endDate'), {
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        "locale": "es",
+    });
+</script>

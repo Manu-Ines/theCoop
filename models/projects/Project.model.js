@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const TITLE_RGX = /^[0-9a-zñáéíóúü\s]+$/i
 const regularNum = (num) => {
     // TODO: kata for regulate numbers
 }
@@ -23,6 +24,10 @@ const projectSchema = new mongoose.Schema(
             required: true,
             trim: true,
             maxlength: [150, 'El título no puede superar 150 caracteres'],
+            match: [
+                TITLE_RGX,
+                'Tu título no puede contener caracteres especiales',
+            ],
         },
         slug: {
             type: String,
@@ -30,11 +35,11 @@ const projectSchema = new mongoose.Schema(
         },
         description: {
             type: String,
-            required: true,
             maxlength: [
                 3000,
                 'La descripción no puede superar 3000 caracteres',
             ],
+            default: 'Sin descripción',
         },
         image: {
             type: String,

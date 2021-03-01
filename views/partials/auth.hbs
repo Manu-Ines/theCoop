@@ -11,7 +11,7 @@
                         value="{{user.email}}" placeholder="Correo electrónico" autofocus required>
                 </div>
                 <div class="form-group mb-4">
-                    <input type="password" class="form-control form-control-lg" name="password" placeholder="Password"
+                    <input type="password" class="form-control form-control-lg" name="password" placeholder="Contraseña"
                         id="password" required>
                 </div>
                 {{#if error}}
@@ -59,6 +59,55 @@
                     <button type="submit" class="button btn__primary btn-lg mb-4">Enviar email de verificación</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="registerPopup" tabindex="-1" aria-labelledby="registerPopup" aria-hidden="true">
+    <div class="modal-dialog">
+        <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-left">
+            <div class="text-center">
+                <h3><b>Registro de usuario</b></h3>
+            </div>
+            <form action="/register" method="POST" class="my-3">
+                <div class="form-group has-validation mb-3">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input type="text" autocomplete="off"
+                        class="form-control form-control-lg {{#if errors.name}}is-invalid{{/if}}" name="name" id="name"
+                        value="{{user.name}}" placeholder="Nombre completo" autofocus required>
+                    <div class="invalid-feedback">
+                        {{errors.name}}
+                    </div>
+                </div>
+                <div class="form-group has-validation mb-3">
+                    <label for="username" class="form-label">Email</label>
+                    <input type="email" autocomplete="off"
+                        class="form-control form-control-lg {{#if errors.email}}is-invalid{{/if}}" name="email"
+                        id="email" value="{{user.email}}" placeholder="example@example.com" required>
+                    <div class="invalid-feedback">
+                        {{errors.email}}
+                    </div>
+                </div>
+                <div class="form-group has-validation mb-4">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" autocomplete="off"
+                        class="form-control form-control-lg {{#if errors.password}}is-invalid{{/if}}" name="password"
+                        placeholder="*********" id="password" required>
+                    <div class="invalid-feedback">
+                        {{errors.password}}
+                    </div>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="button btn__primary btn-lg">Register</button>
+                </div>
+            </form>
+            <hr>
+            <a href="/authenticate/google" class="button btn__light border py-2"><i class="fab fa-google pr-2"></i>
+                Registro con Google</a>
+            <a href="/auth/facebook" class="button btn__light border py-2 mt-2 mb-4"><i
+                    class="fab fa-facebook pr-2"></i>
+                Registro con Facebook</a>
+            <small>¿Eres una organización? <a class="link__primary" href="/org/register">regístrate aquí</a></small>
         </div>
     </div>
 </div>

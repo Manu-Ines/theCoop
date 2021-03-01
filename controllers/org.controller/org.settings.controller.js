@@ -2,9 +2,10 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const passport = require('passport')
 const { v4: uuidv4 } = require('uuid')
+const CryptoJS = require('crypto-js')
 
 const Org = require('../../models/Org.model')
-const mailer = require("../../configs/mailer.config")
+const mailer = require('../../configs/mailer.config')
 const helper = require('../../helpers/email.helper')
 
 /* ----------------
@@ -61,7 +62,9 @@ module.exports.activateNewEmailOrg = (req, res, next) => {
         'user/login',
         'Email verificado correctamente. Ya puedes iniciar sesión',
         '/',
-        req, res, next
+        req,
+        res,
+        next
     )
 }
 
@@ -79,7 +82,8 @@ module.exports.petitionDelete = (req, res, next) => {
     )
     res.json({
         status: 200,
-        data: 'Se ha enviado la solicitud para eliminar la cuenta. Contactaremos con ustedes en 24/48h',
+        data:
+            'Se ha enviado la solicitud para eliminar la cuenta. Contactaremos con ustedes en 24/48h',
     })
 }
 
@@ -92,28 +96,27 @@ module.exports.doChangeCif = (req, res, next) => {
     function renderWithErrors(error) {
         res.status(400).render('org/settings', {
             error: error,
-            user: req.body
+            user: req.body,
         })
     }
 
     if (req.body.cif === '') {
         renderWithErrors('Campo obligatorio')
     } else {
-        Org
-        .findOneAndUpdate(
-            { _id: req.currentUser.id },
-            req.body,
-            { runValidators: true, useFindAndModify: false })
-        .then(() => {
-            res.redirect('org/settings')
+        Org.findOneAndUpdate({ _id: req.currentUser.id }, req.body, {
+            runValidators: true,
+            useFindAndModify: false,
         })
-        .catch(e => {
-            if (e instanceof mongoose.Error.ValidationError) {
-                renderWithErrors(e.errors)
-            } else {
-                next(e)
-            }
-        }) 
+            .then(() => {
+                res.redirect('org/settings')
+            })
+            .catch((e) => {
+                if (e instanceof mongoose.Error.ValidationError) {
+                    renderWithErrors(e.errors)
+                } else {
+                    next(e)
+                }
+            })
     }
 }
 
@@ -126,22 +129,31 @@ module.exports.doChangeIban = (req, res, next) => {
     function renderWithErrors(error) {
         res.status(400).render('org/settings', {
             error: error,
-            user: req.body
+            user: req.body,
         })
     }
-    Org
-    .findOneAndUpdate(
+
+    let ibanEncrypted = CryptoJS.AES.encrypt(
+        req.body.bank,
+        process.env.ENCRYPT_KEY
+    ).toString()
+
+    Org.findOneAndUpdate(
         { _id: req.currentUser.id },
-        req.body,
-        { runValidators: true, useFindAndModify: false })
-    .then(() => {
-        res.redirect('org/settings')
-    })
-    .catch(e => {
-        if (e instanceof mongoose.Error.ValidationError) {
-            renderWithErrors(e.errors)
-        } else {
-            next(e)
+        { bank: ibanEncrypted },
+        {
+            runValidators: true,
+            useFindAndModify: false,
         }
-    }) 
+    )
+        .then(() => {
+            res.redirect('org/settings')
+        })
+        .catch((e) => {
+            if (e instanceof mongoose.Error.ValidationError) {
+                renderWithErrors(e.errors)
+            } else {
+                next(e)
+            }
+        })
 }

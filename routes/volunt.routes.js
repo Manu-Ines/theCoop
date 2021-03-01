@@ -1,42 +1,42 @@
 const express = require('express')
 const router = express.Router()
-const projectController = require('../controllers/project.controller')
+const voluntController = require('../controllers/volunt.controller')
 const secure = require('../middlewares/secure.middleware')
 const upload = require('../configs/storage.config')
 
 // Create new projects
 router.get(
-    '/project/create',
+    '/volunt/create',
     secure.checkRoles('ORG'),
     secure.isAuthenticated,
-    projectController.create
+    voluntController.create
 )
 
 router.post(
-    '/project/create',
+    '/volunt/create',
     secure.checkRoles('ORG'),
     secure.isAuthenticated,
     upload.single('image'),
-    projectController.doCreate
+    voluntController.doCreate
 )
 
 // Edit projects
 router.get(
-    '/project/edit/:slug',
+    '/volunt/edit/:slug',
     secure.checkRoles('ORG'),
     secure.isAuthenticated,
-    projectController.edit
+    voluntController.edit
 )
 
 router.post(
-    '/project/edit/:id',
+    '/volunt/edit/:id',
     secure.checkRoles('ORG'),
     secure.isAuthenticated,
     upload.single('image'),
-    projectController.doEdit
+    voluntController.doEdit
 )
 
 // View Project
-router.get('/project/:slug', projectController.detail)
+router.get('/volunt/:slug', voluntController.detail)
 
 module.exports = router

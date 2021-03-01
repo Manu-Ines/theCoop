@@ -1,21 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
 
 :root {
-    --main-color: #4f46e5; /* #5085B9 */
-    --main-color-hover: #3730a3;
-    --background-light-color: #f6f4f3;
+    /* Primary colors */
+    --main-color: #059669; /* #5085B9 */
+    --main-color-hover: #047857;
+
+    /* Secondary colors */
     --secondary-color: #e0e7ff;
     --secondary-color-hover: #c7d2fe;
     --secondary-text-color: #3730a3;
 
+    --background-light-color: #f9fafb;
     --color-dark-black: #363135;
 }
 
 body {
     font-family: 'Inter', sans-serif !important;
-    /*letter-spacing: -0.005rem;*/
     min-height: 100vh;
-    /* background-color: var(--background-light-color) !important;*/
 }
 
 h1,
@@ -55,6 +56,24 @@ p {
     border-radius: 0.6rem !important;
 }
 
+.alert {
+    border-width: 1.55px !important;
+}
+
+.alert-danger {
+    background-color: #fef2f2 !important;
+    border-color: #fecaca !important;
+    color: #b91c1c !important;
+}
+
+footer {
+    background-color: var(--background-light-color);
+}
+
+footer a {
+    text-decoration: none !important;
+}
+
 /* BUTTONS
 ========================================= */
 .button {
@@ -73,6 +92,10 @@ p {
     font-size: 1rem;
     border-radius: 0.5rem !important;
     transition: all 0.1s ease-in-out;
+}
+
+.button:focus {
+    outline: none !important;
 }
 
 .btn__primary {
@@ -147,8 +170,25 @@ p {
 }
 
 /* FORMS */
+.form-control {
+    border-width: 1.55px !important;
+}
 
-.form-control:focus {
+.form-control:focus,
+.form-control:hover {
+    color: #212529;
+    background-color: #fff;
+    border: 1.55px solid var(--main-color) !important;
+    outline: 0;
+    box-shadow: none !important;
+}
+
+.form-select {
+    border-width: 1.55px !important;
+}
+
+.form-select:focus,
+.form-select:hover {
     color: #212529;
     background-color: #fff;
     border: 1.55px solid var(--main-color) !important;
@@ -182,6 +222,12 @@ p {
     border: none;
 }
 
+.form-control:disabled,
+.form-control[readonly] {
+    background-color: #ffffff !important;
+    opacity: 1;
+}
+
 /* PROFILE */
 .main__profile {
     background-color: var(--background-light-color);
@@ -198,4 +244,8 @@ p {
     text-decoration: none !important;
     color: var(--main-color);
     border: 1px solid var(--main-color) !important;
+}
+
+.rounded__custom {
+    border-radius: 0.6rem !important;
 }

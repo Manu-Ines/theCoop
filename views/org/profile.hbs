@@ -35,8 +35,8 @@
             <div class="my-5">
                 <h3>Proyectos</h3><br>
                 {{#each currentUser.projects as |project|}}
-                <div class="card p-3 mb-2">
-                    {{project.title}}
+                <div class="card p-4 mb-2">
+                    <h5>{{project.title}}</h5>
                     <div class="row">
                         <div class="col mt-2">
                             <a href="/project/{{project.slug}}" class="button btn__primary btn-sm">Ver
@@ -49,11 +49,21 @@
                 {{/each}}
             </div>
         </div>
-        <div class="col-sm-6" hidden>
+        <div class="col-sm-6">
             <div class="my-5">
                 <h3>Voluntariados</h3><br>
                 {{#each currentUser.volunts as |volunt|}}
-                <div class="card p-3 mb-2">{{volunt.title}}</div>
+                <div class="card p-4 mb-2">
+                    <h5>{{volunt.title}}</h5>
+                    <div class="row">
+                        <div class="col mt-2">
+                            <a href="/volunt/{{volunt.slug}}" class="button btn__primary btn-sm">Ver
+                                voluntariado</a>
+                            <a href="/volunt/edit/{{volunt.slug}}" class="button btn__light btn-sm">Editar
+                                voluntariado</a>
+                        </div>
+                    </div>
+                </div>
                 {{/each}}
             </div>
         </div>

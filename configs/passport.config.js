@@ -13,7 +13,10 @@ passport.serializeUser(function (user, next) {
 })
 
 passport.deserializeUser((id, next) => {
-    Promise.all([User.findById(id), Org.findById(id).populate('projects')])
+    Promise.all([
+        User.findById(id),
+        Org.findById(id).populate('projects').populate('volunts'),
+    ])
         .then((user) => {
             user[0] ? next(null, user[0]) : next(null, user[1])
         })

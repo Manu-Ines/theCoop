@@ -3,6 +3,7 @@ const users = require('../routes/user.routes')
 const orgs = require('../routes/org.routes')
 const projects = require('../routes/project.routes')
 const donations = require('../routes/donation.routes')
+const volunts = require('../routes/volunt.routes')
 
 module.exports = (app) => {
     app.use('/', index)
@@ -10,4 +11,5 @@ module.exports = (app) => {
     app.use('/', orgs)
     app.use('/', projects)
     app.use('/', donations)
+    app.use('/', volunts)
 }

@@ -143,6 +143,17 @@ footer a {
     color: var(--main-color-hover);
 }
 
+.btn-accordeon {
+    width: 100%;
+    padding: 0;
+    border: none;
+    background-color: #ffffff;
+}
+.btn-accordeon:focus {
+    border: none !important;
+    outline: none !important;
+}
+
 /* NAVBAR 
 ===============================*/
 .bg__light {
@@ -169,7 +180,8 @@ footer a {
     color: var(--color-dark-black) !important;
 }
 
-/* FORMS */
+/* FORMS 
+===============================*/
 .form-control {
     border-width: 1.55px !important;
 }
@@ -228,7 +240,12 @@ footer a {
     opacity: 1;
 }
 
-/* PROFILE */
+.background__light {
+    background-color: var(--background-light-color);
+}
+
+/* PROFILE 
+===============================*/
 .main__profile {
     background-color: var(--background-light-color);
     color: var(--color-dark-black) !important;

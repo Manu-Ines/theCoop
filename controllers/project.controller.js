@@ -28,17 +28,13 @@ module.exports.detail = (req, res, next) => {
         .then((project) => {
             Donation.find({ project: project._id })
             .then((donations) => {
-                let collectedTotal = 0
                 let donatorsTotal = donations.length
-                donations.map((d) => collectedTotal += d.contribution)
+                let collectedTotal = donations.reduce((acc, curr) => acc + curr.contribution, 0)
                 
                 res.render('project/detail', { project, collectedTotal, donatorsTotal })
 
                 if (project.sum <= collectedTotal) {
-                    // Tenemos que ver como lo queremos hacer, había pensado en un trigger que 
-                    // bloquee el botton y mandar un email a la organización para que escriba 
-                    // el mensaje final de agradecimiento a todos y otro a nosotros para avisarnos
-                    // de que le podemos pagar
+                    // 
                 } 
             })
             .catch(() => next)

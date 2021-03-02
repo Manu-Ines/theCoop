@@ -37,11 +37,11 @@
                 <a href="/logout" class="button btn__secondary btn-lg my-2">
                     Para poder donar a otra organización, cierra sesión y regístrese como usuario</a>
                 {{/isOrg}}
-                 {{!-- {{#isOrg currentUser.role}} --}}
+                {{!-- {{else}}  --}}
                 <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
                     data-bs-target="{{#if currentUser}}#donationPopup{{else}}#loginActionPopup{{/if}}">
                     Apoyar al proyecto</a>
-                 {{!-- {{/isOrg}}  --}}
+                 {{!-- {{/isOrg}} --}}
                 <br>
                 <small>Puedes apoyar al proyecto desde 1€, de forma pública o totalmente privada.</small>
             </div>

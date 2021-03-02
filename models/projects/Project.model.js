@@ -1,8 +1,6 @@
 const mongoose = require('mongoose')
 const TITLE_RGX = /^[0-9a-zñáéíóúü\s]+$/i
-const regularNum = (num) => {
-    // TODO: kata for regulate numbers
-}
+
 const categs = require('../../configs/categs.config')
 
 const projectSchema = new mongoose.Schema(
@@ -13,16 +11,7 @@ const projectSchema = new mongoose.Schema(
         },
         sum: {
             type: Number,
-            //set: regularNum,
             required: true,
-        },
-        collected: {
-            type: Number,
-            default: 1
-        },
-        donorsQ: {
-            type: Number,
-            default: 1
         },
         documents: {
             enum: [String],

@@ -15,6 +15,7 @@ hbs.registerHelper('isUser', function (val, options) {
     return val === 'USER' ? options.fn() : options.inverse()
 })
 
+// Code
 hbs.registerHelper('decrypt', function (val) {
     let bytes = CryptoJS.AES.decrypt(val, process.env.ENCRYPT_KEY)
     return bytes.toString(CryptoJS.enc.Utf8)

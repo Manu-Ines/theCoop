@@ -32,11 +32,16 @@
             </div>
             <div class="card p-4">
                 <h4>Aporta al proyecto</h4>
-                <p><b>{{project.donorsQ}}</b> personas han ayudado con {{project.collected}}€. ¡Ayuda a conseguir
-                    {{project.sum}}€!</p>
+                <p><b>{{donatorsTotal}}</b> personas han ayudado con {{collectedTotal}}€. ¡Ayuda a conseguir {{project.sum}}€!</p>
+                {{#isOrg currentUser.role}}
+                <a href="/logout" class="button btn__secondary btn-lg my-2">
+                    Para poder donar a otra organización, cierra sesión y regístrese como usuario</a>
+                {{/isOrg}}
+                 {{!-- {{#isOrg currentUser.role}} --}}
                 <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
-                    data-bs-target="{{#if currentUser}}#donationPopup{{else}}#loginActionPopup{{/if}}">Apoyar al
-                    proyecto</a>
+                    data-bs-target="{{#if currentUser}}#donationPopup{{else}}#loginActionPopup{{/if}}">
+                    Apoyar al proyecto</a>
+                 {{!-- {{/isOrg}}  --}}
                 <br>
                 <small>Puedes apoyar al proyecto desde 1€, de forma pública o totalmente privada.</small>
             </div>

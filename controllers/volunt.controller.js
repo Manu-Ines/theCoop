@@ -11,9 +11,10 @@ module.exports.create = (req, res, next) => {
 module.exports.doCreate = (req, res, next) => {
     req.body.owner = req.currentUser.id
     req.body.image = req.file ? req.file.path : 'no-photo.jpg'
-
-    Volunt.create(req.body)
+    console.log(req.body)
+    Volunt.create(req.body) 
         .then((volunt) => {
+            console.log(volunt)
             res.redirect(`/volunt/${volunt.slug}`)
         })
         .catch(next)

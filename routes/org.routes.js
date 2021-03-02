@@ -36,35 +36,17 @@ router.get(
     secure.isAuthenticated,
     orgSettingController.activateNewEmailOrg
 )
-router.get(
-    '/settings-delete-request',
-    secure.checkRoles('ORG'),
-    secure.isAuthenticated,
-    orgSettingController.petitionDeleteView
-)
 router.post(
     '/settings-delete-request',
     secure.checkRoles('ORG'),
     secure.isAuthenticated,
     orgSettingController.petitionDelete
 )
-router.get(
-    '/settings-cif',
-    secure.checkRoles('ORG'),
-    secure.isAuthenticated,
-    orgSettingController.changeCifView
-)
 router.post(
     '/settings-cif',
     secure.checkRoles('ORG'),
     secure.isAuthenticated,
     orgSettingController.doChangeCif
-)
-router.get(
-    '/settings-b',
-    secure.checkRoles('ORG'),
-    secure.isAuthenticated,
-    orgSettingController.changeIbanView
 )
 router.post(
     '/settings-b',

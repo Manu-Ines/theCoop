@@ -68,13 +68,8 @@ module.exports.activateNewEmailOrg = (req, res, next) => {
     )
 }
 
-module.exports.petitionDeleteView = (req, res, next) => {
-    // TODO: Popoupdelete
-    res.render('org/settings')
-}
-
 module.exports.petitionDelete = (req, res, next) => {
-    // TODO
+    // TODO: petición eliminar cuenta
     mailer.sendRequestDelete(
         'simielgarse@gmail.com',
         req.currentUser.id,
@@ -85,11 +80,6 @@ module.exports.petitionDelete = (req, res, next) => {
         data:
             'Se ha enviado la solicitud para eliminar la cuenta. Contactaremos con ustedes en 24/48h',
     })
-}
-
-module.exports.changeCifView = (req, res, next) => {
-    // TODO: Popoupcif
-    res.render('org/settings')
 }
 
 module.exports.doChangeCif = (req, res, next) => {
@@ -118,11 +108,6 @@ module.exports.doChangeCif = (req, res, next) => {
                 }
             })
     }
-}
-
-module.exports.changeIbanView = (req, res, next) => {
-    // TODO: PopoupBank
-    res.render('org/settings')
 }
 
 module.exports.doChangeIban = (req, res, next) => {

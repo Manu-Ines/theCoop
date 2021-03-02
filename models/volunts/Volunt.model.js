@@ -40,12 +40,12 @@ const voluntSchema = new mongoose.Schema(
         date: [
             {
                 day: { type: Date },
-                periods: [
+                periods: //[
                     {
                         start: { type: Date },
                         end: { type: Date },
                     },
-                ],
+                //],
             },
         ],
         categs: {

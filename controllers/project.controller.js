@@ -1,7 +1,9 @@
 require('dotenv').config()
 const Project = require('../models/projects/Project.model')
+const Donation = require('../models/projects/Donation.model')
+
 const categs = require('../configs/categs.config')
-const mongoose = require('mongoose')
+const mailer = require('../configs/mailer.config')
 
 // Create project
 module.exports.create = (req, res, next) => {
@@ -24,8 +26,20 @@ module.exports.detail = (req, res, next) => {
     Project.findOne({ slug: req.params.slug })
         .populate('owner')
         .then((project) => {
-            res.render('project/detail', { project })
+            Donation.find({ project: project._id })
+            .then((donations) => {
+                let donatorsTotal = donations.length
+                let collectedTotal = donations.reduce((acc, curr) => acc + curr.contribution, 0)
+                
+                res.render('project/detail', { project, collectedTotal, donatorsTotal })
+
+                if (project.sum <= collectedTotal) {
+                    // 
+                } 
+            })
+            .catch(() => next)
         })
+        .catch(() => next)
 }
 
 // Edit project

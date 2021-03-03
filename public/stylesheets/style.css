@@ -267,6 +267,10 @@ footer a {
     border-radius: 0.6rem !important;
 }
 
+canvas {
+    border-radius: 0.6rem !important;
+}
+
 /* IMAGES PROJECT & VOLUNTS
 ===============================*/
 .objetfit > img {
@@ -283,7 +287,7 @@ footer a {
     margin-top: 75px;
 }
 
-#map:focus { /* Not working */
+#map:focus {
     border: none !important;
     outline: none !important;
     outline-width: 0 !important;
@@ -294,11 +298,10 @@ footer a {
 
 .geocoder {
     z-index: 1;
-    width: 50%;
-    left: 50%;
-    margin-left: -25%;
-    top: 10px;
+    width: 100%;
+    margin-bottom: 10px;
 }
+
 .mapboxgl-ctrl-geocoder {
     min-width: 100%;
 }

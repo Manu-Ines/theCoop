@@ -47,14 +47,9 @@
                 <br>
                 <small>Puedes apoyar al proyecto desde 1€, de forma pública o totalmente privada.</small>
             </div>
-            {{!-- Fb share --}}
-            <div class="fb-share-button" data-href="https://www.rodiles.org/project/{{slug}}" data-layout="button_count" 
-            data-size="large"><a target="_blank" href="poner lo que diga facebook en esta web -> https://developers.facebook.com/docs/plugins/share-button/" 
-            class="fb-xfbml-parse-ignore">Compartir</a>
-            </div>
-            {{!-- IG share --}}
-            {{!-- Wpp share --}}
-        <div id='mapShow' style='width: 400px; height: 300px;'></div>
+
+        <div id='mapShow' class="border rounded__custom my-3" style='width: 400px; height: 300px;'></div>
+        <p id="query" data-adress="{{project.adress}}">{{project.adress}}</p>
         </div>
     </div>
     {{else}}
@@ -83,7 +78,8 @@
 
 <script> // Create token -> https://account.mapbox.com
     // Map
-    mapboxgl.accessToken = 'pk.eyJ1IjoicGFsbWFzYSIsImEiOiJja2x0OHpvdDYwNmJ5MndvM2NiNGF5NWtzIn0.aVa1uyTkA0cl1WuZezJQtw';
+    /* mapboxgl.accessToken = 'pk.eyJ1IjoicGFsbWFzYSIsImEiOiJja2x0OHpvdDYwNmJ5MndvM2NiNGF5NWtzIn0.aVa1uyTkA0cl1WuZezJQtw';
+
     var mapShow = new mapboxgl.Map({
         container: 'mapShow', // container ID
         style: 'mapbox://styles/mapbox/streets-v11',
@@ -95,6 +91,30 @@
     color: "#059669",
     // draggable: true -> DEJAR MOVER EL MARKER
     }).setLngLat([-74.5, 40])
-    .addTo(mapShow);
-   
+    .addTo(mapShow); */
+
+   let loca = document.getElementById('query').dataset.adress
+
+   mapboxgl.accessToken = 'pk.eyJ1IjoicGFsbWFzYSIsImEiOiJja2x0OHpvdDYwNmJ5MndvM2NiNGF5NWtzIn0.aVa1uyTkA0cl1WuZezJQtw'
+    var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+    mapboxClient.geocoding
+    .forwardGeocode({
+        query: `${loca}`,
+        autocomplete: false,
+        limit: 1
+    })
+    .send()
+    .then(function (response) {
+        if ( response.body.features.length ) {
+        var feature = response.body.features[0];
+        
+        var mapShow = new mapboxgl.Map({
+            container: 'mapShow',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: feature.center,
+            zoom: 15
+        })
+        new mapboxgl.Marker().setLngLat(feature.center).addTo(mapShow);
+        }
+    });
 </script>

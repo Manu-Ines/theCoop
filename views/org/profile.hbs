@@ -6,11 +6,9 @@
         </div>
         {{/if}}
         <div class="text-center mx-auto my-5" style="max-width: 600px;">
-            <img src="{{currentUser.profilePicture}}" height="100px" class="mb-3" alt="profile image">
-            <h2>{{currentUser.name}}</h1>
-                <button id="orgWeb">
-                    {{currentUser.web}}
-                </button>
+                <img src="{{currentUser.profilePicture}}" height="100px" class="mb-3" alt="profile image">
+                <h2 class="mb-0">{{currentUser.name}}</h2>
+                <small>{{currentUser.web}}</small>
                 <p>
                     {{currentUser.bio}}
                 </p>

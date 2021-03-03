@@ -11,11 +11,10 @@
         menubar: false,
         min_height: 300,
         toolbar_mode: 'floating',
-        toolbar: 'undo | formatselect | ' + 'image bold italic' + '| bullist numlist |' + 'fullscreen',
+        toolbar: 'undo | formatselect | ' + 'bold italic' + '| bullist numlist |' + 'fullscreen',
         image_title: true,
         automatic_uploads: true,
         file_picker_types: 'image',
-        //images_upload_url: 'server/upload-image.php'
     });
 </script>
 <script src="https://unpkg.com/imask"></script>
@@ -102,8 +101,9 @@
                 </select>
             </div>
             <div class="mb-3">
-                <div id='mapCreate' style='width: 400px; height: 300px;'></div>
+                <input name="adress" type="hidden" id="adress"/>
                 <div id="geocoder" class="geocoder"></div>
+                <div id='mapCreate' class="w-100" style='height: 300px;'></div> 
             </div>
             <button type="button" id="step-4-back-btn" class="button btn__light mt-3 btn-lg px-4 pull-right">
                 Volver
@@ -182,7 +182,7 @@
         })
     });
 
-    // Map
+   // Map
     mapboxgl.accessToken = 'pk.eyJ1IjoicGFsbWFzYSIsImEiOiJja2x0OHpvdDYwNmJ5MndvM2NiNGF5NWtzIn0.aVa1uyTkA0cl1WuZezJQtw';
     var mapCreate = new mapboxgl.Map({
         container: 'mapCreate', // container ID
@@ -196,12 +196,22 @@
         mapboxgl: mapboxgl
     });
     document.getElementById('geocoder').appendChild(geocoder.onAdd(mapCreate));
-    
+
     // Marker
     var marker = new mapboxgl.Marker({
     color: "#059669",
     // draggable: true -> DEJAR MOVER EL MARKER
     }).setLngLat([-74.5, 40])
     .addTo(mapCreate);
+
+    /* geocoder.on('results', function(results) {
+        console.log(results)
+    }) */
+
+    let mapInput = document.querySelector('#geocoder input')
+    let adressInput = document.querySelector('#adress')
+    mapInput.addEventListener('change', () => {
+        adressInput.value = mapInput.value
+    })
     
 </script>

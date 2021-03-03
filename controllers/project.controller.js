@@ -23,9 +23,7 @@ module.exports.doCreate = (req, res, next) => {
 
 // View project
 module.exports.detail = (req, res, next) => {
-    const slug = req.params.slug
-    console.log(slug)
-    Project.findOne({ slug: slug })
+    Project.findOne({ slug: req.params.slug })
         .populate('owner')
         .then((project) => {
             Donation.find({ project: project._id })
@@ -33,10 +31,10 @@ module.exports.detail = (req, res, next) => {
                 let donatorsTotal = donations.length
                 let collectedTotal = donations.reduce((acc, curr) => acc + curr.contribution, 0)
                 
-                res.render('project/detail', { project, collectedTotal, donatorsTotal, slug })
+                res.render('project/detail', { project, collectedTotal, donatorsTotal })
 
                 if (project.sum <= collectedTotal) {
-                    // 
+                    // TODO
                 } 
             })
             .catch(() => next)

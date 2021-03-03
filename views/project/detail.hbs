@@ -10,7 +10,9 @@
                     </p>
                 </div>
                 {{#if project.image}}
-                <img src="{{project.image}}" class="w-100 rounded" alt="">
+                <div class="objetfit">
+                    <img src="{{project.image}}" class="rounded__custom" alt="">
+                </div>
                 {{/if}}
                 <p class="my-4">{{{project.description}}}</p>
             </div>
@@ -45,6 +47,9 @@
                 <br>
                 <small>Puedes apoyar al proyecto desde 1€, de forma pública o totalmente privada.</small>
             </div>
+
+        <div id='mapShow' class="border rounded__custom my-3" style='width: 400px; height: 300px;'></div>
+        <p id="query" data-adress="{{project.adress}}">{{project.adress}}</p>
         </div>
     </div>
     {{else}}
@@ -70,3 +75,46 @@
         </div>
     </div>
 </div>
+
+<script> // Create token -> https://account.mapbox.com
+    // Map
+    /* mapboxgl.accessToken = 'pk.eyJ1IjoicGFsbWFzYSIsImEiOiJja2x0OHpvdDYwNmJ5MndvM2NiNGF5NWtzIn0.aVa1uyTkA0cl1WuZezJQtw';
+
+    var mapShow = new mapboxgl.Map({
+        container: 'mapShow', // container ID
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-74.5, 40], // [lng, lat]
+        zoom: 13
+    });
+    // Marker
+    var marker = new mapboxgl.Marker({
+    color: "#059669",
+    // draggable: true -> DEJAR MOVER EL MARKER
+    }).setLngLat([-74.5, 40])
+    .addTo(mapShow); */
+
+   let loca = document.getElementById('query').dataset.adress
+
+   mapboxgl.accessToken = 'pk.eyJ1IjoicGFsbWFzYSIsImEiOiJja2x0OHpvdDYwNmJ5MndvM2NiNGF5NWtzIn0.aVa1uyTkA0cl1WuZezJQtw'
+    var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+    mapboxClient.geocoding
+    .forwardGeocode({
+        query: `${loca}`,
+        autocomplete: false,
+        limit: 1
+    })
+    .send()
+    .then(function (response) {
+        if ( response.body.features.length ) {
+        var feature = response.body.features[0];
+        
+        var mapShow = new mapboxgl.Map({
+            container: 'mapShow',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: feature.center,
+            zoom: 15
+        })
+        new mapboxgl.Marker().setLngLat(feature.center).addTo(mapShow);
+        }
+    });
+</script>

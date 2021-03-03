@@ -34,7 +34,7 @@ module.exports.detail = (req, res, next) => {
                 res.render('project/detail', { project, collectedTotal, donatorsTotal })
 
                 if (project.sum <= collectedTotal) {
-                    // 
+                    // TODO
                 } 
             })
             .catch(() => next)

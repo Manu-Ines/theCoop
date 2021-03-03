@@ -4,7 +4,7 @@
     <hr style="height:3px;border:none;">
     <div class="container">
 
-        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#email" aria-expanded="false" aria-controls="email">
+        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#emailOrg" aria-expanded="false" aria-controls="emailOrg">
             <div class="row my-2">
                 <div class="col-2 d-flex justify-content-start align-items-center">
                     <p><b>Email</b></p>
@@ -18,11 +18,11 @@
             </div>
         </button>
         {{!-- EMAIL FORM --}}
-        <div class="collapse row my-3 background__light" id="email">
+        <div class="collapse row my-3 background__light" id="emailOrg">
             <div class="col-2"></div>
             <div class="col">
                 <form action="/settings-org-e" method="POST">
-                    <input type="email" class="form-control my-3 {{#if error.email}}is-invalid{{/if}}" name="email" id="email"
+                    <input type="email" class="form-control my-3 {{#if error.email}}is-invalid{{/if}}" name="email"
                         placeholder="Nuevo email" required>
                     <div class="invalid-feedback">
                         {{error.email}}
@@ -37,7 +37,7 @@
         </div>
         <hr>
 
-        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#password" aria-expanded="false" aria-controls="password">
+        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#passwordOrg" aria-expanded="false" aria-controls="passwordOrg">
             <div class="row my-2">
                 <div class="col-2 d-flex justify-content-start align-items-center">
                     <p><b>Contraseña</b></p>
@@ -52,7 +52,7 @@
         </button>
 
         {{!-- PASSWORD FORM --}}
-        <div class="collapse row my-3 background__light" id="password">
+        <div class="collapse row my-3 background__light" id="passwordOrg">
             <div class="col-2"></div>
             <div class="col">
                 <form action="/settings-p" method="POST">
@@ -193,3 +193,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    const deleteOrg = document.getElementById('deleteOrg')
+    deleteOrg.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const reason = document.getElementById('reason-delete-org').value
+        axios({
+            method: 'post',
+            url: '/settings-delete-request',
+            data: {
+                reason
+            }
+        })
+        .then((res) => {
+            deleteOrg.innerHTML = `<div class="alert alert-success my-3">${res.data.data}</div>`
+        })
+        .catch((e) => console.log(e))
+    }) 
+</script>

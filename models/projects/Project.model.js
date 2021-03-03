@@ -50,6 +50,9 @@ const projectSchema = new mongoose.Schema(
             required: true,
             enum: categs, // categs.configs.js
         },
+        adress: {
+            type: String
+        },
         msgThankyou: {
             type: String,
             maxlength: [

@@ -50,6 +50,14 @@ const projectSchema = new mongoose.Schema(
             required: true,
             enum: categs, // categs.configs.js
         },
+        coords: {
+            lng: {
+                type: Number,
+            },
+            lat: {
+                type: Number,
+            }
+        },
         msgThankyou: {
             type: String,
             maxlength: [

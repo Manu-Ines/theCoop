@@ -101,6 +101,10 @@
                     {{/each}}
                 </select>
             </div>
+            <div class="mb-3">
+                <div id='mapCreate' style='width: 400px; height: 300px;'></div>
+                <div id="geocoder" class="geocoder"></div>
+            </div>
             <button type="button" id="step-4-back-btn" class="button btn__light mt-3 btn-lg px-4 pull-right">
                 Volver
             </button>
@@ -115,14 +119,12 @@
     IMask(document.getElementById('title'), {
         mask: /^[0-9a-zñáéíóúü\s]+$/i
     });
-
     IMask(document.getElementById('sum'), {
         mask: Number,
         min: 1,
         max: 1000000,
         scale: 0,
     });
-
     flatpickr.l10ns.default.firstDayOfWeek = 1; // Monday 1st day
     flatpickr(document.getElementById('endDate'), {
         altInput: true,
@@ -131,7 +133,6 @@
         minDate: "today",
         "locale": "es",
     });
-
     window.addEventListener('load', () => {
         // step 1
         const step1div = document.getElementById('step-1')
@@ -148,7 +149,6 @@
         const step4div = document.getElementById('step-4')
         const step4btn = document.getElementById('step-4-btn')
         const stepBack4btn = document.getElementById('step-4-back-btn')
-
         step1btn.addEventListener('click', () => {
             const title = document.getElementById('title').value
             if (title.length >= 2) {
@@ -156,17 +156,14 @@
                 step2div.style.display = 'block'
             }
         })
-
         step2btn.addEventListener('click', () => {
             step2div.style.display = 'none'
             step3div.style.display = 'block'
         })
-
         stepBack2btn.addEventListener('click', () => {
             step1div.style.display = 'block'
             step2div.style.display = 'none'
         })
-
         step3btn.addEventListener('click', () => {
             const sum = document.getElementById('sum').value
             const endDate = document.getElementById('endDate').value
@@ -175,15 +172,36 @@
                 step4div.style.display = 'block'
             }
         })
-
         stepBack3btn.addEventListener('click', () => {
             step2div.style.display = 'block'
             step3div.style.display = 'none'
         })
-
         stepBack4btn.addEventListener('click', () => {
             step3div.style.display = 'block'
             step4div.style.display = 'none'
         })
     });
+
+    // Map
+    mapboxgl.accessToken = 'pk.eyJ1IjoicGFsbWFzYSIsImEiOiJja2x0OHpvdDYwNmJ5MndvM2NiNGF5NWtzIn0.aVa1uyTkA0cl1WuZezJQtw';
+    var mapCreate = new mapboxgl.Map({
+        container: 'mapCreate', // container ID
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-74.5, 40], // [lng, lat]
+        zoom: 13
+    });
+    // Geocoder
+    var geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl
+    });
+    document.getElementById('geocoder').appendChild(geocoder.onAdd(mapCreate));
+    
+    // Marker
+    var marker = new mapboxgl.Marker({
+    color: "#059669",
+    // draggable: true -> DEJAR MOVER EL MARKER
+    }).setLngLat([-74.5, 40])
+    .addTo(mapCreate);
+    
 </script>

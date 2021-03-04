@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 
 const User = require('../../models/User.model')
+const Donation = require('../../models/projects/Donation.model')
+const Assistance = require('../../models/volunts/Assistance.model')
 const mailer = require("../../configs/mailer.config")
 const helper = require('../../helpers/email.helper')
 
@@ -116,7 +118,18 @@ module.exports.doLoginFacebook = (req, res, next) => {
 }
 
 module.exports.profile = (req, res, next) => {
-    res.render('user/profile', { messages: req.flash('info') })
+    Promise.all([
+        Donation.find({ donator: req.currentUser.id }).populate('project'),
+        Assistance.find({ assistant: req.currentUser.id }).populate('volunt')
+    ])
+    .then((contributions) => {
+        res.render('user/profile', { 
+            messages: req.flash('info'), 
+            donations: contributions[0],
+            volunts: contributions[1]
+        })
+    })
+    .catch(next)
 }
 
 module.exports.doLogout = (req, res, next) => {

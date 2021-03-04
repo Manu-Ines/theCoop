@@ -31,12 +31,29 @@
                 </div>
             </div>
             <div class="card p-4">
+                <h4>Plazas</h4>
+                <p>{{volunt.assistants}}</p>
+                <h4>Reservadas</h4>
+                <p>{{reserved}}</p>
                 <h4>¿Quieres ser voluntario?</h4>
-                <p><b>58.892</b> personas han ayudado con 60.002€. ¡Ayuda a conseguir 75.000€!</p>
-                <a href="#" class="button btn__primary btn-lg my-2">Apuntarme al voluntariado</a>
+                {{#each volunt.date as |date|}}
+                <p><b>Día</b> {{date.day}}</p>
+                <p><b>Hora</b> {{date.time.start}} - {{date.time.end}}</p>
+                <hr>
+                {{/each}}
+                {{#isOrg currentUser.role}}
+                <a href="/logout" class="button btn__secondary btn-lg my-2">
+                    Para poder apuntarte a un voluntariado, cierra sesión y regístrese como usuario</a>
+                {{/isOrg}}
+                {{!-- {{else}}  --}}
+                <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
+                    data-bs-target="{{#if currentUser}}#assistPopup{{else}}#loginActionPopup{{/if}}">
+                    Apuntarme al voluntariado</a>
+                 {{!-- {{/isOrg}} --}}
                 <br>
-                <small>Puedes apoyar al proyecto desde 1€, de forma pública o totalmente privada.</small>
             </div>
+        <div id='mapShowV' class="border rounded__custom my-3" style='width: 400px; height: 300px;'></div>
+        <p id="queryV" data-adress="{{volunt.adress}}">{{volunt.adress}}</p>
         </div>
     </div>
     {{else}}
@@ -44,3 +61,47 @@
     <p>Parece que el proyecto que intentabas buscar ya no se encuentra disponible</p>
     {{/if}}
 </div>
+
+<div class="modal" id="assistPopup" tabindex="-1" aria-labelledby="assistPopup" aria-hidden="true">
+    <div class="modal-dialog">
+        <div style="max-width: 875px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
+            <h3><b>¡Yo voy!</b></h3>
+            {{volunt.adress}}
+            {{#each volunt.date as |date|}}
+                <p><b>Día</b> {{date.day}}</p>
+                <p><b>Hora</b> {{date.time.start}} - {{date.time.end}}</p>
+                <hr>
+            {{/each}}
+            <form action="/volunt/{{volunt.slug}}" method="POST">
+                <button type="submit" class="button btn__primary btn-lg">Reervar plaza</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script> 
+   let locat = document.getElementById('queryV').dataset.adress
+
+   mapboxgl.accessToken = 'pk.eyJ1IjoicGFsbWFzYSIsImEiOiJja2x0OHpvdDYwNmJ5MndvM2NiNGF5NWtzIn0.aVa1uyTkA0cl1WuZezJQtw'
+    var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+    mapboxClient.geocoding
+    .forwardGeocode({
+        query: `${locat}`,
+        autocomplete: false,
+        limit: 1
+    })
+    .send()
+    .then(function (response) {
+        if ( response.body.features.length ) {
+        var feature = response.body.features[0];
+        
+        var mapShowV = new mapboxgl.Map({
+            container: 'mapShowV',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: feature.center,
+            zoom: 15
+        })
+        new mapboxgl.Marker().setLngLat(feature.center).addTo(mapShowV);
+        }
+    });
+</script>

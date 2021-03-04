@@ -78,6 +78,14 @@
                 <input class="form-control form-control-lg" type="date" id="endDate" name="day"
                     placeholder="Fecha límite" required>
             </div>
+            <div class="mb-3">
+                <label for="endDate" class="form-label h6">Hora de inicio</label>
+                <input class="form-control form-control-lg" type="time" name="timeStart"
+                    placeholder="Fecha límite" required>
+                    <label for="endDate" class="form-label h6">Hora de fin</label>
+                <input class="form-control form-control-lg" type="time" name="timeEnd"
+                    placeholder="Fecha límite" required>
+            </div>
             <button type="button" id="step-3-back-btn" class="button btn__light mt-3 btn-lg px-4 pull-right">
                 Volver
             </button>
@@ -103,6 +111,11 @@
                     <option value="{{categ}}">{{categ}}</option>
                     {{/each}}
                 </select>
+            </div>
+            <div class="mb-3">
+                <input name="adress" type="hidden" id="adress" required/>
+                <div id="geocoderV" class="geocoder"></div>
+                <div id='mapCreateV' class="w-100" style='height: 300px;'></div> 
             </div>
             <button type="button" id="step-4-back-btn" class="button btn__light mt-3 btn-lg px-4 pull-right">
                 Volver
@@ -188,5 +201,33 @@
             step3div.style.display = 'block'
             step4div.style.display = 'none'
         })
+    });
+
+     // Map
+    mapboxgl.accessToken = 'pk.eyJ1IjoicGFsbWFzYSIsImEiOiJja2x0OHpvdDYwNmJ5MndvM2NiNGF5NWtzIn0.aVa1uyTkA0cl1WuZezJQtw';
+    var mapCreateV = new mapboxgl.Map({
+        container: 'mapCreateV', // container ID
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-74.5, 40], // [lng, lat]
+        zoom: 13
+    });
+    // Geocoder
+    var geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl
+    });
+    document.getElementById('geocoderV').appendChild(geocoder.onAdd(mapCreateV));
+
+    // Marker
+    var marker = new mapboxgl.Marker({
+    color: "#059669",
+    // draggable: true -> DEJAR MOVER EL MARKER
+    }).setLngLat([-74.5, 40])
+    .addTo(mapCreateV)
+
+    let mapInput = document.querySelector('#geocoderV input')
+    let adressInput = document.querySelector('#adress')
+    mapInput.addEventListener('change', () => {
+        adressInput.value = mapInput.value
     });
 </script>

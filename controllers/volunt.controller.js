@@ -1,7 +1,8 @@
 require('dotenv').config()
-const Volunt = require('../models/volunts/Volunt.model')
-const categs = require('../configs/categs.config')
 const mongoose = require('mongoose')
+const Volunt = require('../models/volunts/Volunt.model')
+const Assistance = require('../models/volunts/Assistance.model')
+const categs = require('../configs/categs.config')
 
 // Create Volunt
 module.exports.create = (req, res, next) => {
@@ -11,10 +12,18 @@ module.exports.create = (req, res, next) => {
 module.exports.doCreate = (req, res, next) => {
     req.body.owner = req.currentUser.id
     req.body.image = req.file ? req.file.path : 'no-photo.jpg'
+    req.body.date = [
+        {
+            day: req.body.day,
+            time: {
+                start: req.body.timeStart,
+                end: req.body.timeEnd
+            }
+        }
+    ]
     console.log(req.body)
     Volunt.create(req.body) 
         .then((volunt) => {
-            console.log(volunt)
             res.redirect(`/volunt/${volunt.slug}`)
         })
         .catch(next)
@@ -25,8 +34,17 @@ module.exports.detail = (req, res, next) => {
     Volunt.findOne({ slug: req.params.slug })
         .populate('owner')
         .then((volunt) => {
-            res.render('volunt/detail', { volunt })
+            Assistance.find({ volunt: volunt._id })
+            .then((assists) => {
+                let reserved = assists.length
+                
+                res.render('volunt/detail', { volunt, reserved })
+
+                // TODO: block assistances if full
+            })
+            .catch(() => next)
         })
+        .catch(() => next)
 }
 
 // Edit Volunt

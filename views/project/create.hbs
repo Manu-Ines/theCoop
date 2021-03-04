@@ -202,16 +202,12 @@
     color: "#059669",
     // draggable: true -> DEJAR MOVER EL MARKER
     }).setLngLat([-74.5, 40])
-    .addTo(mapCreate);
-
-    /* geocoder.on('results', function(results) {
-        console.log(results)
-    }) */
+    .addTo(mapCreate)
 
     let mapInput = document.querySelector('#geocoder input')
     let adressInput = document.querySelector('#adress')
     mapInput.addEventListener('change', () => {
         adressInput.value = mapInput.value
-    })
+    });
     
 </script>

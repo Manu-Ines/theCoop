@@ -39,13 +39,12 @@ const voluntSchema = new mongoose.Schema(
         },
         date: [
             {
-                day: { type: Date },
-                periods: //[
+                day: { type: String },
+                time:
                     {
-                        start: { type: Date },
-                        end: { type: Date },
+                        start: { type: String },
+                        end: { type: String },
                     },
-                //],
             },
         ],
         categs: {
@@ -55,6 +54,10 @@ const voluntSchema = new mongoose.Schema(
         },
         assistants: {
             type: Number,
+        },
+        adress: {
+            type: String,
+            required: true
         },
         msgThankyou: {
             type: String,

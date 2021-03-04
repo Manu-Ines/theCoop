@@ -20,7 +20,7 @@ module.exports.doDonation = (req, res, next) => {
         req.body.project = p[0]._id
         Donation.create(req.body)
         .then((d) => {
-            console.log(d)
+            
         })
         .catch(e => console.log(e))
         res.redirect(`/project/${req.params.slug}`)

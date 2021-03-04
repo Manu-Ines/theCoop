@@ -1,27 +1,3 @@
-<script src="https://cdn.tiny.cloud/1/bxbm94pkk0onbqvbkrwp8xh9ly9aj2g61n7lsz2i4sv9gvvt/tinymce/5/tinymce.min.js"
-    referrerpolicy="origin"></script>
-<script>
-    tinymce.init({
-        selector: '#description',
-        plugins: [
-            'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
-            'insertdatetime media table paste code help wordcount'
-        ],
-        menubar: false,
-        min_height: 300,
-        toolbar_mode: 'floating',
-        toolbar: 'undo | formatselect | ' + 'bold italic' + '| bullist numlist |' + 'fullscreen',
-        image_title: true,
-        automatic_uploads: true,
-        file_picker_types: 'image',
-    });
-</script>
-<script src="https://unpkg.com/imask"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
-
 <div class="container my-6 p-5 rounded__custom border" style="max-width: 600px;" class="mx-auto">
     <form action="/project/create" method="POST" enctype="multipart/form-data">
         <div id="step-1">
@@ -100,11 +76,16 @@
                     {{/each}}
                 </select>
             </div>
+
             <div class="mb-3">
-                <input name="adress" type="hidden" id="adress"/>
+                <label for="geocoder" class="form-label h6">Ubicación</label>
+                <input name="adress" type="hidden" id="adress" required />
                 <div id="geocoder" class="geocoder"></div>
-                <div id='mapCreate' class="w-100" style='height: 300px;'></div> 
             </div>
+            <div class="mb-3 card" style="position: relative; min-height: 20rem;">
+                <div id='mapCreate' style='width: 100%;min-height: 20rem;'></div>
+            </div>
+
             <button type="button" id="step-4-back-btn" class="button btn__light mt-3 btn-lg px-4 pull-right">
                 Volver
             </button>
@@ -115,7 +96,29 @@
     </form>
 </div>
 
+<script src="https://cdn.tiny.cloud/1/bxbm94pkk0onbqvbkrwp8xh9ly9aj2g61n7lsz2i4sv9gvvt/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
+<script src="https://unpkg.com/imask"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
 <script>
+    tinymce.init({
+        selector: '#description',
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        menubar: false,
+        min_height: 300,
+        toolbar_mode: 'floating',
+        toolbar: 'undo | formatselect | ' + 'bold italic' + '| bullist numlist |' + 'fullscreen',
+        image_title: true,
+        automatic_uploads: true,
+        file_picker_types: 'image',
+    });
+
     IMask(document.getElementById('title'), {
         mask: /^[0-9a-zñáéíóúü\s]+$/i
     });
@@ -133,6 +136,7 @@
         minDate: "today",
         "locale": "es",
     });
+
     window.addEventListener('load', () => {
         // step 1
         const step1div = document.getElementById('step-1')
@@ -182,32 +186,37 @@
         })
     });
 
-   // Map
-    mapboxgl.accessToken = 'pk.eyJ1IjoicGFsbWFzYSIsImEiOiJja2x0OHpvdDYwNmJ5MndvM2NiNGF5NWtzIn0.aVa1uyTkA0cl1WuZezJQtw';
+    // Map
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFudWNhcmFsbW8iLCJhIjoiY2tsdXgxazNzMDhtdzJ3cWx6cHRyb2U5NCJ9.lLgjepzuFFwLFmmDCrZ73A';
     var mapCreate = new mapboxgl.Map({
         container: 'mapCreate', // container ID
-        style: 'mapbox://styles/mapbox/streets-v11',
+        style: 'mapbox://styles/manucaralmo/ckluy87tb3vjd17qnb86rc62w',
         center: [-74.5, 40], // [lng, lat]
         zoom: 13
     });
     // Geocoder
     var geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl
+        mapboxgl: mapboxgl,
+        placeholder: 'Buscar',
+        marker: {
+            color: "#059669"
+        }
     });
     document.getElementById('geocoder').appendChild(geocoder.onAdd(mapCreate));
 
+    geocoder.on('result', () => {
+        document.querySelector('#adress').value = JSON.parse(geocoder.lastSelected).place_name
+    })
+
     // Marker
     var marker = new mapboxgl.Marker({
-    color: "#059669",
-    // draggable: true -> DEJAR MOVER EL MARKER
+        color: "#059669",
+        // draggable: true -> DEJAR MOVER EL MARKER
     }).setLngLat([-74.5, 40])
-    .addTo(mapCreate)
+        .addTo(mapCreate)
 
-    let mapInput = document.querySelector('#geocoder input')
-    let adressInput = document.querySelector('#adress')
-    mapInput.addEventListener('change', () => {
-        adressInput.value = mapInput.value
-    });
-    
+    // Set custom style to input
+    document.querySelector('#geocoder input').className = "form-control form-control-lg";
+
 </script>

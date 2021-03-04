@@ -1,18 +1,25 @@
-<div class="container my-5">
+<div class="container my-4">
     {{#if volunt}}
     <div class="row">
         <div class="col-sm-8">
-            <div class="card p-5">
-                <div class="mb-4">
-                    <h1>{{volunt.title}}</h1>
-                    <p>
-                        Creado por: <a href="/org/{{volunt.owner.name}}">{{volunt.owner.name}}</a>
-                    </p>
-                </div>
+            <div class="card">
                 {{#if volunt.image}}
-                <img src="{{volunt.image}}" class="w-100 rounded" alt="">
+                <div class="project__header"
+                    style="background-image: linear-gradient(180deg, rgba(0,0,0,0.00) 35%, rgba(0,0,0,0.8) 100%), url({{volunt.image}});">
+                    <div class="px-5 pb-4" style="max-width: 750px;">
+                        <h1>{{volunt.title}}</h1>
+                        <span>
+                            <img src="{{volunt.owner.profilePicture}}" style="vertical-align:middle; margin-right: 8px;"
+                                height="30px">
+                            <a href="/org/{{volunt.owner.name}}" class="text-white ml-2">{{volunt.owner.name}}</a>
+                        </span>
+                    </div>
+                </div>
                 {{/if}}
-                <p class="my-4">{{{volunt.description}}}</p>
+
+                <div class="p-5">
+                    <p>{{{volunt.description}}}</p>
+                </div>
             </div>
         </div>
         <div class="col-sm-4">
@@ -22,10 +29,9 @@
                         <img src="{{volunt.owner.profilePicture}}" class="img-fluid rounded" alt="">
                     </div>
                     <div class="col-sm-10">
-                        <h5>{{volunt.owner.name}}</h5>
-                        <small class="my-2">
-                            {{volunt.owner.bio}}
-                            Quienes vamos a dar a luz estos días en Segovia nos estamos encontrando con una situación.
+                        <h5 class="mb-0">{{volunt.owner.name}}</h5>
+                        <small>
+                            {{volunt.owner.email}}
                         </small>
                     </div>
                 </div>
@@ -45,15 +51,25 @@
                 <a href="/logout" class="button btn__secondary btn-lg my-2">
                     Para poder apuntarte a un voluntariado, cierra sesión y regístrese como usuario</a>
                 {{/isOrg}}
-                {{!-- {{else}}  --}}
+                {{!-- {{else}} --}}
                 <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
                     data-bs-target="{{#if currentUser}}#assistPopup{{else}}#loginActionPopup{{/if}}">
                     Apuntarme al voluntariado</a>
-                 {{!-- {{/isOrg}} --}}
+                {{!-- {{/isOrg}} --}}
                 <br>
             </div>
-        <div id='mapShowV' class="border rounded__custom my-3" style='width: 400px; height: 300px;'></div>
-        <p id="queryV" data-adress="{{volunt.adress}}">{{volunt.adress}}</p>
+            <div class="card my-3">
+                <div style="position: relative; min-height: 20rem;">
+                    <div id='mapShowV' class="rounded__custom"
+                        style='position: absolute; top: 0; bottom: 0; width: 100%;'></div>
+                </div>
+                <div id="queryV" class="p-4" data-adress="{{volunt.adress}}">
+                    <h4>Dirección:</h4>
+                    {{volunt.adress}}
+                    <br><a href="#" class="button btn__light mt-3"><i class="fas fa-map-marker-alt mr-2"></i> Obtener
+                        ruta</a>
+                </div>
+            </div>
         </div>
     </div>
     {{else}}
@@ -68,9 +84,9 @@
             <h3><b>¡Yo voy!</b></h3>
             {{volunt.adress}}
             {{#each volunt.date as |date|}}
-                <p><b>Día</b> {{date.day}}</p>
-                <p><b>Hora</b> {{date.time.start}} - {{date.time.end}}</p>
-                <hr>
+            <p><b>Día</b> {{date.day}}</p>
+            <p><b>Hora</b> {{date.time.start}} - {{date.time.end}}</p>
+            <hr>
             {{/each}}
             <form action="/volunt/{{volunt.slug}}" method="POST">
                 <button type="submit" class="button btn__primary btn-lg">Reervar plaza</button>
@@ -79,29 +95,34 @@
     </div>
 </div>
 
-<script> 
-   let locat = document.getElementById('queryV').dataset.adress
-
-   mapboxgl.accessToken = 'pk.eyJ1IjoicGFsbWFzYSIsImEiOiJja2x0OHpvdDYwNmJ5MndvM2NiNGF5NWtzIn0.aVa1uyTkA0cl1WuZezJQtw'
+<script>
+    let locat = document.getElementById('queryV').dataset.adress
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFudWNhcmFsbW8iLCJhIjoiY2tsdXgxazNzMDhtdzJ3cWx6cHRyb2U5NCJ9.lLgjepzuFFwLFmmDCrZ73A'
     var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
     mapboxClient.geocoding
-    .forwardGeocode({
-        query: `${locat}`,
-        autocomplete: false,
-        limit: 1
-    })
-    .send()
-    .then(function (response) {
-        if ( response.body.features.length ) {
-        var feature = response.body.features[0];
-        
-        var mapShowV = new mapboxgl.Map({
-            container: 'mapShowV',
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: feature.center,
-            zoom: 15
+        .forwardGeocode({
+            query: `${locat}`,
+            autocomplete: false,
+            limit: 1
         })
-        new mapboxgl.Marker().setLngLat(feature.center).addTo(mapShowV);
-        }
-    });
+        .send()
+        .then(function (response) {
+            if (response.body.features.length) {
+                var feature = response.body.features[0];
+
+                var mapShowV = new mapboxgl.Map({
+                    container: 'mapShowV',
+                    style: 'mapbox://styles/manucaralmo/ckluy87tb3vjd17qnb86rc62w',
+                    center: feature.center, // Lat, lang
+                    zoom: 15,
+                })
+                new mapboxgl.Marker({
+                    color: "#059669",
+                })
+                    .setLngLat(feature.center)
+                    .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                        .setHTML('<h6>{{volunt.title}}</h3><p class="mb-0" style="font-size: 0.8rem;">{{volunt.adress}}</p><small class="text-main">{{volunt.owner.name}}</small>'))
+                    .addTo(mapShowV);
+            }
+        });
 </script>

@@ -32,6 +32,10 @@ p {
     font-size: 1.1rem;
 }
 
+.text-main {
+    color: var(--main-color) !important;
+}
+
 .my-6 {
     margin-top: 4rem !important;
     margin-bottom: 4rem !important;
@@ -53,6 +57,7 @@ p {
 }
 
 .card {
+    border-width: 1.55px !important;
     border-radius: 0.6rem !important;
 }
 
@@ -64,6 +69,10 @@ p {
     background-color: #fef2f2 !important;
     border-color: #fecaca !important;
     color: #b91c1c !important;
+}
+
+.border {
+    border: 1.55px solid rgb(197, 197, 197) !important;
 }
 
 footer {
@@ -274,34 +283,49 @@ canvas {
 /* IMAGES PROJECT & VOLUNTS
 ===============================*/
 .objetfit > img {
-	width: 100%;
-	height: 400px;
-	object-fit: cover;
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.project__header {
+    min-height: 375px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-radius: 0.5rem 0.5rem 0 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 /* MAPBOX
 ===============================*/
-#map { 
-    margin-top: 20px;
-    width: 100%;
-    margin-top: 75px;
+canvas {
+    width: 100% !important;
+    height: 100% !important;
 }
 
-#map:focus {
-    border: none !important;
-    outline: none !important;
-    outline-width: 0 !important;
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-}
-
-.geocoder {
-    z-index: 1;
-    width: 100%;
-    margin-bottom: 10px;
+.mapboxgl-ctrl-geocoder,
+.mapboxgl-ctrl-geocoder .suggestions {
+    box-shadow: none !important;
 }
 
 .mapboxgl-ctrl-geocoder {
-    min-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.mapboxgl-ctrl-geocoder--icon-search {
+    display: none !important;
+}
+
+.mapboxgl-ctrl-geocoder .suggestions {
+    border: 1.55px solid rgb(197, 197, 197) !important;
+}
+
+.tox-tinymce {
+    border: 1px solid rgb(197, 197, 197) !important;
+    border-radius: 0.4rem !important;
 }

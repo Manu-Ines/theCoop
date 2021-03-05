@@ -2,7 +2,9 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const Volunt = require('../models/volunts/Volunt.model')
 const Assistance = require('../models/volunts/Assistance.model')
+
 const categs = require('../configs/categs.config')
+const mailer = require('../configs/mailer.config')
 
 // Create Volunt
 module.exports.create = (req, res, next) => {
@@ -49,18 +51,29 @@ module.exports.detail = (req, res, next) => {
 
 // Edit Volunt
 module.exports.edit = (req, res, next) => {
-    Volunt.findOne({ slug: req.params.slug }).then((volunt) => {
+    Volunt.findOne({ slug: req.params.slug })
+    .then((volunt) => {
         if (volunt.owner.equals(req.currentUser._id)) {
-            /* let createDate = new Date(volunt.endDate)
+            let createDate = new Date(volunt.endDate)
             let date = `${createDate.getFullYear()}-${(
                 '0' + createDate.getMonth()
-            ).slice(-2)}-${createDate.getDate()}` */
-
-            res.render('volunt/edit', {
-                volunt,
-                //date,
-                categs: categs,
+            ).slice(-2)}-${createDate.getDate()}`
+            
+            Assistance.find({ volunt: volunt._id })
+            .then((assists) => {
+                if (assists.length == 0) {
+                    let noVolunts = true
+                    res.render('volunt/edit', {
+                        volunt,
+                        date,
+                        categs: categs,
+                        noVolunts
+                    })
+                } else {
+                    res.render('volunt/edit', { volunt, date, categs: categs })
+                }
             })
+
         } else {
             req.flash('flashMessage', 'No puedes editar este proyecto')
             res.redirect('/')
@@ -83,4 +96,41 @@ module.exports.doEdit = (req, res, next) => {
 }
 
 // Delete Volunt
-module.exports.delete = (req, res, next) => {}
+module.exports.doDelete = (req, res, next) => {
+
+    Volunt.findOne({ _id: req.params.id })
+    .populate('owner')
+    .then((volunt) => {
+        if (req.currentUser) {
+            if (volunt.owner.equals(req.currentUser._id)) {
+                
+                Assistance.find({ volunt: volunt._id })
+                .then((assists) => {
+                    if (assists.length === 0) {
+                        Volunt.deleteOne({ _id: volunt.id })
+                        .then(() => {
+                            res.redirect('/org/profile')
+                        })
+                    } else {
+                        mailer.deleteProyectRequest(
+                            'ipalmamasaveu@gmail.com',
+                            volunt.owner.name,
+                            volunt._id,
+                            req.body.reason
+                        )
+                        req.flash('flashMessage', 'Solicitud para eliminar el voluntariado enviada')
+                        res.redirect(`/volunt/${volunt.slug}`)
+                    }
+                })
+    
+            } else {
+                req.flash('flashMessage', 'No puedes eliminar este voluntariado')
+                res.redirect('/')
+            }
+        } else {
+            req.flash('flashMessage', 'No puedes eliminar este voluntariado')
+            res.redirect('/')
+        }
+    })
+    .catch(next)
+}

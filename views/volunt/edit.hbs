@@ -72,6 +72,51 @@
         </button>
 
     </form>
+    {{#if noVolunts}}
+    <a href="#" class="btn btn-danger mt-3 px-4" data-bs-toggle="modal" data-bs-target="#deleteVoluntPopUp">
+            Eliminar voluntariado
+    </a>
+    {{else}}
+    <a href="#" class="btn btn-danger mt-3 px-4" data-bs-toggle="modal" data-bs-target="#deleteRequestVoluntPopUp">
+            Eliminar voluntariado Req
+    </a>
+    {{/if}}
+</div>
+</div>
+
+{{!-- DELETE PROYECT FORM POPUP --}}
+<div class="modal" id="deleteVoluntPopUp" tabindex="-1" aria-labelledby="deleteVoluntPopUp" aria-hidden="true">
+    <div class="modal-dialog">
+        <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
+        <form action="/delete-volunt/{{volunt._id}}" method="POST">
+            <label for="email" class="form-label"><h4>El voluntariado se eliminará permanentemente</h4></label>
+            <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> 
+            La eliminación de voluntariados solo será posible mientras no haya ninguna plaza reservada </div>
+            <button type="submit" class="btn btn-danger mt-2">Eliminar voluntariado</button>
+        </form>
+        </div>
+    </div>
+</div>
+
+{{!-- REQUEST DELETE PROYECT FORM POPUP --}}
+<div class="modal" id="deleteRequestVoluntPopUp" tabindex="-1" aria-labelledby="deleteRequestVoluntPopUp" aria-hidden="true">
+    <div class="modal-dialog">
+        <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
+        <form action="/delete-volunt/{{volunt._id}}" method="POST">
+            <label class="form-label"><h4> Solicitud de eliminación</h4></label>
+            <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> 
+            El voluntariado consta de voluntarios apuntados y necesita autorización para eliminarlo</div>
+            <select id="reason-delete-proj" name="reason" class="form-select" aria-label="Default select example">
+                <option selected>¿Por qué desea eliminar el voluntariado?</option>
+                <option value="1">Ya hemos conseguido voluntarios por otras vías</option>
+                <option value="2">No conseguimos suficientes voluntarios</option>
+                <option value="3">Finalmente el voluntariado no tendrá lugar</option>
+                <option value="4">Otros</option>
+            </select>
+            <button type="submit" class="btn btn-danger mt-2">Enviar solicitud de eliminación</button>
+        </form>
+        </div>
+    </div>
 </div>
 
 <script>

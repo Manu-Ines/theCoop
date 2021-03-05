@@ -64,14 +64,10 @@ module.exports.edit = (req, res, next) => {
                         noProjects
                     })
                 } else {
-                    res.render('project/edit', {
-                        project,
-                        date,
-                        categs: categs
-                    })
+                    res.render('project/edit', { project, date, categs: categs })
                 }
             })
-            
+
         } else {
             req.flash('flashMessage', 'No puedes editar este proyecto')
             res.redirect('/')
@@ -108,7 +104,7 @@ module.exports.doDelete = (req, res, next) => {
                     if (donations.length === 0) {
                         Project.deleteOne({ _id: project.id })
                         .then(() => {
-                            res.redirect('/')
+                            res.redirect('/org/profile')
                         })
                     } else {
                         mailer.deleteProyectRequest(

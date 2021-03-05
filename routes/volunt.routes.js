@@ -36,6 +36,15 @@ router.post(
     voluntController.doEdit
 )
 
+//Delete
+router.post(
+    '/delete-volunt/:id',
+    secure.checkRoles('ORG'),
+    secure.isAuthenticated,
+    upload.single('image'),
+    voluntController.doDelete
+)
+
 // View Project
 router.get('/volunt/:slug', voluntController.detail)
 

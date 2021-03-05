@@ -57,7 +57,8 @@ module.exports.sendForgotPasswordEmail = (req, res, next) => {
 module.exports.activationForgotPassword = (req, res, next) => {
     const { token } = req.params
 
-    Promise.all([User.findOne({ token }), Org.findOne({ token })]).then(
+    Promise.all([User.findOne({ token }), Org.findOne({ token })])
+    .then(
         (user) => {
             if (user[0] || user[1]) {
                 res.render('user/reset-password', { token })

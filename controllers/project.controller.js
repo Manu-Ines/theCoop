@@ -44,18 +44,34 @@ module.exports.detail = (req, res, next) => {
 
 // Edit project
 module.exports.edit = (req, res, next) => {
-    Project.findOne({ slug: req.params.slug }).then((project) => {
+    Project.findOne({ slug: req.params.slug })
+    .populate('owner')
+    .then((project) => {
         if (project.owner.equals(req.currentUser._id)) {
             let createDate = new Date(project.endDate)
             let date = `${createDate.getFullYear()}-${(
                 '0' + createDate.getMonth()
             ).slice(-2)}-${createDate.getDate()}`
-
-            res.render('project/edit', {
-                project,
-                date,
-                categs: categs,
+            
+            Donation.find({ project: project._id })
+            .then((donations) => {
+                if (donations.length == 0) {
+                    let noProjects = true
+                    res.render('project/edit', {
+                        project,
+                        date,
+                        categs: categs,
+                        noProjects
+                    })
+                } else {
+                    res.render('project/edit', {
+                        project,
+                        date,
+                        categs: categs
+                    })
+                }
             })
+            
         } else {
             req.flash('flashMessage', 'No puedes editar este proyecto')
             res.redirect('/')
@@ -68,7 +84,9 @@ module.exports.doEdit = (req, res, next) => {
         req.body.image = req.file.path
     }
 
-    Project.findByIdAndUpdate({ _id: req.params.id }, req.body, {
+    Project.findByIdAndUpdate(
+        { _id: req.params.id }, 
+        req.body, {
         useFindAndModify: false,
     })
         .then((project) => {
@@ -77,13 +95,41 @@ module.exports.doEdit = (req, res, next) => {
         .catch(next)
 }
 
-module.exports.delete = (req, res, next) => {
-    Project.findOne({ slug: req.params.slug }).then((project) => {
-        if (project.owner.equals(req.currentUser._id)) {
-            // TODO: Si tiene 0 donaciones, puedes eliminar, sino solo puedes editar o solicitar eliminacion
+module.exports.doDelete = (req, res, next) => {
+
+    Project.findOne({ _id: req.params.id })
+    .populate('owner')
+    .then((project) => {
+        if (req.currentUser) {
+            if (project.owner.equals(req.currentUser._id)) {
+                
+                Donation.find({ project: project._id })
+                .then((donations) => {
+                    if (donations.length === 0) {
+                        Project.deleteOne({ _id: project.id })
+                        .then(() => {
+                            res.redirect('/')
+                        })
+                    } else {
+                        mailer.deleteProyectRequest(
+                            'ipalmamasaveu@gmail.com',
+                            project.owner.name,
+                            project._id,
+                            req.body.reason
+                        )
+                        req.flash('flashMessage', 'Solicitud para eliminar el proyecto enviada')
+                        res.redirect(`/project/${project.slug}`)
+                    }
+                })
+    
+            } else {
+                req.flash('flashMessage', 'No puedes eliminar este proyecto')
+                res.redirect('/')
+            }
         } else {
             req.flash('flashMessage', 'No puedes eliminar este proyecto')
             res.redirect('/')
         }
     })
+    .catch(next)
 }

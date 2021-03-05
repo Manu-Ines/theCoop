@@ -72,6 +72,50 @@
         </button>
 
     </form>
+    {{#if noProjects}}
+    <a href="#" class="btn btn-danger mt-3 px-4" data-bs-toggle="modal" data-bs-target="#deleteProjectPopUp">
+            Eliminar proyecto
+    </a>
+    {{else}}
+    
+    <a href="#" class="btn btn-danger mt-3 px-4" data-bs-toggle="modal" data-bs-target="#deleteRequestProjectPopUp">
+            Eliminar proyecto
+    </a>
+    {{/if}}
+   
+</div>
+
+{{!-- DELETE PROYECT FORM POPUP --}}
+<div class="modal" id="deleteProjectPopUp" tabindex="-1" aria-labelledby="deleteProjectPopUp" aria-hidden="true">
+    <div class="modal-dialog">
+        <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
+        <form action="/delete-project/{{project._id}}" method="POST">
+            <label for="email" class="form-label"><h4>El proyecto se eliminará permanentemente</h4></label>
+            <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> La eliminación de proyectos solo será posible mientras no haya recibido ninguna contribución</div>
+            <button type="submit" class="btn btn-danger mt-2">Eliminar proyecto</button>
+        </form>
+        </div>
+    </div>
+</div>
+
+{{!-- REQUEST DELETE PROYECT FORM POPUP --}}
+<div class="modal" id="deleteRequestProjectPopUp" tabindex="-1" aria-labelledby="deleteRequestProjectPopUp" aria-hidden="true">
+    <div class="modal-dialog">
+        <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
+        <form action="/delete-project/{{project._id}}" method="POST">
+            <label class="form-label"><h4> Solicitud de eliminación</h4></label>
+            <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> El proyecto consta de donaciones vigentes y necesita autorización para eliminar el proyecto </div>
+            <select id="reason-delete-proj" name="reason" class="form-select" aria-label="Default select example">
+                <option selected>¿Por qué desea eliminar el projecto?</option>
+                <option value="1">Ya he conseguido recaudar los fondos por otras vías</option>
+                <option value="2">Las donacions están tardando demasiado</option>
+                <option value="3">Finalmente no necesitamos los fondos</option>
+                <option value="4">Otros</option>
+            </select>
+            <button type="submit" class="btn btn-danger mt-2">Enviar solicitud de eliminación</button>
+        </form>
+        </div>
+    </div>
 </div>
 
 <script>

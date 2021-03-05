@@ -36,6 +36,15 @@ router.post(
     projectController.doEdit
 )
 
+//Delete
+router.post(
+    '/delete-project/:id',
+    secure.checkRoles('ORG'),
+    secure.isAuthenticated,
+    upload.single('image'),
+    projectController.doDelete
+)
+
 // View Project
 router.get('/project/:slug', projectController.detail)
 

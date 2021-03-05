@@ -65,3 +65,17 @@
     </div>
 </div>
 {{/if}}
+
+<div class="container my-5">
+    <div class="my-5">
+        <h2>Categorías</h2>
+        <div class="row mb-3">
+        {{#each categs as |categ|}}
+        <div class="col-6">
+            <a href="/c/{{categ}}" class="button btn__secondary mb-2">{{categ}}</a>
+        </div>
+        {{/each}}
+        </div>
+    </div>
+</div>
+

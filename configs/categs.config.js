@@ -1,10 +1,15 @@
 const categs = [
-    'salud',
-    'educación',
-    'reforma',
-    'investigación',
-    'desastre natural',
-    'Sin categorizar',
+    'Salud',
+    'Educación',
+    'Reforma y construcción',
+    'Investigación',
+    'Desastre natural',
+    'Mayores',
+    'Infancia',
+    'Comida',
+    'Sin techo',
+    'Eco',
+    'Otros',
 ]
 
 module.exports = categs

@@ -1548,3 +1548,16 @@ module.exports.sendRequestDelete = (reciever, sender, reason) => {
 		.then((mail) => console.log('Email de solicitud de eliminar cuenta enviado!'))
 		.catch((e) => console.log(e))
 }
+
+module.exports.deleteProyectRequest = (reciever, sender, project, reason) => {
+	transporter
+	.sendMail({
+		from: `"Rodiles" <manu@glow-media.com>`,
+		to: reciever,
+		subject: 'Request to delete project',
+		text: 'Quieren borrar un proyecto',
+		html: `La organización ${sender} require borrar el pryecto ${project} por ${reason}`
+		})
+		.then((mail) => console.log('Email de solicitud de eliminar cuenta enviado!'))
+		.catch((e) => console.log(e))
+}

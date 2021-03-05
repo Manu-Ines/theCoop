@@ -5,6 +5,7 @@ const projects = require('../routes/project.routes')
 const donations = require('../routes/donation.routes')
 const volunts = require('../routes/volunt.routes')
 const assists = require('../routes/assistance.routes')
+const categs = require('../routes/categ.routes')
 
 module.exports = (app) => {
     app.use('/', index)
@@ -14,4 +15,5 @@ module.exports = (app) => {
     app.use('/', donations)
     app.use('/', volunts)
     app.use('/', assists)
+    app.use('/', categs)
 }

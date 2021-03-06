@@ -49,3 +49,11 @@ module.exports.doRegister = (req, res, next) => {
 module.exports.profile = (req, res, next) => {
     res.render('org/profile', { messages: req.flash('info') })
 }
+
+module.exports.publicProfile = (req, res, next) => {
+    Org.findOne({ _id: req.params.id })
+        .then((org) => {
+            res.render('org/public-profile', org)
+        })
+        .catch(next)
+}

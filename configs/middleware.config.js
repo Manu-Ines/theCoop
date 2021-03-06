@@ -1,4 +1,3 @@
-const bodyParser = require('body-parser')
 const logger = require('morgan')
 const express = require('express')
 const { join } = require('path')
@@ -12,8 +11,13 @@ const helmet = require('helmet')
 module.exports = (app) => {
     app.use(express.static(join(__dirname, '..', 'public')))
     app.use(logger('dev'))
-    app.use(bodyParser.json())
-    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use((req, res, next) => {
+        if (req.originalUrl === '/stripeHook') {
+            next()
+        } else {
+            express.json()(req, res, next)
+        }
+    })
     app.use(session)
     app.use(passport.initialize())
     app.use(passport.session())

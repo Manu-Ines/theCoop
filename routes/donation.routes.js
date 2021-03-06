@@ -3,12 +3,20 @@ const router = express.Router()
 const donationController = require('../controllers/donation.controller')
 const secure = require('../middlewares/secure.middleware')
 const upload = require('../configs/storage.config')
+const bodyParser = require('body-parser')
 
-router.post ('/donation/:slug',
+// Stripe Payments
+router.post(
+    '/create-checkout-session',
     secure.checkRoles('USER'),
-    upload.single('profilePicture'),
     secure.isAuthenticated,
-    donationController.doDonation
+    donationController.createStripeCheckOut
+)
+
+router.post(
+    '/stripeHook',
+    express.raw({ type: 'application/json' }),
+    donationController.stripeHook
 )
 
 module.exports = router

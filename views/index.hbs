@@ -70,12 +70,58 @@
     <div class="my-5">
         <h2>Categorías</h2>
         <div class="row mb-3">
-        {{#each categs as |categ|}}
-        <div class="col-6">
-            <a href="/c/{{categ}}" class="button btn__secondary mb-2">{{categ}}</a>
-        </div>
-        {{/each}}
+            {{#each categs as |categ|}}
+            <div class="col-6">
+                <a href="/c/{{categ}}" class="button btn__secondary mb-2">{{categ}}</a>
+            </div>
+            {{/each}}
         </div>
     </div>
 </div>
 
+
+<!-- ============= ALGOLIA ============= -->
+<div id="hits"></div>
+<div id="resultados"></div>
+<div id="searchbox"></div>
+
+<link rel="stylesheet" type="text/css"
+    href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.7.1/dist/instantsearch.min.css">
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js"></script>
+<script>
+    const search = instantsearch({
+        appId: "U28QP2NJ27",
+        apiKey: "3f332b092a5a0db62961058d849f28f6",
+        indexName: "projects",
+        searchParameters: {
+            hitsPerPage: 5,
+        }
+    });
+
+    search.addWidget(
+        instantsearch.widgets.hits({
+            container: "#hits",
+            templates: {
+                empty: "No results.",
+                item: function (hit) {
+                    let newDuv = document.createElement('div')
+                    newDuv.innerHTML = `<h3>${hit.title}</h3>`
+                    document.getElementById('resultados').appendChild(newDuv)
+                    console.log(hit)
+                }
+            }
+        })
+    );
+
+    search.addWidget(
+        instantsearch.widgets.searchBox({
+            container: "#searchbox",
+            placeholder: "Search for products",
+            autofocus: false
+        })
+    );
+
+
+    search.start();
+
+</script>

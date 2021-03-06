@@ -18,6 +18,7 @@ module.exports = (app) => {
             express.json()(req, res, next)
         }
     })
+    app.use(express.urlencoded({ extended: false }))
     app.use(session)
     app.use(passport.initialize())
     app.use(passport.session())

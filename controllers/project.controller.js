@@ -1,7 +1,6 @@
 require('dotenv').config()
 const Project = require('../models/projects/Project.model')
 const Donation = require('../models/projects/Donation.model')
-
 const categs = require('../configs/categs.config')
 const mailer = require('../configs/mailer.config')
 

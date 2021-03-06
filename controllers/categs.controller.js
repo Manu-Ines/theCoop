@@ -11,5 +11,5 @@ module.exports.searchCateg = (req, res, next) => {
     .then((segments) => {
         res.render('byCateg', { projects: segments[0], volunts: segments[1], categ: req.params.categ})
     })
-    .catch(next) 
+    .catch(next)
 }

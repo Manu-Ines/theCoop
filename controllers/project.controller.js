@@ -50,7 +50,7 @@ module.exports.edit = (req, res, next) => {
         if (project.owner.equals(req.currentUser._id)) {
             let createDate = new Date(project.endDate)
             let date = `${createDate.getFullYear()}-${(
-                '0' + createDate.getMonth()
+                '0' + createDate.getMonth() + 1
             ).slice(-2)}-${createDate.getDate()}`
             
             Donation.find({ project: project._id })
@@ -79,7 +79,7 @@ module.exports.doEdit = (req, res, next) => {
     if (req.file) {
         req.body.image = req.file.path
     }
-
+    
     Project.findByIdAndUpdate(
         { _id: req.params.id }, 
         req.body, {

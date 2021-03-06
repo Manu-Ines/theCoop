@@ -1,0 +1,67 @@
+<div class="container p-4">
+    <div class="row my-5">
+        <div class="col">
+            <h2>Administrador</h2>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <h2>{{org.name}}</h2>
+        </div>
+    </div>
+    
+    <div class="row my-5">
+        <div class="col-2 border-start">
+            <a href="#" style="text-decoration: none;">
+                <h6 id="btnProjects" class="link__primary">Donaciones</h6>
+            </a>
+        </div>
+        <div class="col border-start">
+            <a href="#" style="text-decoration: none;">
+                <h6 id="btnVolunts" class="link__primary" style="color: #047857">Voluntariados</h6>
+            </a>
+        </div>
+    <hr>
+    </div>
+  
+    <div id="projectsAdmin">
+        <table>
+            {{#each org.projects as |project|}}
+            <b>{{project.title}}</b>
+        
+            Cantidad a recaudar -> {{project.sum}}
+            {{/each}}
+        </table>
+    </div>
+    <div id="voluntAdmin" style="display: none">
+        <table>
+            {{#each org.volunts as |volunt|}}
+            <b>{{volunt.title}}</b>
+            Voluntarios -> {{volunt.assistants}}
+            {{/each}}
+        </table>
+    </div>
+</div>
+
+
+<script>
+
+let project = document.getElementById('projectsAdmin')
+let btnProject = document.getElementById('btnProjects')
+let volunt = document.getElementById('voluntAdmin')
+let btnVolunt = document.getElementById('btnVolunts')
+
+    btnProject.addEventListener('click', function (e) {
+        volunt.style.display = 'none'
+        project.style.display = 'block'
+
+        btnProject.style.color = '#059669'
+        btnVolunt.style.color = '#047857'
+    })
+
+    btnVolunt.addEventListener('click', function (e) {
+        volunt.style.display = 'block'
+        project.style.display = 'none'
+
+        btnProject.style.color = '#047857'
+        btnVolunt.style.color = '#059669'
+    });
+</script>

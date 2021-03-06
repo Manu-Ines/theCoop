@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const Org = require('../../models/Org.model')
 const User = require('../../models/User.model')
 const { sendActivationEmail } = require('../../configs/mailer.config')
-const passport = require('passport')
 
 module.exports.register = (req, res, next) => {
     res.render('org/register')
@@ -56,4 +55,17 @@ module.exports.publicProfile = (req, res, next) => {
             res.render('org/public-profile', org)
         })
         .catch(next)
+}
+
+module.exports.myArea = (req, res, next) => {
+
+        Org.findById( req.currentUser._id )
+        .populate('projects')
+        .populate('volunts')
+        .then((org) => {
+            res.render('org/myArea', { org })
+        })
+        .catch(next)
+
+    
 }

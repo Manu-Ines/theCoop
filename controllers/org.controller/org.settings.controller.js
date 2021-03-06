@@ -5,6 +5,8 @@ const { v4: uuidv4 } = require('uuid')
 const CryptoJS = require('crypto-js')
 
 const Org = require('../../models/Org.model')
+const Project = require('../../models/projects/Project.model')
+const Volunt = require('../../models/volunts/Volunt.model')
 const mailer = require('../../configs/mailer.config')
 const helper = require('../../helpers/email.helper')
 
@@ -14,7 +16,8 @@ const helper = require('../../helpers/email.helper')
    * CIF
    * Document
    * IBAN
-   * Solicitud de eliminación TODO
+   * Solicitud de eliminación
+   * My area
 --------------------- */
 
 module.exports.settingsView = (req, res, next) => {

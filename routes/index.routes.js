@@ -61,6 +61,12 @@ router.get(
     secure.isAuthenticated,
     orgController.profile
 )
+router.get(
+    '/my-area-org',
+    secure.checkRoles('ORG'),
+    secure.isAuthenticated,
+    orgController.myArea
+)
 
 // Common routes =======================================================================
 

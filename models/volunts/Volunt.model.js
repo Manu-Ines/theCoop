@@ -40,11 +40,10 @@ const voluntSchema = new mongoose.Schema(
         date: [
             {
                 day: { type: String },
-                time:
-                    {
-                        start: { type: String },
-                        end: { type: String },
-                    },
+                time: {
+                    start: { type: String },
+                    end: { type: String },
+                },
             },
         ],
         categs: {
@@ -57,7 +56,7 @@ const voluntSchema = new mongoose.Schema(
         },
         adress: {
             type: String,
-            required: true
+            required: true,
         },
         msgThankyou: {
             type: String,
@@ -71,6 +70,10 @@ const voluntSchema = new mongoose.Schema(
             default: false,
         },
         completed: {
+            type: Boolean,
+            default: false,
+        },
+        index: {
             type: Boolean,
             default: false,
         },

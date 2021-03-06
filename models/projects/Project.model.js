@@ -51,7 +51,7 @@ const projectSchema = new mongoose.Schema(
             enum: categs, // categs.configs.js
         },
         adress: {
-            type: String
+            type: String,
         },
         msgThankyou: {
             type: String,
@@ -59,13 +59,18 @@ const projectSchema = new mongoose.Schema(
                 200,
                 'El agradecimiento no puede superar 200 caracteres',
             ],
-            default: 'Al crear el proyecto las orgs en step 4 msgThankyou: Gracias por su donación',
+            default:
+                'Al crear el proyecto las orgs en step 4 msgThankyou: Gracias por su donación',
         },
         boost: {
             type: Boolean,
             default: false,
         },
         completed: {
+            type: Boolean,
+            default: false,
+        },
+        index: {
             type: Boolean,
             default: false,
         },

@@ -4,7 +4,8 @@ const MongoStore = require('connect-mongo').default
 
 const SESSION_SECRET = process.env.SESSION_SECRET
 const SESSION_SECURE = process.env.SESSION_SECURE === 'true' ? true : false
-const SESSION_MAX_AGE = Number(process.env.SESSION_MAX_AGE) || 3600000
+const SESSION_MAX_AGE =
+    Number(process.env.SESSION_MAX_AGE) || 720 * 60 * 60 * 1000
 
 const session = expressSession({
     secret: SESSION_SECRET,

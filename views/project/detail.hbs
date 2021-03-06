@@ -1,3 +1,6 @@
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script>
+
 <div class="container my-4">
     {{#if project}}
     <div class="row">
@@ -64,7 +67,7 @@
                         ruta</a>
                 </div>
             </div>
-        </div>     
+        </div>
     </div>
     {{else}}
     <h1>Not found</h1>
@@ -72,19 +75,18 @@
     {{/if}}
 </div>
 
-
 <div class="modal" id="donationPopup" tabindex="-1" aria-labelledby="donationPopup" aria-hidden="true">
     <div class="modal-dialog">
         <div style="max-width: 875px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
             <h3><b>Donación</b></h3>
-            <form action="/donation/{{project.slug}}" id="donation" method="POST">
-                <input name="contribution" class="form-control" type="number" class="form-label">
+            <form id="donation">
+                <input name="contribution" id="quantity" class="form-control" type="number" class="form-label">
                 <div class="form-check form-switch mt-4">
                     <input name="anonymous" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
                         {{#unless currentUser.visibility}}checked{{/unless}}>
                     <label class="form-check-label" for="flexSwitchCheckDefault">Donación anónima</label>
                 </div>
-                <button type="submit" class="button btn__primary btn-lg">Donar</button>
+                <button type="submit" id="checkout-button" class="button btn__primary btn-lg">Donar</button>
             </form>
         </div>
     </div>
@@ -92,7 +94,6 @@
 
 <script>
     let loca = document.getElementById('query').dataset.adress
-
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFudWNhcmFsbW8iLCJhIjoiY2tsdXgxazNzMDhtdzJ3cWx6cHRyb2U5NCJ9.lLgjepzuFFwLFmmDCrZ73A'
     var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
     mapboxClient.geocoding
@@ -121,4 +122,36 @@
                     .addTo(mapShow);
             }
         });
+
+
+    // STRIPE
+    let stripe = Stripe("pk_test_aKXAngMXOasC99dapoLzwS5500SAkrz1IT");
+    let donationForm = document.getElementById("donation");
+
+    donationForm.addEventListener("submit", (e) => {
+        e.preventDefault()
+
+        let data = {
+            quantity: document.getElementById('quantity').value,
+            anonimous: document.querySelector('#flexSwitchCheckDefault').value,
+            projectTitle: "{{project.title}}",
+            projectId: "{{project._id}}",
+            projectImage: "{{project.image}}",
+            projectSlug: "{{project.slug}}"
+        }
+
+        fetch("/create-checkout-session", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then((response) => response.json())
+            .then((session) => stripe.redirectToCheckout({ sessionId: session.id }))
+            .then((result) => {
+                if (result.error) alert(result.error.message)
+            })
+            .catch((error) => console.error("Error:", error))
+    });
 </script>

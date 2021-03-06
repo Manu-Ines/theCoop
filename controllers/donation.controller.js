@@ -1,8 +1,8 @@
 require('dotenv').config()
 const Donation = require('../models/projects/Donation.model')
 const Project = require('../models/projects/Project.model')
-const stripe = require('stripe')('sk_test_FDXbXFyMIXdJSwcr3OC1GHoo00aiOrIKAo')
-const endpointSecret = 'whsec_U7p75kXw5MtgAlNhJlpKAGAXkgtBH2VR'
+const stripe = require('stripe')(process.env.SK_KEY)
+const endpointSecret = process.env.END_POINT_SECRET
 
 module.exports.createStripeCheckOut = (req, res, next) => {
     req.body.quantity = req.body.quantity <= 0 ? 1 : req.body.quantity

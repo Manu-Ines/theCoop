@@ -2,6 +2,10 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const Org = require('../../models/Org.model')
 const User = require('../../models/User.model')
+const Project = require('../../models/projects/Project.model')
+const Volunt = require('../../models/volunts/Volunt.model')
+const Donation = require('../../models/projects/Donation.model')
+const Assistance = require('../../models/volunts/Assistance.model')
 const { sendActivationEmail } = require('../../configs/mailer.config')
 
 module.exports.register = (req, res, next) => {
@@ -59,13 +63,29 @@ module.exports.publicProfile = (req, res, next) => {
 
 module.exports.myArea = (req, res, next) => {
 
-        Org.findById( req.currentUser._id )
-        .populate('projects')
-        .populate('volunts')
-        .then((org) => {
-            res.render('org/myArea', { org })
+    Promise.all([
+        Project.find({ owner: req.currentUser._id }).populate('donations'),
+        Volunt.find({ owner: req.currentUser._id }).populate('assistance')
+    ])
+    .then((results) => { 
+        
+        assists = []
+        results[1].forEach((volunt) => {
+            Assistance.find({ volunt: volunt._id})
+            .populate('assistant')
+            .populate('volunt')
+            .then((a) => {
+                console.log(a)
+            })
+            
         })
-        .catch(next)
+        res.render('org/myArea', {
+            projects: results[0],
+            volunts: results[1],
+            //assists: a
+        })
+    })
+    .catch(next)
 
     
 }

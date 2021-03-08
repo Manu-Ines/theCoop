@@ -21,16 +21,7 @@ router.post(
     orgEditController.doEditProfileOrg
 )
 
-// Public profile
-router.get('/org/:id', orgController.publicProfile)
-
 // Settings org ---------------------------------
-router.get(
-    '/org/settings',
-    secure.checkRoles('ORG'),
-    secure.isAuthenticated,
-    orgSettingController.settingsView
-)
 router.post(
     '/settings-org-e',
     secure.checkRoles('ORG'),
@@ -61,5 +52,15 @@ router.post(
     secure.isAuthenticated,
     orgSettingController.doChangeIban
 )
+router.get(
+    '/org/settings',
+    secure.checkRoles('ORG'),
+    secure.isAuthenticated,
+    orgSettingController.settingsView
+)
+
+//-------------------------------------
+// Public profile
+router.get('/org/:id', orgController.publicProfile)
 
 module.exports = router

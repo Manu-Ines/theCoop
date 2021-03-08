@@ -2,6 +2,7 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const Volunt = require('../models/volunts/Volunt.model')
 const Assistance = require('../models/volunts/Assistance.model')
+const User = require('../models/User.model')
 
 const categs = require('../configs/categs.config')
 const mailer = require('../configs/mailer.config')
@@ -39,7 +40,7 @@ module.exports.detail = (req, res, next) => {
             Assistance.find({ volunt: volunt._id })
             .then((assists) => {
                 let reserved = assists.length
-                
+
                 res.render('volunt/detail', { volunt, reserved })
 
                 // TODO: block assistances if full

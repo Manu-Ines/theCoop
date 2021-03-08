@@ -75,12 +75,30 @@ p {
     border: 1.55px solid rgb(197, 197, 197) !important;
 }
 
+.bg__main {
+    background-color: var(--main-color) !important;
+}
+
 footer {
     background-color: var(--background-light-color);
 }
 
 footer a {
     text-decoration: none !important;
+}
+
+.text__dec__none {
+    text-decoration: none !important;
+    color: var(--color-dark-black);
+}
+
+.text__dec__none:hover {
+    text-decoration: none !important;
+    color: var(--main-color);
+}
+
+.text__green {
+    color: var(--main-color) !important;
 }
 
 /* BUTTONS
@@ -117,6 +135,10 @@ footer a {
     background-color: var(--main-color-hover);
     border: 1px solid var(--main-color-hover);
     color: #fff;
+}
+
+.opacity__50 {
+    opacity: 0.5;
 }
 
 .btn__secondary {
@@ -181,12 +203,13 @@ footer a {
 }
 
 .main__hero {
-    background-image: url('../images/world.gif');
-    background-size: 80%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgb(0, 0, 0, 0.2)),
+        url('../images/background-img.jpg');
+    background-size: cover;
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: top;
-    color: var(--color-dark-black) !important;
+    color: #fff;
 }
 
 /* FORMS 
@@ -328,4 +351,18 @@ canvas {
 .tox-tinymce {
     border: 1px solid rgb(197, 197, 197) !important;
     border-radius: 0.4rem !important;
+}
+
+/* ALGOLIA SEARCH */
+.objetfit__alg > img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.objetfit__card > img {
+    width: 100px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
 }

@@ -21,9 +21,6 @@ router.post(
     orgEditController.doEditProfileOrg
 )
 
-// Public profile
-router.get('/org/:id', orgController.publicProfile)
-
 // Settings org ---------------------------------
 router.get(
     '/org/settings',
@@ -61,5 +58,8 @@ router.post(
     secure.isAuthenticated,
     orgSettingController.doChangeIban
 )
+
+// Public profile
+router.get('/org/:id', orgController.publicProfile)
 
 module.exports = router

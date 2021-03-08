@@ -35,16 +35,24 @@ router.get(
 )
 
 // Social auth
-router.get(
-    '/authenticate/google',
-    passport.authenticate('google-auth', { scope: ['email', 'profile'] })
-)
+router.post('/authenticate/google', (req, res, next) => {
+    req.flash('currPath', req.body.currPath || '/')
+    passport.authenticate('google-auth', { scope: ['email', 'profile'] })(
+        req,
+        res,
+        next
+    )
+})
 router.get('/authenticate/google/cb', userController.doLoginGoogle)
 
 router.get(
     '/auth/facebook',
     passport.authenticate('facebook-auth', { scope: 'email' })
 )
+router.post('/auth/facebook', (req, res, next) => {
+    req.flash('currPath', req.body.currPath || '/')
+    passport.authenticate('facebook-auth', { scope: 'email' })(req, res, next)
+})
 router.get('/auth/facebook/callback', userController.doLoginFacebook)
 
 // Org routes =======================================================================

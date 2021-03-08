@@ -10,10 +10,7 @@
 
             <div class="d-grid gap-2 text-center">
                 <hr>
-                <a href="/authenticate/google" class="button btn__light border py-2"><i class="fab fa-google pr-2"></i>
-                    Iniciar sesión con Google</a>
-                <a href="/auth/facebook" class="button btn__light border py-2"><i class="fab fa-facebook pr-2"></i>
-                    Iniciar sesión con Facebook</a>
+                {{> socialAuth}}
             </div>
         </div>
     </div>
@@ -24,16 +21,21 @@
         <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
             <div>
                 <h3><b>Inicio de sesión</b></h3>
-                <p>¿No tienes una cuenta? <a class="link__primary" href="/register">Regístrate</a></p>
+                <p>¿No tienes una cuenta? <a class="link__primary" href="#" data-bs-toggle="modal"
+                        data-bs-dismiss="modal" data-bs-target="#registerPopup">Regístrate</a></p>
             </div>
             <form action="/login" method="POST" class="my-3">
                 <div class="form-group mb-3">
-                    <input type="email" class="form-control form-control-lg" name="email"
-                        value="{{user.email}}" placeholder="Correo electrónico" autofocus required>
+                    <input type="email" class="form-control form-control-lg" name="email" value="{{user.email}}"
+                        placeholder="Correo electrónico" autofocus required>
                 </div>
                 <div class="form-group mb-4">
-                    <input type="password" class="form-control form-control-lg" name="password" placeholder="Contraseña" required>
+                    <input type="password" class="form-control form-control-lg" name="password" placeholder="Contraseña"
+                        required>
                 </div>
+
+                <input type="hidden" class="currentPath" name="currPath">
+
                 {{#if error}}
                 <div class="alert alert-danger">
                     {{error}}
@@ -44,16 +46,13 @@
                 {{/if}}
                 <div class="d-grid gap-2 text-center">
                     <button type="submit" class="button btn__primary btn-lg">Sign in</button>
-                    <small>¿Has olvidado la contraseña? Haz click <a class="link__primary" href="#"
-                            data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#resetPasswordPopup">
-                            aquí</a></small>
-                    <hr>
-                    <a href="/authenticate/google" class="button btn__light border py-2"><i
-                            class="fab fa-google pr-2"></i> Iniciar sesión con Google</a>
-                    <a href="/auth/facebook" class="button btn__light border py-2"><i class="fab fa-facebook pr-2"></i>
-                        Iniciar sesión con Facebook</a>
                 </div>
             </form>
+            <small>¿Has olvidado la contraseña? Haz click <a class="link__primary" href="#" data-bs-toggle="modal"
+                    data-bs-dismiss="modal" data-bs-target="#resetPasswordPopup">
+                    aquí</a></small>
+            <hr>
+            {{> socialAuth}}
         </div>
     </div>
 </div>
@@ -122,42 +121,42 @@
                 </div>
             </form>
             <hr>
-            <a href="/authenticate/google" class="button btn__light border py-2"><i class="fab fa-google pr-2"></i>
-                Registro con Google</a>
-            <a href="/auth/facebook" class="button btn__light border py-2 mt-2 mb-4"><i
-                    class="fab fa-facebook pr-2"></i>
-                Registro con Facebook</a>
+            {{> socialAuth}}
             <small>¿Eres una organización? <a class="link__primary" href="/org/register">regístrate aquí</a></small>
         </div>
     </div>
 </div>
 
-
 <script>
     window.addEventListener('load', () => {
-    const resetPassForm = document.getElementById('resetPassWord')
-    const forgotPassError = document.getElementById('forgotPassError')
 
-    resetPassForm.addEventListener('submit', (e) => {
-        e.preventDefault()
-
-        const forgotPassEmail = document.getElementById('forgotPassEmail').value
-
-        axios({
-            method: 'post',
-            url: '/send-reset-email',
-            data: {
-                email: forgotPassEmail,
-            },
+        document.querySelectorAll('.currentPath').forEach(e => {
+            e.value = window.location.pathname || '/';
         })
-            .then((res) => {
-                if (res.data.status === 400) {
-                    forgotPassError.innerHTML = `<div class="alert alert-danger my-3">${res.data.data}</div>`
-                } else {
-                    forgotPassError.innerHTML = `<div class="alert alert-success my-3">${res.data.data}</div>`
-                }
+
+        const resetPassForm = document.getElementById('resetPassWord')
+        const forgotPassError = document.getElementById('forgotPassError')
+
+        resetPassForm.addEventListener('submit', (e) => {
+            e.preventDefault()
+
+            const forgotPassEmail = document.getElementById('forgotPassEmail').value
+
+            axios({
+                method: 'post',
+                url: '/send-reset-email',
+                data: {
+                    email: forgotPassEmail,
+                },
             })
-            .catch((e) => console.log(e))
-    })
-});
+                .then((res) => {
+                    if (res.data.status === 400) {
+                        forgotPassError.innerHTML = `<div class="alert alert-danger my-3">${res.data.data}</div>`
+                    } else {
+                        forgotPassError.innerHTML = `<div class="alert alert-success my-3">${res.data.data}</div>`
+                    }
+                })
+                .catch((e) => console.log(e))
+        })
+    });
 </script>

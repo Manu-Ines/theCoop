@@ -10,8 +10,17 @@ module.exports.create = (req, res, next) => {
 }
 
 module.exports.doCreate = (req, res, next) => {
+    let placeholders = [
+        'https://res.cloudinary.com/dd5wme5hw/image/upload/v1615233330/express/default/placeholder-3_wr2twv.jpg',
+        'https://res.cloudinary.com/dd5wme5hw/image/upload/v1615233330/express/default/placeholder-1_j41wgo.jpg',
+        'https://res.cloudinary.com/dd5wme5hw/image/upload/v1615233330/express/default/placeholder-4_nsy0if.jpg',
+        'https://res.cloudinary.com/dd5wme5hw/image/upload/v1615233330/express/default/placeholder-2_wx8cco.jpg',
+    ]
+
     req.body.owner = req.currentUser.id
-    req.body.image = req.file ? req.file.path : 'no-photo.jpg'
+    req.body.image = req.file
+        ? req.file.path
+        : placeholders[Math.floor(Math.random() * (5 - 1) + 1)]
 
     Project.create(req.body)
         .then((project) => {

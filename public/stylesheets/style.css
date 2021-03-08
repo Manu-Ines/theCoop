@@ -295,6 +295,18 @@ footer a {
     border: 1px solid var(--main-color) !important;
 }
 
+.project__card img {
+    transition: 0.3s;
+}
+
+.project__card:hover img {
+    transform: scale(0.98);
+}
+
+.project__card:active img {
+    transform: scale(0.9);
+}
+
 .rounded__custom {
     border-radius: 0.6rem !important;
 }

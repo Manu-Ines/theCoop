@@ -34,9 +34,7 @@ module.exports.doRegister = (req, res, next) => {
                 email: 'Ya existe un usuario con este email',
             })
         } else {
-            req.file
-                ? (req.body.profilePicture = `${process.env.HOST}/uploads/${req.file.filename}`)
-                : (req.body.profilePicture = `${process.env.HOST}/uploads/no-photo.jpg`)
+            req.body.profilePicture = `https://res.cloudinary.com/dd5wme5hw/image/upload/v1615234631/express/default/placeholder-user_f2cmqk.jpg`
 
             User.create(req.body)
                 .then((user) => {

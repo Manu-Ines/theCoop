@@ -1,0 +1,111 @@
+<div class="container p-4">
+    <div class="row my-5">
+        <div class="col">
+            <h2>Administrador</h2>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <h2>{{org.name}}</h2>
+        </div>
+    </div>
+    
+    <div class="row my-5">
+        <div class="col-2 border-start">
+            <a href="#" style="text-decoration: none;">
+                <h6 id="btnProjects" class="link__primary">Donaciones</h6>
+            </a>
+        </div>
+        <div class="col border-start">
+            <a href="#" style="text-decoration: none;">
+                <h6 id="btnVolunts" class="link__primary" style="color: #047857">Voluntariados</h6>
+            </a>
+        </div>
+    <hr>
+    </div>
+  
+    <div id="projectsAdmin">
+        <table>
+            {{#each projects as |project|}}
+            <b>{{project.title}}</b> {{project.sum}}
+            {{project.completed}}
+            <table>
+                <tr>
+                    <td>{{donations}}</td>
+                </tr>
+            </table>
+            {{/each}}
+        </table>
+    </div>
+    <div id="voluntAdmin" style="display: none">
+        <table>
+            {{#each volunts as |volunt|}}
+            <b>{{volunt.title}}</b>
+            Voluntarios necesitados -> {{volunt.assistants}}
+            Apuntados -> {{volunt.assistance}}<br> 
+            {{/each}}
+            <hr>
+        </table>
+        <p>
+        {{#each assists as |asist|}}
+            {{asist.assistant.name}} 
+            {{asist.volunt.title}} 
+        {{/each}}
+        </p>
+        <hr>
+    </div>
+</div>
+
+
+<script>
+
+let project = document.getElementById('projectsAdmin')
+let btnProject = document.getElementById('btnProjects')
+let volunt = document.getElementById('voluntAdmin')
+let btnVolunt = document.getElementById('btnVolunts')
+
+    btnProject.addEventListener('click', function (e) {
+        volunt.style.display = 'none'
+        project.style.display = 'block'
+
+        btnProject.style.color = '#059669'
+        btnVolunt.style.color = '#047857'
+    })
+
+    btnVolunt.addEventListener('click', function (e) {
+        volunt.style.display = 'block'
+        project.style.display = 'none'
+
+        btnProject.style.color = '#047857'
+        btnVolunt.style.color = '#059669'
+    });
+    
+   /* var people, asc1 = 1,
+        asc2 = 1,
+        asc3 = 1;
+    window.onload = function () {
+        people = document.getElementById("people");
+    }
+
+    function sort_table(tbody, col, asc) {
+        var rows = tbody.rows,
+            rlen = rows.length,
+            arr = new Array(),
+            i, j, cells, clen;
+        // fill the array with values from the table
+        for (i = 0; i < rlen; i++) {
+            cells = rows[i].cells;
+            clen = cells.length;
+            arr[i] = new Array();
+            for (j = 0; j < clen; j++) {
+                arr[i][j] = cells[j].innerHTML;
+            }
+        }
+        // sort the array by the specified column number (col) and order (asc)
+        arr.sort(function (a, b) {
+            return (a[col] == b[col]) ? 0 : ((a[col] > b[col]) ? asc : -1 * asc);
+        });
+        // replace existing rows with new rows created from the sorted array
+        for (i = 0; i < rlen; i++) {
+            rows[i].innerHTML = "<td>" + arr[i].join("</td><td>") + "</td>";
+        }
+    } */
+</script>

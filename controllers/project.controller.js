@@ -71,6 +71,26 @@ module.exports.detail = (req, res, next) => {
         .catch(() => next)
 }
 
+module.exports.list = (req, res, next) => {
+    Project.find({ completed: false })
+        .limit(50)
+        .populate('owner')
+        .populate('donations')
+        .then((projects) => {
+            projects.map((obj) => {
+                obj.money = obj.donations
+                    .filter((d) => d.paid)
+                    .reduce((acc, cur) => {
+                        return (acc += cur.contribution)
+                    }, 0)
+                obj.percent = (obj.money * 100) / obj.sum
+                return obj
+            })
+
+            res.render('project/list', { projects })
+        })
+}
+
 // Edit project
 module.exports.edit = (req, res, next) => {
     Project.findOne({ slug: req.params.slug })

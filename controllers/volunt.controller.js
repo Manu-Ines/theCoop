@@ -72,6 +72,22 @@ module.exports.detail = (req, res, next) => {
         .catch(() => next)
 }
 
+module.exports.list = (req, res, next) => {
+    Volunt.find({ completed: false })
+        .limit(50)
+        .populate('owner')
+        .populate('assistance')
+        .then((volunts) => {
+            volunts.map((obj) => {
+                obj.people = obj.assistance.length
+                obj.percent = (obj.people * 100) / obj.assistants
+                return obj
+            })
+
+            res.render('volunt/list', { volunts })
+        })
+}
+
 // Edit Volunt
 module.exports.edit = (req, res, next) => {
     Volunt.findOne({ slug: req.params.slug }).then((volunt) => {

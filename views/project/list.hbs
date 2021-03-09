@@ -1,0 +1,18 @@
+<div class="main__hero__projects">
+    <div class="container py-4">
+        <div class="text-center mx-auto my-5" style="max-width: 600px;">
+            <h1 class="display-4">Descubre proyectos para donar</h1>
+            <p>Haz una donación a proyectos que te interesan desde sólo 1€.</p>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        {{#each projects as |project|}}
+        <div class="col-lg-4 mb-3">
+            {{> projectCard project}}
+        </div>
+        {{/each}}
+    </div>
+</div>

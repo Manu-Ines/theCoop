@@ -212,6 +212,26 @@ footer a {
     color: #fff;
 }
 
+.main__hero__projects {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgb(0, 0, 0, 0.2)),
+        url('../images/projects-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    color: #fff;
+}
+
+.main__hero__volunts {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgb(0, 0, 0, 0.2)),
+        url('../images/volunts-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    color: #fff;
+}
+
 /* FORMS 
 ===============================*/
 .form-control {

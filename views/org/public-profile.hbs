@@ -3,11 +3,11 @@
     <div class="card border-0">
         <div class="public__header"
             style="background-image: linear-gradient(180deg, rgba(0,0,0,0.00) 35%, rgba(0,0,0,0.8) 100%), url(https://res.cloudinary.com/dd5wme5hw/image/upload/v1615233330/express/default/placeholder-4_nsy0if.jpg);">
-            <div class="px-5 pb-4">
-                <div class="d-flex justify-content-start mb-4">
+            <div class="px-3 px-md-5 pb-1 pb-md-4">
+                <div class="d-flex flex-column flex-sm-row justify-content-start mb-4">
                     <img src="{{profilePicture}}" style="vertical-align:middle; margin-right: 8px;" height="80px"
                         class="rounded__custom border">
-                    <div class="ms-3" style="max-width: 750px;">
+                    <div class="ms-0 ms-md-3" style="max-width: 750px;">
                         <h1 class="mb-0">{{name}}</h1>
                         <p class="mb-2" style="font-size: 1rem;">Lorem ipsum, dolor sit amet consectetur
                             adipisicing elit.
@@ -23,9 +23,9 @@
     </div>
 
     <div class="mt-4">
-        <a href="" class="button btn__light"><i class="fas fa-link me-1"></i> Página web</a>
-        <a href="" class="button btn__light"><i class="fas fa-envelope me-1"></i> Enviar mensaje</a>
-        <a href="" class="button btn__light"><i class="fas fa-flag me-1"></i> Reportar incidencia</a>
+        <a href="#" class="button btn__light mb-2 me-2"><i class="fas fa-link me-1"></i> Página web</a>
+        <a href="#" class="button btn__light mb-2 me-2"><i class="fas fa-envelope me-1"></i> Enviar mensaje</a>
+        <a href="#" class="button btn__light mb-2 me-2"><i class="fas fa-flag me-1"></i> Reportar incidencia</a>
     </div>
 
     <div class="container mt-5">
@@ -34,7 +34,7 @@
         </div>
         <div class="row">
             {{#each projects as |project|}}
-            <div class="col-sm-4 mb-3">
+            <div class="col-lg-4 mb-3">
                 {{> projectCard project}}
             </div>
             {{/each}}
@@ -48,7 +48,7 @@
         </div>
         <div class="row">
             {{#each volunts as |volunt|}}
-            <div class="col-sm-4 mb-3">
+            <div class="col-lg-4 mb-3">
                 {{> voluntCard volunt}}
             </div>
             {{/each}}

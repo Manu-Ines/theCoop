@@ -29,9 +29,7 @@ module.exports.doRegister = (req, res, next) => {
                 email: 'Ya existe un usuario con este email',
             })
         } else {
-            req.file
-                ? (req.body.profilePicture = `${process.env.HOST}/uploads/${req.file.filename}`)
-                : (req.body.profilePicture = `https://res.cloudinary.com/dd5wme5hw/image/upload/v1614264579/express/default/rfseib41pqo7ej14hbsw.png`)
+            req.body.profilePicture = `https://res.cloudinary.com/dd5wme5hw/image/upload/v1615234631/express/default/placeholder-org_qoj79k.jpg`
 
             Org.create(req.body)
                 .then((u) => {

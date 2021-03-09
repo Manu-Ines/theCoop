@@ -35,8 +35,9 @@
                         </small>
                     </div>
                 </div>
-            </div>
-            <div class="card p-4">
+
+                <hr class="mt-4 mb-5">
+
                 <h4>Plazas</h4>
                 <p>{{volunt.assistants}}</p>
                 <h4>Reservadas</h4>
@@ -47,16 +48,23 @@
                 <p><b>Hora</b> {{date.time.start}} - {{date.time.end}}</p>
                 <hr>
                 {{/each}}
+
+                {{#if currentUser}}
                 {{#isOrg currentUser.role}}
                 <a href="/logout" class="button btn__secondary btn-lg my-2">
-                    Para poder apuntarte a un voluntariado, cierra sesión y regístrese como usuario</a>
-                {{/isOrg}}
-                {{!-- {{else}} --}}
+                    Para poder donar a otra organización, cierra sesión y regístrese como usuario</a>
+                {{else}}
                 <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
-                    data-bs-target="{{#if currentUser}}#assistPopup{{else}}#loginActionPopup{{/if}}">
+                    data-bs-target="#assistPopup">
                     Apuntarme al voluntariado</a>
-                {{!-- {{/isOrg}} --}}
-                <br>
+                {{/isOrg}}
+                {{else}}
+                <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
+                    data-bs-target="#loginActionPopup">
+                    Apuntarme al voluntariado</a>
+                {{/if}}
+
+
             </div>
             <div class="card my-3">
                 <div style="position: relative; min-height: 20rem;">

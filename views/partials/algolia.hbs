@@ -1,0 +1,21 @@
+<div class="modal" id="algoliaSearch" tabindex="-1" aria-labelledby="algoliaSearch" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 650px;">
+        <div style="border: none; border-radius: 0.6rem" class="modal-content p-3 p-md-4">
+            <div class="mb-1" id="searchbox"></div>
+            <p class="my-2 pb-4">
+                <button id="algoliaProjects" class="button btn-sm btn__primary">Proyectos</button>
+                <button id="algoliaVolunts" class="button btn-sm btn__primary opacity__50">Voluntariados</button>
+                <button id="algoliaOrgs" class="button btn-sm btn__primary opacity__50">Organizaciones</button>
+            </p>
+
+            <div id="hits-volunts" style="max-height: 22rem; overflow: scroll;"></div>
+            <div id="hits-projects" style="max-height: 22rem; overflow: scroll;"></div>
+            <div id="hits-orgs" style="max-height: 22rem; overflow: scroll;"></div>
+
+            <div class="d-flex w-100 justify-content-between pt-3">
+                <div></div>
+                <div id="algolia-logo"></div>
+            </div>
+        </div>
+    </div>
+</div>

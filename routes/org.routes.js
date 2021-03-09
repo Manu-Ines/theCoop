@@ -63,4 +63,7 @@ router.get(
 // Public profile
 router.get('/org/:id', orgController.publicProfile)
 
+// Public profile
+router.get('/org/:id', orgController.publicProfile)
+
 module.exports = router

@@ -34,9 +34,7 @@ module.exports.doRegister = (req, res, next) => {
                 email: 'Ya existe un usuario con este email',
             })
         } else {
-            req.file
-                ? (req.body.profilePicture = `${process.env.HOST}/uploads/${req.file.filename}`)
-                : (req.body.profilePicture = `${process.env.HOST}/uploads/no-photo.jpg`)
+            req.body.profilePicture = `https://res.cloudinary.com/dd5wme5hw/image/upload/v1615234631/express/default/placeholder-user_f2cmqk.jpg`
 
             User.create(req.body)
                 .then((user) => {
@@ -83,7 +81,7 @@ module.exports.doLogin = (req, res, next) => {
         } else {
             req.login(user, (loginErr) => {
                 if (loginErr) next(loginErr)
-                else res.redirect('/')
+                else res.redirect(req.body.currPath || '/')
             })
         }
     })(req, res, next)
@@ -101,7 +99,7 @@ module.exports.doLoginGoogle = (req, res, next) => {
         } else {
             req.login(user, (loginErr) => {
                 if (loginErr) next(loginErr)
-                else res.redirect('/') // TODO: tras redirect hay que refresh para que identifique al user
+                else res.redirect(req.flash('currPath') || '/')
             })
         }
     })(req, res, next)
@@ -119,7 +117,7 @@ module.exports.doLoginFacebook = (req, res, next) => {
         } else {
             req.login(user, (loginErr) => {
                 if (loginErr) next(loginErr)
-                else res.redirect('/') // TODO: "" linea 78
+                else res.redirect(req.flash('currPath') || '/')
             })
         }
     })(req, res, next)

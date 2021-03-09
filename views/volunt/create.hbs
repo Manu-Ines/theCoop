@@ -57,13 +57,13 @@
                 <div class="row">
                     <div class="col">
                         <label for="endDate" class="form-label h6">Hora de inicio</label>
-                        <input class="form-control form-control-lg" type="time" name="timeStart"
-                            placeholder="Fecha límite" required>
+                        <input class="form-control form-control-lg" id="hour1" type="text" name="timeStart"
+                            placeholder="HH:MM" required>
                     </div>
                     <div class="col">
-                        <label for="endDate" class="form-label h6">Hora de fin</label>
-                        <input class="form-control form-control-lg" type="time" name="timeEnd"
-                            placeholder="Fecha límite" required>
+                        <label for="endDate" class="form-label h6 hour">Hora de finalización</label>
+                        <input class="form-control form-control-lg" id="hour2" type="text" name="timeEnd"
+                            placeholder="HH:MM" required>
                     </div>
                 </div>
             </div>
@@ -155,6 +155,20 @@
         dateFormat: "Y-m-d",
         minDate: "today",
         "locale": "es",
+    });
+
+    flatpickr(document.getElementById('hour1'), {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
+    });
+
+    flatpickr(document.getElementById('hour2'), {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
     });
 
     window.addEventListener('load', () => {

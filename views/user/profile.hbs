@@ -5,16 +5,15 @@
     </div>
     {{/if}}
 
-
     <div class="card p-4">
         <div class="row">
             <div class="col-lg-1 col-md-3 col-sm-4 col-3">
-                <img src="{{currentUser.profilePicture}}" class="w-100" alt="profile image">
+                <img src="{{currentUser.profilePicture}}" class="w-100 rounded__custom" alt="profile image">
             </div>
             <div class="col-lg-10 col-md-9 col-sm-8 col-9">
                 <h2>{{currentUser.name}}</h2>
                 <p>
-                    
+
                     Perfil:
                     {{#if currentUser.visibility}}
                     <span class="text-success">Público</span>
@@ -45,24 +44,24 @@
                     <h5>{{donation.project.title}}</h5>
                     {{donation.createdAt}}
                     <div class="row">
-                         <div class="col mt-2">
+                        <div class="col mt-2">
                             <a href="/project/{{donation.project.slug}}" class="button btn__primary btn-sm">Ver
                                 proyecto</a>
-                        </div> 
+                        </div>
                     </div>
                 </div>
                 {{/each}}
             </div>
         </div>
-       <div class="col-sm-6">
+        <div class="col-sm-6">
             <div class="my-5">
                 <h3>Voluntariados</h3><br>
                 {{#each volunts as |volunt|}}
                 <div class="card p-4 mb-2">
                     <h5>{{volunt.volunt.title}}</h5>
-                        {{#each volunt.volunt.date as |date|}}
-                        {{date.day}}
-                        {{/each}}
+                    {{#each volunt.volunt.date as |date|}}
+                    {{date.day}}
+                    {{/each}}
                     <div class="row">
                         <div class="col mt-2">
                             <a href="/volunt/{{volunt.volunt.slug}}" class="button btn__primary btn-sm">Ver

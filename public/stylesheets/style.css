@@ -335,6 +335,18 @@ canvas {
     background-size: cover;
 }
 
+.public__header {
+    min-height: 350px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-radius: 0.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 /* MAPBOX
 ===============================*/
 canvas {

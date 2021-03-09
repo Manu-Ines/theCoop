@@ -12,7 +12,7 @@
                     <div class="px-5 pb-4" style="max-width: 750px;">
                         <h1>{{project.title}}</h1>
                         <span>
-                            <img src="{{project.owner.profilePicture}}"
+                            <img src="{{project.owner.profilePicture}}" class="rounded border"
                                 style="vertical-align:middle; margin-right: 8px;" height="30px">
                             <a href="/org/{{project.owner._id}}" class="text-white ml-2">{{project.owner.name}}</a>
                         </span>
@@ -28,7 +28,7 @@
             <div class="card p-4 mb-3">
                 <div class="row">
                     <div class="col">
-                        <img src="{{project.owner.profilePicture}}" class="img-fluid rounded" alt="">
+                        <img src="{{project.owner.profilePicture}}" class="img-fluid rounded border" alt="">
                     </div>
                     <div class="col-sm-10">
                         <h5 class="mb-0">{{project.owner.name}}</h5>
@@ -46,8 +46,8 @@
 
                 {{#if currentUser}}
                 {{#isOrg currentUser.role}}
-                <a href="/logout" class="button btn__secondary btn-lg my-2">
-                    Para poder donar a otra organización, cierra sesión y regístrese como usuario</a>
+                Para poder donar a otra organización, cierra sesión y regístrese como usuario
+                <a href="/logout" class="button btn__primary btn-lg my-2">Cerrar sesión y donar</a>
                 {{else}}
                 <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
                     data-bs-target="#donationPopup">
@@ -64,7 +64,7 @@
             </div>
 
             <div class="card my-3">
-                <div style="position: relative; min-height: 20rem;">
+                <div style="position: relative; min-height: 15rem;">
                     <div id='mapShow' class="rounded__custom"
                         style='position: absolute; top: 0; bottom: 0; width: 100%;'></div>
                 </div>

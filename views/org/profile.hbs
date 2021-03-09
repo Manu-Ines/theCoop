@@ -6,16 +6,17 @@
         </div>
         {{/if}}
         <div class="text-center mx-auto my-5" style="max-width: 600px;">
-                <img src="{{currentUser.profilePicture}}" height="100px" class="mb-3" alt="profile image">
-                <h2 class="mb-0">{{currentUser.name}}</h2>
-                <small>{{currentUser.web}}</small>
-                <p>
-                    {{currentUser.bio}}
-                </p>
-                <a href="/project/create" class="button btn__primary">Nuevo proyecto</a>
-                <a href="/volunt/create" class="button btn__primary">Nuevo voluntariado</a><br>
-                <a href="/org/edit-profile" class="button btn__light"><i class="fas fa-pen"></i> Editar perfil</a>
-                <a href="/org/settings" class="button btn__light"> <i class="fas fa-cog"></i> Configuración</a>
+            <img src="{{currentUser.profilePicture}}" height="100px" class="mb-3 rounded__custom border"
+                alt="profile image">
+            <h2 class="mb-0">{{currentUser.name}}</h2>
+            <small>{{currentUser.web}}</small>
+            <p>
+                {{currentUser.bio}}
+            </p>
+            <a href="/project/create" class="button btn__primary">Nuevo proyecto</a>
+            <a href="/volunt/create" class="button btn__primary">Nuevo voluntariado</a><br>
+            <a href="/org/edit-profile" class="button btn__light"><i class="fas fa-pen"></i> Editar perfil</a>
+            <a href="/org/settings" class="button btn__light"> <i class="fas fa-cog"></i> Configuración</a>
         </div>
     </div>
 </div>

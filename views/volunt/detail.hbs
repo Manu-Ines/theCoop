@@ -10,7 +10,7 @@
                         <h1>{{volunt.title}}</h1>
                         <span>
                             <img src="{{volunt.owner.profilePicture}}" style="vertical-align:middle; margin-right: 8px;"
-                                height="30px">
+                                height="30px" class="rounded border">
                             <a href="/org/{{volunt.owner._id}}" class="text-white ml-2">{{volunt.owner.name}}</a>
                         </span>
                     </div>
@@ -26,7 +26,7 @@
             <div class="card p-4 mb-3">
                 <div class="row">
                     <div class="col">
-                        <img src="{{volunt.owner.profilePicture}}" class="img-fluid rounded" alt="">
+                        <img src="{{volunt.owner.profilePicture}}" class="img-fluid rounded border" alt="">
                     </div>
                     <div class="col-sm-10">
                         <h5 class="mb-0">{{volunt.owner.name}}</h5>
@@ -51,8 +51,8 @@
 
                 {{#if currentUser}}
                 {{#isOrg currentUser.role}}
-                <a href="/logout" class="button btn__secondary btn-lg my-2">
-                    Para poder donar a otra organización, cierra sesión y regístrese como usuario</a>
+                Para poder asistir como voluntario, cierra sesión y regístrese como usuario
+                <a href="/logout" class="button btn__primary btn-lg my-2">Cerrar sesión y apuntarme</a>
                 {{else}}
                 <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
                     data-bs-target="#assistPopup">
@@ -67,7 +67,7 @@
 
             </div>
             <div class="card my-3">
-                <div style="position: relative; min-height: 20rem;">
+                <div style="position: relative; min-height: 15rem;">
                     <div id='mapShowV' class="rounded__custom"
                         style='position: absolute; top: 0; bottom: 0; width: 100%;'></div>
                 </div>

@@ -39,8 +39,24 @@
                 <hr class="mt-4 mb-5">
 
                 <h4>Aporta al proyecto</h4>
-                <p><b>{{donatorsTotal}}</b> personas han ayudado con {{collectedTotal}}€. ¡Ayuda a conseguir
-                    {{project.sum}}€!</p>
+                <p style="font-size: 1rem;" class="mb-0">
+                    <b>{{donatorsTotal}}</b>
+                    personas han ayudado con <b>{{collectedTotal}}€</b>. ¡Ayuda a conseguir
+                    {{project.sum}}€!
+                </p>
+
+                <div class="progress my-3" style="height: 10px;">
+                    <div class="progress-bar bg__main" role="progressbar" style="width: {{project.percent}}%"></div>
+                </div>
+
+                <div class="mb-4" style="font-size: 0.9rem;">
+                    {{#each project.donations as |donation|}}
+                    <div class="d-flex justify-content-start align-items-center mb-2 text-muted">
+                        <img src="{{donation.donator.profilePicture}}" height="35px" class="me-3 rounded border" alt="">
+                        <div><b>{{donation.donator.name}}</b><br>ha donado {{donation.contribution}}€ hace 3 días</div>
+                    </div>
+                    {{/each}}
+                </div>
 
                 {{#if currentUser}}
                 {{#isOrg currentUser.role}}

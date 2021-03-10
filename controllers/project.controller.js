@@ -47,6 +47,16 @@ module.exports.doCreate = (req, res, next) => {
 module.exports.detail = (req, res, next) => {
     Project.findOne({ slug: req.params.slug })
         .populate('owner')
+        .populate({
+            path: 'donations',
+            populate: {
+                path: 'donator',
+                match: { visibility: true },
+            },
+            options: {
+                limit: 2,
+            },
+        })
         .then((project) => {
             Donation.find({ project: project._id, paid: true })
                 .then((donations) => {
@@ -55,6 +65,8 @@ module.exports.detail = (req, res, next) => {
                         (acc, curr) => acc + curr.contribution,
                         0
                     )
+
+                    project.percent = (collectedTotal * 100) / project.sum
 
                     res.render('project/detail', {
                         project,

@@ -8,8 +8,9 @@ const categs = [
     'Infancia',
     'Comida',
     'Sin techo',
-    'Eco',
+    'Medio ambiente',
     'Otros',
+    'Sin categorizar'
 ]
 
 module.exports = categs

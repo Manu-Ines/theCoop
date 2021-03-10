@@ -7,7 +7,7 @@
             <h2 style="color:#047857;">{{currentUser.name}}</h2>
         </div>
     </div>
-    
+
     <div class="row my-5">
         <div class="col-2 border-start">
             <a href="#" style="text-decoration: none;">
@@ -19,93 +19,85 @@
                 <h6 id="btnVolunts" class="link__primary" style="color: #646e6b">Voluntariados</h6>
             </a>
         </div>
-    <hr>
+        <hr>
     </div>
-  
+
     <div id="projectsAdmin">
         <p>{{messageP}}</p>
         {{#each projects as |project|}}
-        <div class="card p-3">
-           <div class="row">
-               <div class="col">
-                    <h3>{{project.title}}</h3>
-                    <p>A recaudar: {{project.sum}}€</p>
-               </div>
-           </div>
-               {{#each project.donations as |donation|}}
-              
-               {{#if donation.anonymous}}
-               <div class="row">
-                        <div class="col">
-                            <p>Anonimo</p>
-                            {{donation.contribution}}€
+            <div class="card p-3 m-3">
+                <div class="row">
+                    <div class="col">
+                        <h3>{{project.title}}</h3>
+                        <p>A recaudar: {{project.sum}}€</p>
                     </div>
                 </div>
-               {{else}}
-               {{#each donation.donator as |donator|}}
-                    <div class="row">
-                        <div class="col">
-                                <p>{{donator.name}}</p>
-                                
+                {{#each project.donations as |donation|}}
+
+                    {{#if donation.anonymous}}
+                        <div class="row">
+                            <div class="col">
+                                <p>Anonimo</p>
+                                {{donation.contribution}}€
+                            </div>
                         </div>
-                    </div>
-               {{/each}}
-               {{donation.contribution}}€
-               {{/if}}
-               
-               {{/each}}
-        </div>
+                        {{else}}
+                        <div class="row">
+                            <div class="col">
+                                <p>{{donation.donator.name}}</p>
+                            </div>
+                        </div>
+                        {{donation.contribution}}€
+                    {{/if}}
+
+                {{/each}}
+            </div>
         {{/each}}
     </div>
     <div id="voluntAdmin" style="display: none">
         {{messageV}}
-            {{#each volunts as |volunt|}}
-       <div class="card p-3">
-           <div class="row">
-               <div class="col">
+        {{#each volunts as |volunt|}}
+        <div class="card p-3 m-3">
+            <div class="row">
+                <div class="col">
                     <h3>{{volunt.title}}</h3>
                     <p>Voluntarios solicitados: {{volunt.assistants}}</p>
-               </div>
-               <div class="col d-flex justify-content-end">
-                   {{#each volunt.date as |day|}}
+                </div>
+                <div class="col d-flex justify-content-end">
+                    {{#each volunt.date as |day|}}
                     <h6>{{day.day}}</h6>
                     {{/each}}
-               </div>
-           </div>
-                    {{#each volunt.assistance as |user|}}
-                    {{#each user.assistant as |u|}}
-           <div class="row">
-               <div class="col">
-                   <img src="{{u.profilePicture}}" width="40px">
-               </div>
-               <div class="col">
-                   {{u.name}}
-               </div>
-               <div class="col">
-                    {{u.email}}
-               </div>
-           </div>
-                    {{/each}}
-                    {{/each}}
-       </div>
+                </div>
+            </div>
+            {{#each volunt.assistance as |user|}}
+            <div clas="d-flex flex-row justify-content-start">
+                <img src="{{user.assistant.profilePicture}}" height="40px">
+                <div>
+                    Nombre: {{user.assistant.name}}
+                    Email: {{user.assistant.email}}
+                </div>
+            </div>
+            <hr>
             {{/each}}
+        </div>
+        {{/each}}
     </div>
 </div>
 
 
 <script>
 
-let project = document.getElementById('projectsAdmin')
-let btnProject = document.getElementById('btnProjects')
-let volunt = document.getElementById('voluntAdmin')
-let btnVolunt = document.getElementById('btnVolunts')
+    let project = document.getElementById('projectsAdmin')
+    let btnProject = document.getElementById('btnProjects')
+    let volunt = document.getElementById('voluntAdmin')
+    let btnVolunt = document.getElementById('btnVolunts')
 
     btnProject.addEventListener('click', function (e) {
         volunt.style.display = 'none'
         project.style.display = 'block'
 
-        btnVolunt.style.fontSize ='16px'
-        btnProject.style.fontSize ='20px'
+        btnVolunt.style.fontSize = '16px'
+        btnProject.style.fontSize = '20px'
         btnProject.style.color = '#059669'
         btnVolunt.style.color = '#646e6b'
     })
@@ -114,40 +106,40 @@ let btnVolunt = document.getElementById('btnVolunts')
         volunt.style.display = 'block'
         project.style.display = 'none'
 
-        btnVolunt.style.fontSize ='20px'
-        btnProject.style.fontSize ='16px'
+        btnVolunt.style.fontSize = '20px'
+        btnProject.style.fontSize = '16px'
         btnProject.style.color = '#646e6b'
         btnVolunt.style.color = '#059669'
     });
-    
-   /* var people, asc1 = 1,
-        asc2 = 1,
-        asc3 = 1;
-    window.onload = function () {
-        people = document.getElementById("people");
-    }
 
-    function sort_table(tbody, col, asc) {
-        var rows = tbody.rows,
-            rlen = rows.length,
-            arr = new Array(),
-            i, j, cells, clen;
-        // fill the array with values from the table
-        for (i = 0; i < rlen; i++) {
-            cells = rows[i].cells;
-            clen = cells.length;
-            arr[i] = new Array();
-            for (j = 0; j < clen; j++) {
-                arr[i][j] = cells[j].innerHTML;
-            }
-        }
-        // sort the array by the specified column number (col) and order (asc)
-        arr.sort(function (a, b) {
-            return (a[col] == b[col]) ? 0 : ((a[col] > b[col]) ? asc : -1 * asc);
-        });
-        // replace existing rows with new rows created from the sorted array
-        for (i = 0; i < rlen; i++) {
-            rows[i].innerHTML = "<td>" + arr[i].join("</td><td>") + "</td>";
-        }
-    } */
+    /* var people, asc1 = 1,
+         asc2 = 1,
+         asc3 = 1;
+     window.onload = function () {
+         people = document.getElementById("people");
+     }
+
+     function sort_table(tbody, col, asc) {
+         var rows = tbody.rows,
+             rlen = rows.length,
+             arr = new Array(),
+             i, j, cells, clen;
+         // fill the array with values from the table
+         for (i = 0; i < rlen; i++) {
+             cells = rows[i].cells;
+             clen = cells.length;
+             arr[i] = new Array();
+             for (j = 0; j < clen; j++) {
+                 arr[i][j] = cells[j].innerHTML;
+             }
+         }
+         // sort the array by the specified column number (col) and order (asc)
+         arr.sort(function (a, b) {
+             return (a[col] == b[col]) ? 0 : ((a[col] > b[col]) ? asc : -1 * asc);
+         });
+         // replace existing rows with new rows created from the sorted array
+         for (i = 0; i < rlen; i++) {
+             rows[i].innerHTML = "<td>" + arr[i].join("</td><td>") + "</td>";
+         }
+     } */
 </script>

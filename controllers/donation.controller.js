@@ -39,16 +39,31 @@ module.exports.createStripeCheckOut = (req, res, next) => {
                 req.body.anonymous = false
             }
             if (req.body.anonymous) {
-                console.log(req.body.anonymous)
-                req.body.anonymous === 'on'      
+                req.body.anonymous === 'on'
                     ? (req.body.anonymous = true)
                     : (req.body.anonymous = false)
-                console.log(req.body.anonymous)
             }
-            console.log(req.body)
+
             Donation.create(req.body)
                 .then(() => {
                     res.json({ id: session.id })
+
+                    Project.findOne({ _id: req.body.projectId })
+                        .populate('donations')
+                        .then((project) => {
+                            let donationSum = project.donations.reduce(
+                                (acc, curr) => {
+                                    return acc.contribution + curr.contribution
+                                },0)
+
+                            if (project.sum >= donationSum) {
+                                Project.findOneAndUpdate(
+                                    { _id: project._id },
+                                    { completed: true }
+                                )
+                                .catch(next)
+                            }
+                        })
                 })
                 .catch(next)
         })

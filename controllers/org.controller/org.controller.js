@@ -90,11 +90,10 @@ module.exports.myArea = (req, res, next) => {
         .sort({ createdAt: -1 })
         .populate({ path: 'donations', populate: { path: 'donator' }}),
         Volunt.find({ owner: req.currentUser._id })
-        .sort({ date_added: 1 })
+        .sort({ createdAt: 1 })
         .populate({ path: 'assistance', populate: { path: 'assistant' }})
     ])
     .then((results) => {
-        console.log(results[0])
         if (results[0].length == 0 && results[1].length == 0) {
             console.log('1')
             res.render('org/myArea', {
@@ -119,13 +118,3 @@ module.exports.myArea = (req, res, next) => {
         }
     })
 }
-
-/* Volunt.find({ owner: req.currentUser._id })
-    .populate({ path: 'assistance', populate: { path: 'assistant' }})
-    .then((volunts) => {
-        if (volunts.length == 0) {
-            res.render('org/myArea', { messageV: 'No has existen voluntariados' })
-        } else {
-            res.render('org/myArea', { volunts })
-        }
-    }) */

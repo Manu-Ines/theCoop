@@ -39,11 +39,13 @@ module.exports.createStripeCheckOut = (req, res, next) => {
                 req.body.anonymous = false
             }
             if (req.body.anonymous) {
-                req.body.anonymous === 'on'
+                console.log(req.body.anonymous)
+                req.body.anonymous === 'on'      
                     ? (req.body.anonymous = true)
                     : (req.body.anonymous = false)
+                console.log(req.body.anonymous)
             }
-
+            console.log(req.body)
             Donation.create(req.body)
                 .then(() => {
                     res.json({ id: session.id })

@@ -1,4 +1,6 @@
 require('dotenv').config()
+const client = require('../configs/algolia.config')
+const index = client.initIndex('volunts')
 const mongoose = require('mongoose')
 const Volunt = require('../models/volunts/Volunt.model')
 const Assistance = require('../models/volunts/Assistance.model')
@@ -23,7 +25,7 @@ module.exports.doCreate = (req, res, next) => {
     req.body.owner = req.currentUser.id
     req.body.image = req.file
         ? req.file.path
-        : placeholders[Math.floor(Math.random() * (5 - 1) + 1)]
+        : placeholders[Math.floor(Math.random() * (4 - 1) + 1)]
     req.body.date = [
         {
             day: req.body.day,
@@ -33,10 +35,21 @@ module.exports.doCreate = (req, res, next) => {
             },
         },
     ]
-    console.log(req.body)
     Volunt.create(req.body)
         .then((volunt) => {
-            res.redirect(`/volunt/${volunt.slug}`)
+            index
+                .saveObjects([volunt], {
+                    autoGenerateObjectIDIfNotExist: true,
+                })
+                .then((obj) => {
+                    Volunt.updateOne(
+                        { _id: volunt._id },
+                        { algoliaID: obj.objectIDs[0] }
+                    ).then(() => {
+                        res.redirect(`/volunt/${volunt.slug}`)
+                    })
+                })
+                .catch(next)
         })
         .catch(next)
 }
@@ -57,6 +70,22 @@ module.exports.detail = (req, res, next) => {
                 .catch(() => next)
         })
         .catch(() => next)
+}
+
+module.exports.list = (req, res, next) => {
+    Volunt.find({ completed: false })
+        .limit(50)
+        .populate('owner')
+        .populate('assistance')
+        .then((volunts) => {
+            volunts.map((obj) => {
+                obj.people = obj.assistance.length
+                obj.percent = (obj.people * 100) / obj.assistants
+                return obj
+            })
+
+            res.render('volunt/list', { volunts })
+        })
 }
 
 // Edit Volunt
@@ -97,7 +126,14 @@ module.exports.doEdit = (req, res, next) => {
         useFindAndModify: false,
     })
         .then((volunt) => {
-            res.redirect(`/volunt/${volunt.slug}`)
+            req.body.objectID = volunt.algoliaID
+
+            index
+                .partialUpdateObject(req.body)
+                .then(() => {
+                    res.redirect(`/volunt/${volunt.slug}`)
+                })
+                .catch(next)
         })
         .catch(next)
 }
@@ -112,7 +148,12 @@ module.exports.doDelete = (req, res, next) => {
                     Assistance.find({ volunt: volunt._id }).then((assists) => {
                         if (assists.length === 0) {
                             Volunt.deleteOne({ _id: volunt.id }).then(() => {
-                                res.redirect('/org/profile')
+                                index
+                                    .deleteObjects([volunt.algoliaID])
+                                    .then(() => {
+                                        res.redirect('/org/profile')
+                                    })
+                                    .catch(next)
                             })
                         } else {
                             mailer.deleteProyectRequest(

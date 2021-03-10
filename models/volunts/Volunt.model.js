@@ -77,6 +77,9 @@ const voluntSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        algoliaID: {
+            type: String,
+        },
     },
     {
         timestamps: true,

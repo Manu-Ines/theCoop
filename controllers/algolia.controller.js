@@ -1,9 +1,8 @@
 require('dotenv').config()
-const algoliasearch = require('algoliasearch')
+const client = require('../configs/algolia.config')
 const Project = require('../models/projects/Project.model')
 const Volunt = require('../models/volunts/Volunt.model')
 const Orgs = require('../models/Org.model')
-const client = algoliasearch('U28QP2NJ27', '3f332b092a5a0db62961058d849f28f6')
 
 module.exports.indexProjects = (req, res, next) => {
     const index = client.initIndex('projects')

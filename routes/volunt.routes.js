@@ -46,6 +46,7 @@ router.post(
 )
 
 // View Project
+router.get('/voluntariados', voluntController.list)
 router.get('/volunt/:slug', voluntController.detail)
 
 module.exports = router

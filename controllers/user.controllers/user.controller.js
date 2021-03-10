@@ -152,3 +152,11 @@ module.exports.usersList = (req, res, next) => {
         })
         .catch(next)
 }
+
+module.exports.sendInfoEmail = (req, res, next) => {
+    
+    let info = `${req.body.adress} - ${req.body.day} - ${req.body.time1} - ${req.body.time2} - ${req.body.slug}`
+
+    mailer.sendInfoEmail(req.body.email, info)
+    res.redirect(`volunt/${req.body.slug}`)
+}

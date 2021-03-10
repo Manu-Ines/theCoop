@@ -47,6 +47,23 @@ module.exports.createStripeCheckOut = (req, res, next) => {
             Donation.create(req.body)
                 .then(() => {
                     res.json({ id: session.id })
+
+                    Project.findOne({ _id: req.body.projectId })
+                        .populate('donations')
+                        .then((project) => {
+                            let donationSum = project.donations.reduce(
+                                (acc, curr) => {
+                                    return acc.contribution + curr.contribution
+                                },0)
+
+                            if (project.sum >= donationSum) {
+                                Project.findOneAndUpdate(
+                                    { _id: project._id },
+                                    { completed: true }
+                                )
+                                .catch(next)
+                            }
+                        })
                 })
                 .catch(next)
         })

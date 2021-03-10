@@ -63,9 +63,18 @@ module.exports.detail = (req, res, next) => {
                 .then((assists) => {
                     let reserved = assists.length
 
-                    res.render('volunt/detail', { volunt, reserved })
-
-                    // TODO: block assistances if full
+                    if (reserved === 0) {
+                        console.log('here 0')
+                        res.render('volunt/detail', { volunt, reserved })
+                    } else {
+                        let imGoing = false
+                        assists.forEach((a) => {
+                            if (req.currentUser && a.assistant.equals(req.currentUser._id)) {
+                                imGoing = true
+                            }
+                        })
+                        res.render('volunt/detail', { volunt, reserved, imGoing })
+                    }
                 })
                 .catch(() => next)
         })

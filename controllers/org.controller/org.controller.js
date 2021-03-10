@@ -84,25 +84,37 @@ module.exports.publicProfile = (req, res, next) => {
 }
 
 module.exports.myArea = (req, res, next) => {
+
     Promise.all([
-        Project.find({ owner: req.currentUser._id }).populate('donations'),
-        Volunt.find({ owner: req.currentUser._id }).populate('assistance'),
+        Project.find({ owner: req.currentUser._id })
+        .sort({ createdAt: -1 })
+        .populate({ path: 'donations', populate: { path: 'donator' }}),
+        Volunt.find({ owner: req.currentUser._id })
+        .sort({ createdAt: 1 })
+        .populate({ path: 'assistance', populate: { path: 'assistant' }})
     ])
-        .then((results) => {
-            assists = []
-            results[1].forEach((volunt) => {
-                Assistance.find({ volunt: volunt._id })
-                    .populate('assistant')
-                    .populate('volunt')
-                    .then((a) => {
-                        console.log(a)
-                    })
+    .then((results) => {
+        if (results[0].length == 0 && results[1].length == 0) {
+            console.log('1')
+            res.render('org/myArea', {
+                messageP: 'No se ha creado ningún proyecto',
+                messageV: 'No se ha creado ningún voluntariado aún'
             })
+        } else if (results[0].length == 0 && results[1] !== 0) {
+            res.render('org/myArea', {
+                messageP: 'No se ha creado ningún proyecto',
+                volunts: results[1]
+            })
+        } else if (results[1].length == 0 && results[0] !== 0) {
             res.render('org/myArea', {
                 projects: results[0],
-                volunts: results[1],
-                //assists: a
+                messageV: 'No se ha creado ningún voluntariado aún'
             })
-        })
-        .catch(next)
+        } else {
+            res.render('org/myArea', {
+                projects: results[0],
+                volunts: results[1]
+            })
+        }
+    })
 }

@@ -11,11 +11,22 @@ module.exports.doAssistance = (req, res, next) => {
         req.body.volunt = v[0]._id
         Assistance.create(req.body)
         .then((a) => {
-    
+            res.redirect(`/volunt/${req.params.slug}`)
         })
         .catch(next)
-        res.redirect(`/volunt/${req.params.slug}`)
     })
     .catch(next)
     
+}
+
+module.exports.unDoAssistance = (req, res, next) => {
+    Volunt.findOne({ slug: req.params.slug })
+    .then((v) => {
+        Assistance.deleteOne({ assistant: req.currentUser.id, volunt: v._id }) 
+        .then(() => {
+            res.redirect(`/volunt/${req.params.slug}`)
+        })
+        .catch(next)
+    })
+    .catch(next)
 }

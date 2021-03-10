@@ -47,23 +47,6 @@ module.exports.createStripeCheckOut = (req, res, next) => {
             Donation.create(req.body)
                 .then(() => {
                     res.json({ id: session.id })
-
-                    Project.findOne({ _id: req.body.projectId })
-                        .populate('donations')
-                        .then((project) => {
-                            let donationSum = project.donations.reduce(
-                                (acc, curr) => {
-                                    return acc.contribution + curr.contribution
-                                },0)
-
-                            if (project.sum >= donationSum) {
-                                Project.findOneAndUpdate(
-                                    { _id: project._id },
-                                    { completed: true }
-                                )
-                                .catch(next)
-                            }
-                        })
                 })
                 .catch(next)
         })
@@ -90,7 +73,29 @@ module.exports.stripeHook = (req, res, next) => {
             { paid: true },
             { useFindAndModify: false }
         )
-            .then((donation) => res.status(200).send(donation))
+            .then((donation) => {
+                Project.findOne({ _id: donation.project })
+                    .populate('donations')
+                    .then((project) => {
+                        let donationSum = project.donations
+                            .filter((proj) => {
+                                return proj.paid
+                            })
+                            .reduce((acc, curr) => {
+                                return acc + curr.contribution
+                            }, 0)
+
+                        if (project.sum <= donationSum) {
+                            Project.findOneAndUpdate(
+                                { _id: project._id },
+                                { completed: true },
+                                { useFindAndModify: false }
+                            ).catch(next)
+                        }
+                    })
+                    .catch((e) => console.log(e))
+                res.status(200).send(donation)
+            })
             .catch((e) => res.status(500).send(e))
     }
 }

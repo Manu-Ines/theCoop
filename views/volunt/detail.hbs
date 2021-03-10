@@ -49,21 +49,31 @@
                 <hr>
                 {{/each}}
 
-                {{#if currentUser}}
+                
                 {{#isOrg currentUser.role}}
                 <a href="/logout" class="button btn__secondary btn-lg my-2">
                     Para poder donar a otra organización, cierra sesión y regístrese como usuario</a>
+                {{/isOrg}}
+
+                {{#if currentUser}}
+                {{#if imGoing}}
+                <p>¡Estás apuntado a este voluntariado! </p>
+                <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
+                    data-bs-target="#sendInfoPopup">
+                    Enviarme de nuevo la información</a>
+                <a href="#" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#dropOutVolunt">
+                    Darme de baja</a>
                 {{else}}
                 <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
                     data-bs-target="#assistPopup">
-                    Apuntarme al voluntariado</a>
-                {{/isOrg}}
+                    Apuntarme al voluntariado DIRECT</a>
+                {{/if}}
                 {{else}}
                 <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
                     data-bs-target="#loginActionPopup">
-                    Apuntarme al voluntariado</a>
+                    Apuntarme al voluntariado LOGIN</a>
                 {{/if}}
-
 
             </div>
             <div class="card my-3">
@@ -90,7 +100,7 @@
     <div class="modal-dialog">
         <div style="max-width: 875px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
             <h3><b>¡Yo voy!</b></h3>
-            {{volunt.adress}}
+            <p>{{volunt.adress}}</p>
             {{#each volunt.date as |date|}}
             <p><b>Día</b> {{date.day}}</p>
             <p><b>Hora</b> {{date.time.start}} - {{date.time.end}}</p>
@@ -98,6 +108,39 @@
             {{/each}}
             <form action="/volunt/{{volunt.slug}}" method="POST">
                 <button type="submit" class="button btn__primary btn-lg">Reervar plaza</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="sendInfoPopup" tabindex="-1" aria-labelledby="sendInfoPopup" aria-hidden="true">
+    <div class="modal-dialog">
+        <div style="max-width: 875px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
+            <h3><b>Información</b></h3>
+            <p>{{volunt.adress}}</p>
+            {{#each volunt.date as |date|}}
+            <p><b>Día</b> {{date.day}}</p>
+            <p><b>Hora</b> {{date.time.start}} - {{date.time.end}}</p>
+            {{/each}}
+            <form action="/request-info-email" method="POST">
+                <input name="adress" value="{{volunt.adress}}" style="display: none">
+                <input name="day" value="{{volunt.date.day}}" style="display: none">
+                <input name="time1" value="{{volunt.date.time.start}}" style="display: none">
+                <input name="time2" value="{{volunt.date.time.end}}" style="display: none">
+                <input name="slug" value="{{volunt.slug}}" style="display: none">
+                <input name="email" class="form-control form-control-lg mb-2" value="{{currentUser.email}}">
+                <button type="submit" class="button btn__primary btn-lg">Enviar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="dropOutVolunt" tabindex="-1" aria-labelledby="dropOutVolunt" aria-hidden="true">
+    <div class="modal-dialog">
+        <div style="max-width: 875px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
+            <h6><b>¿Estás seguro de que no quieres asistir como voluntario a {{volunt.title}}?</b></h6>
+            <form action="/volunt-drop-out/{{volunt.slug}}" method="POST">
+                <button type="submit" class="button btn__primary btn-lg">Enviar</button>
             </form>
         </div>
     </div>

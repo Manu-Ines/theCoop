@@ -4,7 +4,7 @@
             <h2>Administrador</h2>
         </div>
         <div class="col d-flex justify-content-end">
-            <h2>{{org.name}}</h2>
+            <h2 style="color:#047857">{{currentUser.name}}</h2>
         </div>
     </div>
     
@@ -40,16 +40,16 @@
             {{#each volunts as |volunt|}}
             <b>{{volunt.title}}</b>
             Voluntarios necesitados -> {{volunt.assistants}}
-            Apuntados -> {{volunt.assistance}}<br> 
+            Apuntados -> 
+            {{#each volunt.assistance as |user|}}
+            {{#each user.assistant as |u|}}
+            {{u.name}}
+            {{/each}}
+            {{/each}}
+            <br> 
             {{/each}}
             <hr>
         </table>
-        <p>
-        {{#each assists as |asist|}}
-            {{asist.assistant.name}} 
-            {{asist.volunt.title}} 
-        {{/each}}
-        </p>
         <hr>
     </div>
 </div>

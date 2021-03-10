@@ -16,12 +16,12 @@ hbs.registerHelper('isUser', function (val, options) {
 })
 
 // Code
-hbs.registerHelper('decrypt', function (val) { // -------------------> Use if exists data
+hbs.registerHelper('decrypt', function (val) { 
     let bytes = CryptoJS.AES.decrypt(val, process.env.ENCRYPT_KEY)
     return bytes.toString(CryptoJS.enc.Utf8)
 })
 
-hbs.registerHelper('bankAcc', function (val) { // -------------------> Use if exists data
+hbs.registerHelper('bankAcc', function (val) {
     let bytes = CryptoJS.AES.decrypt(val, process.env.ENCRYPT_KEY)
     let decryptedText = bytes.toString(CryptoJS.enc.Utf8)
 

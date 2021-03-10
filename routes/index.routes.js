@@ -33,6 +33,13 @@ router.get(
     secure.isNotAuthenticated,
     userController.activate
 )
+// Request info email ------------------------------------------------------------
+router.post(
+    '/request-info-email',
+    secure.checkRoles('USER'),
+    secure.isAuthenticated,
+    userController.sendInfoEmail
+)
 
 // Social auth
 router.post('/authenticate/google', (req, res, next) => {

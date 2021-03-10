@@ -10,5 +10,11 @@ router.post ('/volunt/:slug',
     secure.isAuthenticated,
     assistanceController.doAssistance
 )
+router.post('/volunt-drop-out/:slug',
+    secure.checkRoles('USER'),
+    upload.single('profilePicture'),
+    secure.isAuthenticated,
+    assistanceController.unDoAssistance
+)
 
 module.exports = router

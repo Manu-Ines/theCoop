@@ -53,7 +53,31 @@ module.exports.profile = (req, res, next) => {
 
 module.exports.publicProfile = (req, res, next) => {
     Org.findOne({ _id: req.params.id })
+        .populate({
+            path: 'projects',
+            populate: [{ path: 'donations' }, { path: 'owner' }],
+        })
+        .populate({
+            path: 'volunts',
+            populate: [{ path: 'assistance' }, { path: 'owner' }],
+        })
         .then((org) => {
+            org.projects.map((obj) => {
+                obj.money = obj.donations
+                    .filter((d) => d.paid)
+                    .reduce((acc, cur) => {
+                        return (acc += cur.contribution)
+                    }, 0)
+                obj.percent = (obj.money * 100) / obj.sum
+                return obj
+            })
+
+            org.volunts.map((obj) => {
+                obj.people = obj.assistance.length
+                obj.percent = (obj.people * 100) / obj.assistants
+                return obj
+            })
+
             res.render('org/public-profile', org)
         })
         .catch(next)

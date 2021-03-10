@@ -1,4 +1,6 @@
 require('dotenv').config()
+const client = require('../configs/algolia.config')
+const index = client.initIndex('projects')
 const Project = require('../models/projects/Project.model')
 const Donation = require('../models/projects/Donation.model')
 const categs = require('../configs/categs.config')
@@ -20,11 +22,23 @@ module.exports.doCreate = (req, res, next) => {
     req.body.owner = req.currentUser.id
     req.body.image = req.file
         ? req.file.path
-        : placeholders[Math.floor(Math.random() * (5 - 1) + 1)]
+        : placeholders[Math.floor(Math.random() * (4 - 1) + 1)]
 
     Project.create(req.body)
         .then((project) => {
-            res.redirect(`/project/${project.slug}`)
+            index
+                .saveObjects([project], {
+                    autoGenerateObjectIDIfNotExist: true,
+                })
+                .then((obj) => {
+                    Project.updateOne(
+                        { _id: project._id },
+                        { algoliaID: obj.objectIDs[0] }
+                    ).then(() => {
+                        res.redirect(`/project/${project.slug}`)
+                    })
+                })
+                .catch(next)
         })
         .catch(next)
 }
@@ -33,6 +47,16 @@ module.exports.doCreate = (req, res, next) => {
 module.exports.detail = (req, res, next) => {
     Project.findOne({ slug: req.params.slug })
         .populate('owner')
+        .populate({
+            path: 'donations',
+            populate: {
+                path: 'donator',
+                match: { visibility: true },
+            },
+            options: {
+                limit: 2,
+            },
+        })
         .then((project) => {
             Donation.find({ project: project._id, paid: true })
                 .then((donations) => {
@@ -41,6 +65,8 @@ module.exports.detail = (req, res, next) => {
                         (acc, curr) => acc + curr.contribution,
                         0
                     )
+
+                    project.percent = (collectedTotal * 100) / project.sum
 
                     res.render('project/detail', {
                         project,
@@ -55,6 +81,26 @@ module.exports.detail = (req, res, next) => {
                 .catch(() => next)
         })
         .catch(() => next)
+}
+
+module.exports.list = (req, res, next) => {
+    Project.find({ completed: false })
+        .limit(50)
+        .populate('owner')
+        .populate('donations')
+        .then((projects) => {
+            projects.map((obj) => {
+                obj.money = obj.donations
+                    .filter((d) => d.paid)
+                    .reduce((acc, cur) => {
+                        return (acc += cur.contribution)
+                    }, 0)
+                obj.percent = (obj.money * 100) / obj.sum
+                return obj
+            })
+
+            res.render('project/list', { projects })
+        })
 }
 
 // Edit project
@@ -103,7 +149,13 @@ module.exports.doEdit = (req, res, next) => {
         useFindAndModify: false,
     })
         .then((project) => {
-            res.redirect(`/project/${project.slug}`)
+            req.body.objectID = project.algoliaID
+            index
+                .partialUpdateObject(req.body)
+                .then(() => {
+                    res.redirect(`/project/${project.slug}`)
+                })
+                .catch(next)
         })
         .catch(next)
 }
@@ -119,7 +171,12 @@ module.exports.doDelete = (req, res, next) => {
                             if (donations.length === 0) {
                                 Project.deleteOne({ _id: project.id }).then(
                                     () => {
-                                        res.redirect('/org/profile')
+                                        index
+                                            .deleteObjects([project.algoliaID])
+                                            .then(() => {
+                                                res.redirect('/org/profile')
+                                            })
+                                            .catch(next)
                                     }
                                 )
                             } else {

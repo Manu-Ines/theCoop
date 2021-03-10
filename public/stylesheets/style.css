@@ -212,6 +212,26 @@ footer a {
     color: #fff;
 }
 
+.main__hero__projects {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgb(0, 0, 0, 0.2)),
+        url('../images/projects-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    color: #fff;
+}
+
+.main__hero__volunts {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgb(0, 0, 0, 0.2)),
+        url('../images/volunts-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    color: #fff;
+}
+
 /* FORMS 
 ===============================*/
 .form-control {
@@ -335,6 +355,18 @@ canvas {
     background-size: cover;
 }
 
+.public__header {
+    min-height: 350px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-radius: 0.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 /* MAPBOX
 ===============================*/
 canvas {
@@ -377,4 +409,15 @@ canvas {
     height: 100%;
     object-fit: cover;
     border-radius: 0.5rem;
+}
+
+.navbar-light .navbar-toggler {
+    color: #000000 !important;
+    border-color: rgba(0, 0, 0, 0) !important;
+}
+
+.navbar-toggler:focus {
+    text-decoration: none;
+    outline: 0;
+    box-shadow: 0 0 0 0rem !important;
 }

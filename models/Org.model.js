@@ -77,6 +77,9 @@ const orgSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        algoliaID: {
+            type: String,
+        },
     },
     {
         timestamps: true,
@@ -85,7 +88,7 @@ const orgSchema = new mongoose.Schema(
         },
         toObject: {
             virtuals: true,
-        }
+        },
     }
 )
 // Virtuals -----------------------

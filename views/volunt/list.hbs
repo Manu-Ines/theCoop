@@ -7,6 +7,45 @@
     </div>
 </div>
 
+<div class="container">
+    <div class="row">
+        <a href="#">
+            <p id="btnFilter"><i class="fas fa-filter"></i>  Búsqueda filtrada</p>
+        </a>  
+    </div>
+
+    <div class="row" id="parameters" style="display: none">
+        <form action="/voluntariados/filter" method="GET">
+            <label class="form-check-label" for="flexRadioDefault1">Tiempo</label>
+            <select name="time" class="form-select" aria-label="Default select example">
+                <option selected>Horario</option>
+                <option value="1">Mañana 09:00 - 13:00</option>
+                <option value="2">Mediodía 13:00 - 16:00</option>
+                <option value="3">Tarde 16:00 - 21:00</option>
+            </select>
+            
+            <div class="mb-3">
+                <label for="filterDate" class="form-label h6">Día</label>
+                <input name="day" class="form-control form-control-lg" type="date" id="filterDate"
+                    placeholder="Fecha">
+            </div>
+
+            <div class="mb-3">
+                <label for="categs" class="form-label">Categoría</label>
+                <select name="category" class="form-select form-select-lg">
+                    <option value="Sin categorizar">Seleccionar</option>
+                    {{#each categs as |categ|}}
+                    <option value="{{categ}}">{{categ}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <button type="submit">Filtrar búsquedas</button>
+        </form>
+    </div>
+
+</div>
+
 <div class="container mt-5">
     <div class="row">
         {{#each volunts as |volunt|}}
@@ -16,3 +55,28 @@
         {{/each}}
     </div>
 </div>
+
+<script src="https://unpkg.com/imask"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
+
+<script>
+
+    let btnFilter = document.getElementById('btnFilter')
+    let parameters = document.getElementById('parameters')
+
+    btnFilter.addEventListener('click', function (e) {
+        parameters.style.display = 'block'
+    });
+
+    flatpickr.l10ns.default.firstDayOfWeek = 1; // Monday 1st day
+    flatpickr(document.getElementById('filterDate'), {
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        "locale": "es",
+    });
+
+</script>

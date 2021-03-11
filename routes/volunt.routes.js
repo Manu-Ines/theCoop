@@ -46,6 +46,7 @@ router.post(
 )
 
 // View Project
+router.get('/voluntariados/filter', voluntController.filter)
 router.get('/voluntariados', voluntController.list)
 router.get('/volunt/:slug', voluntController.detail)
 

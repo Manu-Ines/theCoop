@@ -2,97 +2,82 @@
 
 <div class="container my-6">
     <h2 class="mb-4">Configuración de la cuenta</h2>
-    <hr style="height:3px;border:none;">
-<div class="container">
-    <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#emailUser" aria-expanded="false" aria-controls="emailUser">
-        <div class="row mb-4">
-            <div class="col-2 d-flex justify-content-start align-items-center">
-                <p><b>Email</b></p>
-            </div>
-            <div class="col d-flex justify-content-start align-items-center">
-                <p>{{currentUser.email}}</p>
-            </div>
-            <div class="col d-flex justify-content-end">
-                <a class="button btn__secondary">Editar</a>
-            </div>
-        </div>
-    </button>
-    {{!-- EMAIL FORM --}}
-    <div class="collapse row my-3 background__light" id="emailUser">
-            <div class="col-2"></div>
-            <div class="col">
-                <form action="/settings-e" method="POST">
-                    <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i>  Al editar el email de la cuenta tendrás que verificarlo desde el nuevo email, en caso contrario esta cuenta quedará desactivada permanentemente</div>
-                    <input type="email" class="form-control mb-2 {{#if error.email}}is-invalid{{/if}}" name="email" id="email" placeholder="Nuevo email" required>
-                    <div class="invalid-feedback">
-                        {{error.email}}
+    <div class="container">
+        <div class="border rounded__custom p-4 mb-3">
+            <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#emailUser"
+                aria-expanded="false" aria-controls="emailUser">
+                <div class="row mb-4">
+                    <div class="col-2 d-flex justify-content-start align-items-center">
+                        <p><b>Email</b></p>
                     </div>
-                    <button type="submit" class="button btn__primary mb-4">Enviar email de verificación al nuevo email</button>
-                </form>
-            </div>
-            <div class="col-3"></div>
-        </div>
-    <hr>
-
-    <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#passwordUser" aria-expanded="false" aria-controls="passwordUser">
-        <div class="row mb-4">
-            <div class="col-2 d-flex justify-content-start align-items-center">
-                <p><b>Contraseña</b></p>
-            </div>
-            <div class="col d-flex justify-content-start align-items-center">
-                <p>*********</p>
-            </div>
-            <div class="col d-flex justify-content-end">
-                <a class="button btn__secondary">Editar</a>
-            </div>
-        </div>
-    </button>
-    {{!-- PASSWORD FORM --}}
-    <div class="collapse row my-3 background__light" id="passwordUser">
-            <div class="col-2"></div>
-            <div class="col">
-                <form action="/settings-p" method="POST">
-                    <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Para cambiar la contraseña se realiza un proceso de doble verificación: <br> 
-                    1. Se verifica tu identidad a través de un email -la cuenta quedará desactivada hasta que se verifique- <br>
-                    2. Se requerirá la antigua contraseña </div>
-                    <button type="submit" class="button btn__primary mb-4">Enviar email de verificación</button>
-                </form>
-            </div>
-            <div class="col-3"></div>
-        </div>
-    <hr>
-
-    <form action="#" method="get">
-            <div class="row">
-                <div class="col-2">
-                    <label for="password" class="form-label"><b>Métodos de pago</b></label>
+                    <div class="col d-flex justify-content-start align-items-center">
+                        <p>{{currentUser.email}}</p>
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                        <a class="button btn__light">Editar</a>
+                    </div>
                 </div>
+            </button>
+            {{!-- EMAIL FORM --}}
+            <div class="collapse row my-3 background__light" id="emailUser">
+                <div class="col-2"></div>
                 <div class="col">
-                    <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                Visa ...4653
-                            </label>
+                    <form action="/settings-e" method="POST">
+                        <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> Al editar el email de la
+                            cuenta tendrás que verificarlo desde el nuevo email, en caso contrario esta cuenta quedará
+                            desactivada permanentemente</div>
+                        <input type="email" class="form-control mb-2 {{#if error.email}}is-invalid{{/if}}" name="email"
+                            id="email" placeholder="Nuevo email" required>
+                        <div class="invalid-feedback">
+                            {{error.email}}
                         </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                Master Card ...6473
-                            </label>
-                        </div>
-                    </div>
-                <div class="col-12 col-sm-auto">
-                    <button type="submit" class="button btn__secondary">Actualizar</button>
+                        <button type="submit" class="button btn__primary mb-4">Enviar email de verificación al nuevo
+                            email</button>
+                    </form>
                 </div>
+                <div class="col-3"></div>
             </div>
-        </form>
+        </div>
+
+        <div class="border rounded__custom p-4">
+            <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#passwordUser"
+                aria-expanded="false" aria-controls="passwordUser">
+                <div class="row mb-4">
+                    <div class="col-2 d-flex justify-content-start align-items-center">
+                        <p><b>Contraseña</b></p>
+                    </div>
+                    <div class="col d-flex justify-content-start align-items-center">
+                        <p>*********</p>
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                        <a class="button btn__light">Editar</a>
+                    </div>
+                </div>
+            </button>
+            {{!-- PASSWORD FORM --}}
+            <div class="collapse row my-3 background__light" id="passwordUser">
+                <div class="col-2"></div>
+                <div class="col">
+                    <form action="/settings-p" method="POST">
+                        <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Para cambiar la
+                            contraseña
+                            se realiza un proceso de doble verificación: <br>
+                            1. Se verifica tu identidad a través de un email -la cuenta quedará desactivada hasta que se
+                            verifique- <br>
+                            2. Se requerirá la antigua contraseña </div>
+                        <button type="submit" class="button btn__primary mb-4">Enviar email de verificación</button>
+                    </form>
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </div>
     </div>
-<hr style="height:3px;border:none;">
-<div class="d-flex flex-row-reverse bd-highlight">
-    <div class="p-2">
-        <a href="#" class="button btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserPopUp">Eliminar cuenta</a>
+    <div class="d-flex flex-row-reverse bd-highlight">
+        <div class="p-2">
+            <a href="#" class="button btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserPopUp">Eliminar
+                cuenta</a>
+        </div>
     </div>
-</div>
 </div>
 
 
@@ -100,11 +85,12 @@
 <div class="modal" id="deleteUserPopUp" tabindex="-1" aria-labelledby="deleteUserPopUp" aria-hidden="true">
     <div class="modal-dialog">
         <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
-        <form action="/settings-delete-account" method="POST">
+            <form action="/settings-delete-account" method="POST">
                 <label for="email" class="form-label"><b>Eliminar cuenta</b></label>
-            <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i>  La cuenta se eliminará permanente mente. <br>  No será posible la recuperación de datos</div>
-            <button type="submit" class="btn btn-danger">Eliminar mi cuenta permanentemente</button>
-        </form>
+                <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> La cuenta se eliminará
+                    permanente mente. <br> No será posible la recuperación de datos</div>
+                <button type="submit" class="btn btn-danger">Eliminar mi cuenta permanentemente</button>
+            </form>
         </div>
     </div>
 </div>

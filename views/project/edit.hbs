@@ -81,46 +81,53 @@
     </form>
     {{#if noProjects}}
     <a href="#" class="btn btn-danger mt-3 px-4" data-bs-toggle="modal" data-bs-target="#deleteProjectPopUp">
-            Eliminar proyecto
+        Eliminar proyecto
     </a>
     {{else}}
-    
-    <a href="#" class="btn btn-danger mt-3 px-4" data-bs-toggle="modal" data-bs-target="#deleteRequestProjectPopUp">
-            Solicitud de eliminación
+
+    <a href="#" class="button btn__light mt-3 px-4" data-bs-toggle="modal" data-bs-target="#deleteRequestProjectPopUp">
+        Solicitud de eliminación
     </a>
     {{/if}}
-   
+
 </div>
 
 {{!-- DELETE PROYECT FORM POPUP --}}
 <div class="modal" id="deleteProjectPopUp" tabindex="-1" aria-labelledby="deleteProjectPopUp" aria-hidden="true">
     <div class="modal-dialog">
         <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
-        <form action="/delete-project/{{project._id}}" method="POST">
-            <label for="email" class="form-label"><h4>El proyecto se eliminará permanentemente</h4></label>
-            <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> La eliminación de proyectos solo será posible mientras no haya recibido ninguna contribución</div>
-            <button type="submit" class="btn btn-danger mt-2">Eliminar proyecto</button>
-        </form>
+            <form action="/delete-project/{{project._id}}" method="POST">
+                <label for="email" class="form-label">
+                    <h4>El proyecto se eliminará permanentemente</h4>
+                </label>
+                <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> La eliminación de proyectos solo
+                    será posible mientras no haya recibido ninguna contribución</div>
+                <button type="submit" class="button btn__light mt-2">Eliminar proyecto</button>
+            </form>
         </div>
     </div>
 </div>
 
 {{!-- REQUEST DELETE PROYECT FORM POPUP --}}
-<div class="modal" id="deleteRequestProjectPopUp" tabindex="-1" aria-labelledby="deleteRequestProjectPopUp" aria-hidden="true">
+<div class="modal" id="deleteRequestProjectPopUp" tabindex="-1" aria-labelledby="deleteRequestProjectPopUp"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
-        <form action="/delete-project/{{project._id}}" method="POST">
-            <label class="form-label"><h4> Solicitud de eliminación</h4></label>
-            <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> El proyecto consta de donaciones vigentes y necesita autorización para eliminar el proyecto </div>
-            <select id="reason-delete-proj" name="reason" class="form-select" aria-label="Default select example">
-                <option selected>¿Por qué desea eliminar el projecto?</option>
-                <option value="1">Ya he conseguido recaudar los fondos por otras vías</option>
-                <option value="2">Las donacions están tardando demasiado</option>
-                <option value="3">Finalmente no necesitamos los fondos</option>
-                <option value="4">Otros</option>
-            </select>
-            <button type="submit" class="btn btn-danger mt-2">Enviar solicitud de eliminación</button>
-        </form>
+            <form action="/delete-project/{{project._id}}" method="POST">
+                <label class="form-label">
+                    <h4> Solicitud de eliminación</h4>
+                </label>
+                <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> El proyecto consta de donaciones
+                    vigentes y necesita autorización para eliminar el proyecto </div>
+                <select id="reason-delete-proj" name="reason" class="form-select" aria-label="Default select example">
+                    <option selected>¿Por qué desea eliminar el projecto?</option>
+                    <option value="1">Ya he conseguido recaudar los fondos por otras vías</option>
+                    <option value="2">Las donacions están tardando demasiado</option>
+                    <option value="3">Finalmente no necesitamos los fondos</option>
+                    <option value="4">Otros</option>
+                </select>
+                <button type="submit" class="button btn__light mt-2 w-100">Enviar solicitud de eliminación</button>
+            </form>
         </div>
     </div>
 </div>
@@ -144,45 +151,45 @@
     // -----------------------------------------------------------------------------------
     let address = document.querySelector('#adressE').value
 
-    mapboxgl.accessToken = 'pk.eyJ1IjoicGFsbWFzYSIsImEiOiJja2x0OHpvdDYwNmJ5MndvM2NiNGF5NWtzIn0.aVa1uyTkA0cl1WuZezJQtw';
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFudWNhcmFsbW8iLCJhIjoiY2tsdXgxazNzMDhtdzJ3cWx6cHRyb2U5NCJ9.lLgjepzuFFwLFmmDCrZ73A';
     var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
     mapboxClient.geocoding
-    .forwardGeocode({
-        query: `${address}`,
-        autocomplete: false,
-        limit: 1    
-    })
-    .send()
-    .then(function (response) {
-        if (response.body.features.length) {
-            var feature = response.body.features[0];
-
-        var mapCreateEdit = new mapboxgl.Map({
-            container: 'mapCreateEdit',
-            style: 'mapbox://styles/mapbox/streets-v11', // si meto tu estilo me falla
-            center: feature.center,
-            zoom: 10
-        });
-            new mapboxgl.Marker().setLngLat(feature.center).addTo(mapCreateEdit);
-        }
-        // Geocoder
-        var geocoderE = new MapboxGeocoder({
-            accessToken: mapboxgl.accessToken,
-            mapboxgl: mapboxgl,
-            placeholder: 'Buscar',
-            marker: {
-                color: "#059669"
-            }
-        });
-        document.getElementById('geocoderE').appendChild(geocoderE.onAdd(mapCreateEdit));
-
-        geocoderE.on('result', () => {
-            document.querySelector('#adressE').value = JSON.parse(geocoderE.lastSelected).place_name
+        .forwardGeocode({
+            query: `${address}`,
+            autocomplete: false,
+            limit: 1
         })
+        .send()
+        .then(function (response) {
+            if (response.body.features.length) {
+                var feature = response.body.features[0];
 
-        // Set custom style to input
-        document.querySelector('#geocoderE input').className = "form-control form-control-lg";
-        document.querySelector('#geocoderE input').value = "{{project.adress}}";
-    });
+                var mapCreateEdit = new mapboxgl.Map({
+                    container: 'mapCreateEdit',
+                    style: 'mapbox://styles/manucaralmo/ckm504dzo0yap17r1x4ys15t6', // si meto tu estilo me falla
+                    center: feature.center,
+                    zoom: 10
+                });
+                new mapboxgl.Marker().setLngLat(feature.center).addTo(mapCreateEdit);
+            }
+            // Geocoder
+            var geocoderE = new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                mapboxgl: mapboxgl,
+                placeholder: 'Buscar',
+                marker: {
+                    color: "#1167b1"
+                }
+            });
+            document.getElementById('geocoderE').appendChild(geocoderE.onAdd(mapCreateEdit));
+
+            geocoderE.on('result', () => {
+                document.querySelector('#adressE').value = JSON.parse(geocoderE.lastSelected).place_name
+            })
+
+            // Set custom style to input
+            document.querySelector('#geocoderE input').className = "form-control form-control-lg";
+            document.querySelector('#geocoderE input').value = "{{project.adress}}";
+        });
 
 </script>

@@ -2,8 +2,8 @@
 
 :root {
     /* Primary colors */
-    --main-color: #059669; /* #5085B9 */
-    --main-color-hover: #047857;
+    --main-color: #1167b1; /* #5085B9 */
+    --main-color-hover: #0e5492;
 
     /* Secondary colors */
     --secondary-color: #e0e7ff;
@@ -192,8 +192,13 @@ footer a {
     border-bottom: 1px solid #dbd9db !important;
 }
 
+.navbar {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+}
+
 .navbar-light .navbar-nav .nav-link {
-    font-size: 1.05rem;
+    font-size: 1rem;
     color: var(--color-dark-black) !important;
     transition: all 0.1s ease-in-out;
 }
@@ -203,7 +208,7 @@ footer a {
 }
 
 .main__hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgb(0, 0, 0, 0.2)),
+    background-image: linear-gradient(#1166b1c5, #1166b14d),
         url('../images/background-img.jpg');
     background-size: cover;
     background-repeat: no-repeat;

@@ -21,7 +21,8 @@
                     <span class="text-danger">Privado</span>
                     {{/if}}
                 </p>
-                <a href="/user/edit-profile" class="button btn__light"><i class="fas fa-pen"></i> Editar perfil</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#editProfile" class="button btn__light"><i
+                        class="fas fa-pen"></i> Editar perfil</a>
                 <a href="/user/settings" class="button btn__light"> <i class="fas fa-cog"></i> Configuración</a>
             </div>
         </div>
@@ -74,3 +75,47 @@
         </div>
     </div>
 </div>
+
+<div class="modal" id="editProfile" tabindex="-1" aria-labelledby="editProfile" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 500px;">
+        <div style="border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
+            <h1>Editar perfil</h1>
+            <form action="/edit-profile" method="POST" enctype="multipart/form-data" class="mt-4">
+
+                <div class="me-4 mb-5">
+                    <img src="{{currentUser.profilePicture}}" id="uploadPreview" height="155px"
+                        class="rounded__custom border" alt="profile image"><br>
+                    <label for="uploadImage" class="button btn__light btn-sm mt-2">
+                        Seleccionar imagen</label>
+                    <input id="uploadImage" type="file" name="profilePicture" class="input-file"
+                        onchange="PreviewImage();" />
+                </div>
+
+                <div>
+                    <input type="text" class="input-written {{#if error}}is-invalid{{/if}}" name="name" id="name"
+                        value="{{currentUser.name}}" placeholder="name" autofocus>
+                    {{#if error}}
+                    <div class="invalid-feedback">{{error.name}}</div>
+                    {{/if}}
+                    <div class="form-check form-switch mt-4">
+                        <input name="visibility" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                            {{#if currentUser.visibility}}checked{{/if}}>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Perfil público</label>
+                    </div>
+                    <button type="submit" class="button btn__light btn-lg mt-4 w-100">Actualizar perfil</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function PreviewImage() {
+        var oFReader = new FileReader()
+        oFReader.readAsDataURL(document.getElementById("uploadImage").files[0])
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("uploadPreview").src = oFREvent.target.result
+        }
+    }
+</script>

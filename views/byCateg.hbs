@@ -1,18 +1,17 @@
-<div class="container-fluid text-center my-4">
-    <h2>{{categ}}</h2>
+<div class="bg__main mb-4">
+    <div class="container py-5 text-light">
+        <h1>{{categ}}</h2>
+            <small>Proyectos y voluntariados</small>
+    </div>
 </div>
 {{#if projects}}
 <div class="container my-4">
+    <h3>Proyectos</h3>
+    <p>Apoya a los proyectos que te importan desde sólo 1€</p>
     <div class="row">
         {{#each projects as |project|}}
-        <div class="col-sm-4 mb-3">
-            <a href="/project/{{project.slug}}" class="card project__card p-4">
-                <h5>{{project.title}}</h5>
-                <small>
-                    <img src="{{project.owner.profilePicture}}" height="20px" alt="">
-                    {{project.owner.name}}
-                </small>
-            </a>
+        <div class="col-lg-4 mb-3">
+            {{> projectCard}}
         </div>
         {{/each}}
     </div>
@@ -21,16 +20,12 @@
 
 {{#if volunts}}
 <div class="container my-4">
+    <h3>Voluntariados</h3>
+    <p>Asiste a voluntariados de tu zona</p>
     <div class="row">
         {{#each volunts as |volunt|}}
-        <div class="col-sm-4 mb-3">
-            <a href="/volunt/{{volunt.slug}}" class="card project__card p-4">
-                <h5>{{volunt.title}}</h5>
-                <small>
-                    <img src="{{volunt.owner.profilePicture}}" height="20px" alt="">
-                    {{volunt.owner.name}}
-                </small>
-            </a>
+        <div class="col-lg-4 mb-3">
+            {{> voluntCard}}
         </div>
         {{/each}}
     </div>

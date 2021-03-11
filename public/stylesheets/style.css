@@ -80,7 +80,8 @@ p {
 }
 
 footer {
-    background-color: var(--background-light-color);
+    background-color: var(--main-color);
+    opacity: 0.99;
 }
 
 footer a {

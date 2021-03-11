@@ -31,7 +31,10 @@ hbs.registerHelper('bankAcc', function (val) {
 // Parse date
 hbs.registerHelper('dateHelper', function (val) {
     let dateParsed = new Date(val)
-    return `${dateParsed.getDay()}/${dateParsed.getMonth() + 1}/${dateParsed.getFullYear()}`
+    let months = [ 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre ']
+    let month = months[dateParsed.getMonth()]
+    return `${dateParsed.getDay()} de ${month} de ${dateParsed.getFullYear()}`
 })
 
 // Since date

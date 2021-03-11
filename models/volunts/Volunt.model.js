@@ -37,15 +37,13 @@ const voluntSchema = new mongoose.Schema(
             type: String,
             enum: ['Puntual', 'Recurrente'],
         },
-        date: [
-            {
-                day: { type: String },
-                time: {
-                    start: { type: String },
-                    end: { type: String },
-                },
+        date: [{
+            day: { type: String },
+            time: {
+                start: { type: String },
+                end: { type: String },
             },
-        ],
+        }],
         categs: {
             type: String,
             required: true,
@@ -85,8 +83,7 @@ const voluntSchema = new mongoose.Schema(
         timestamps: true,
         toJSON: { virtuals: true },
         toObject: { virtuals: true },
-    }
-)
+    })
 // Viruals --------------------------
 voluntSchema.virtual('assistance', {
     ref: 'Assistance',

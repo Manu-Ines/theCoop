@@ -21,7 +21,7 @@ transporter.verify(function (error, success) {
 module.exports.sendActivationEmail = (email, token) => {
     transporter
         .sendMail({
-            from: `"Rodiles" <manu@glow-media.com>`,
+            from: `"Coop" <thecoopspain@gmail.com>`,
             to: email,
             subject: 'Activa tu cuenta',
             text: 'Gracias por registrarte en Rodiles',
@@ -324,10 +324,10 @@ module.exports.sendActivationEmail = (email, token) => {
 module.exports.sendUpdateEmail = (email, token) => {
     transporter
         .sendMail({
-            from: `"Rodiles" <manu@glow-media.com>`,
+            from: `"Coop" <thecoopspain@gmail.com>`,
             to: email,
             subject: 'Verifica el email',
-            text: 'Veifica este email para editarlo en el perfil de rodiles',
+            text: 'Veifica este email para editarlo en el perfil de Coop',
             html: `
 								<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 				<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -627,11 +627,11 @@ module.exports.sendUpdateEmail = (email, token) => {
 module.exports.sendChangePassEmail = (email, token) => {
     transporter
         .sendMail({
-            from: `"Rodiles" <manu@glow-media.com>`,
+            from: `"Coop" <thecoopspain@gmail.com>`,
             to: email,
             subject: 'Verifica el email y cambia tú contraseña',
             text:
-                'Veifica este email para cambiar tu contraseña de la cuenta de rodiles',
+                'Veifica este email para cambiar tu contraseña de la cuenta de Coop',
             html: `
 								<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 				<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -931,11 +931,11 @@ module.exports.sendChangePassEmail = (email, token) => {
 module.exports.sendChangePassEmailSocial = (email, token) => {
     transporter
         .sendMail({
-            from: `"Rodiles" <manu@glow-media.com>`,
+            from: `"Coop" <thecoopspain@gmail.com>`,
             to: email,
             subject: 'Verifica el email y cambia tú contraseña - SOCIAL',
             text:
-                'Veifica este email para cambiar tu contraseña de la cuenta de rodiles',
+                'Veifica este email para cambiar tu contraseña de la cuenta de Coop',
             html: `
 								<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 				<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -1235,10 +1235,10 @@ module.exports.sendChangePassEmailSocial = (email, token) => {
 module.exports.sendForgotPasswordEmail = (email, token) => {
     transporter
         .sendMail({
-            from: `"Rodiles" <manu@glow-media.com>`,
+            from: `"Coop" <thecoopspain@gmail.com>`,
             to: email,
             subject: 'Restaura tu contraseña',
-            text: 'Restaura tu contraseña en Rodiles',
+            text: 'Restaura tu contraseña en Coop',
             html: `
 				<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 				<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -1539,7 +1539,7 @@ module.exports.sendForgotPasswordEmail = (email, token) => {
 module.exports.sendRequestDelete = (reciever, sender, reason) => {
 	transporter
 	.sendMail({
-		from: `"Rodiles" <manu@glow-media.com>`,
+		from: `"Coop" <thecoopspain@gmail.com>`,
 		to: reciever,
 		subject: 'Request to delete org account',
 		text: 'Quieren borrar una cuenta',
@@ -1552,7 +1552,7 @@ module.exports.sendRequestDelete = (reciever, sender, reason) => {
 module.exports.deleteProyectRequest = (reciever, sender, project, reason) => {
 	transporter
 	.sendMail({
-		from: `"Rodiles" <manu@glow-media.com>`,
+		from: `"Coop" <thecoopspain@gmail.com>`,
 		to: reciever,
 		subject: 'Request to delete project',
 		text: 'Quieren borrar un proyecto',
@@ -1565,7 +1565,7 @@ module.exports.deleteProyectRequest = (reciever, sender, project, reason) => {
 module.exports.sendInfoEmail = (email, info) => {
 	transporter
 	.sendMail({
-		from: `"Rodiles" <manu@glow-media.com>`,
+		from: `"Coop" <thecoopspain@gmail.com>`,
 		to: email,
 		subject: 'Información solicitada',
 		text: 'Has solicitado la siguiente información',

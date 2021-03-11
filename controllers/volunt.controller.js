@@ -26,15 +26,14 @@ module.exports.doCreate = (req, res, next) => {
     req.body.image = req.file
         ? req.file.path
         : placeholders[Math.floor(Math.random() * (4 - 1) + 1)]
-    req.body.date = [
-        {
+    req.body.date = [{
             day: req.body.day,
             time: {
                 start: req.body.timeStart,
                 end: req.body.timeEnd,
-            },
-        },
-    ]
+            }
+    }]
+    
     Volunt.create(req.body)
         .then((volunt) => {
             index
@@ -92,8 +91,48 @@ module.exports.list = (req, res, next) => {
                 obj.percent = (obj.people * 100) / obj.assistants
                 return obj
             })
+            res.render('volunt/list', { volunts, categs: categs })
+        })
+}
 
-            res.render('volunt/list', { volunts })
+module.exports.filter = (req, res, next) => {
+    let { day, category } = req.query
+    const MORNING_REGEX = /^(06|07|08|09|10|11|12)/
+    const MIDAY_REGEX = /^(13|14|15)/
+    const AFTERNOON_REGEX = /^(16|17|18|19|20|21|22)/
+    const ALL_REGEX = /^(0|1|2)/
+    let time = 0
+    
+    if (req.query.time === "1") {
+        time = MORNING_REGEX
+    } else if (req.query.time === "2") {
+        time = MIDAY_REGEX
+    } else if (req.query.time === "3") {
+        time = AFTERNOON_REGEX
+    } else {
+        time = ALL_REGEX
+    }
+    
+    if (!req.query.day) {
+        day = ALL_REGEX
+    }
+
+    Volunt.find({
+        completed: false,
+        categs: category,
+        "date.day": day,
+        "date.time.start": time
+    })                         
+        .limit(50)
+        .populate('owner')
+        .populate('assistance')
+        .then((volunts) => {
+            volunts.map((obj) => {
+                obj.people = obj.assistance.length
+                obj.percent = (obj.people * 100) / obj.assistants
+                return obj
+            })
+            res.render('volunt/list', { volunts, categs: categs })
         })
 }
 

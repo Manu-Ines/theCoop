@@ -14,12 +14,13 @@
                         <span>
                             <img src="{{project.owner.profilePicture}}" class="rounded border"
                                 style="vertical-align:middle; margin-right: 8px;" height="30px">
-                            <a href="/org/{{project.owner._id}}" class="text-white ml-2">{{project.owner.name}}</a>
+                            <a href="/org/{{project.owner._id}}" class="text-white ml-2 me-3">{{project.owner.name}}</a>
                         </span>
                     </div>
                 </div>
                 {{/if}}
                 <div class="p-4 p-md-5">
+                    <b>Publicado hace {{sinceHelper project.createdAt}} por {{project.owner.name}}</b>
                     <p>{{{project.description}}}</p>
                 </div>
             </div>
@@ -53,7 +54,8 @@
                     {{#each project.donations as |donation|}}
                     <div class="d-flex justify-content-start align-items-center mb-2 text-muted">
                         <img src="{{donation.donator.profilePicture}}" height="35px" class="me-3 rounded border" alt="">
-                        <div><b>{{donation.donator.name}}</b><br>ha donado {{donation.contribution}}€ hace 3 días</div>
+                        <div><b>{{donation.donator.name}}</b><br>ha donado {{donation.contribution}}€ hace
+                            {{sinceHelper donation.createdAt}}</div>
                     </div>
                     {{/each}}
                 </div>
@@ -65,16 +67,17 @@
                 {{else}}
                 <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
                     data-bs-target="#donationPopup">
-                    Apoyar al proyecto</a>
+                    <i class="far fa-hands-heart me-1"></i> Apoyar al proyecto</a>
                 {{/isOrg}}
                 {{else}}
                 <a href="#" class="button btn__primary btn-lg my-2" data-bs-toggle="modal"
                     data-bs-target="#loginActionPopup">
-                    Apoyar al proyecto</a>
+                    <i class="far fa-hands-heart me-1"></i> Apoyar al proyecto</a>
                 {{/if}}
 
                 <br>
-                <small>Puedes apoyar al proyecto desde 1€, de forma pública o totalmente privada.</small>
+                <small>Puedes apoyar al proyecto desde 1€, de forma pública o totalmente privada hasta el {{dateHelper
+                    project.endDate}}.</small>
             </div>
 
             <div class="card my-3">
@@ -85,7 +88,8 @@
                 <div id="query" class="p-4" data-adress="{{project.adress}}">
                     <h4>Dirección:</h4>
                     {{project.adress}}
-                    <br><a href="#" class="button btn__light mt-3"><i class="fas fa-map-marker-alt mr-2"></i> Obtener
+                    <br><a href="https://www.google.es/maps/place/{{project.adress}}" target="_blank" rel="noopener"
+                        class="button btn__light mt-3"><i class="fas fa-map-marker-alt mr-2"></i> Obtener
                         ruta</a>
                 </div>
             </div>
@@ -99,17 +103,34 @@
 
 <div class="modal" id="donationPopup" tabindex="-1" aria-labelledby="donationPopup" aria-hidden="true">
     <div class="modal-dialog">
-        <div style="max-width: 875px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
-            <h3><b>Donación</b></h3>
-            <form id="donation">
-                <input name="contribution" id="quantity" class="form-control" type="number" class="form-label">
-                <div class="form-check form-switch mt-4">
-                    <input name="anonymous" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
-                        {{#unless currentUser.visibility}}checked{{/unless}}>
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Donación anónima</label>
+        <div style="max-width: 875px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5">
+            {{#if project.completed}}
+            <h3><b>Proyecto completo</b></h3>
+            <p>El proyecto de {{project.owner.name}} ha cumplido su objetivo gracias a la ayuda de nuestra comunidad de
+                usuarios.</p>
+            <a href="/proyectos" class="button btn__light btn-lg">Ver más proyectos</a>
+            {{else}}
+            <h3><b>Hacer una donación</b></h3>
+            <p>Con tu donación ayudarás a que {{project.owner.name}} cumpla su objetivo.</p>
+            <form id="donation" class="mt-3">
+                <div class="mb-4">
+                    <label for="quantity" class="h6 form-label"><b>¿Cuánto te gustaría aportar?</b></label>
+                    <input name="contribution" id="quantity" class="form-control form-control-lg" type="number"
+                        placeholder="Ej: 25" class="form-label">
                 </div>
-                <button type="submit" id="checkout-button" class="button btn__primary btn-lg">Donar</button>
+                <div class="mb-5">
+                    <label for="quantity" class="h6 form-label"><b>¿Te gustaría que la donación fuera
+                            pública?</b></label>
+                    <div class="form-check form-switch">
+                        <input name="anonymous" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                            {{#unless currentUser.visibility}}checked{{/unless}}>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Donación anónima</label>
+                    </div>
+                </div>
+                <button type="submit" id="checkout-button" class="button btn__primary btn-lg w-100">Hacer
+                    donación</button>
             </form>
+            {{/if}}
         </div>
     </div>
 </div>
@@ -131,12 +152,12 @@
 
                 var mapShow = new mapboxgl.Map({
                     container: 'mapShow',
-                    style: 'mapbox://styles/manucaralmo/ckluy87tb3vjd17qnb86rc62w',
+                    style: 'mapbox://styles/manucaralmo/ckm504dzo0yap17r1x4ys15t6',
                     center: feature.center,
                     zoom: 15
                 })
                 new mapboxgl.Marker({
-                    color: "#059669",
+                    color: "#1167b1",
                 })
                     .setLngLat(feature.center)
                     .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
@@ -152,6 +173,8 @@
 
     donationForm.addEventListener("submit", (e) => {
         e.preventDefault()
+
+        document.getElementById('checkout-button').innerHTML = 'Cargando...'
 
         let data = {
             quantity: document.getElementById('quantity').value,

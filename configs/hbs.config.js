@@ -16,7 +16,7 @@ hbs.registerHelper('isUser', function (val, options) {
 })
 
 // Code
-hbs.registerHelper('decrypt', function (val) { 
+hbs.registerHelper('decrypt', function (val) {
     let bytes = CryptoJS.AES.decrypt(val, process.env.ENCRYPT_KEY)
     return bytes.toString(CryptoJS.enc.Utf8)
 })
@@ -26,4 +26,25 @@ hbs.registerHelper('bankAcc', function (val) {
     let decryptedText = bytes.toString(CryptoJS.enc.Utf8)
 
     return '••••' + decryptedText.slice(20)
+})
+
+// Parse date
+hbs.registerHelper('dateHelper', function (val) {
+    let dateParsed = new Date(val)
+    return `${dateParsed.getDay()}/${dateParsed.getMonth() + 1}/${dateParsed.getFullYear()}`
+})
+
+// Since date
+hbs.registerHelper('sinceHelper', function (val) {
+    let dateParsed = new Date(val).getTime()
+    let today = new Date().getTime()
+    var diff = today - dateParsed
+
+    let days = Math.floor(diff / (1000 * 60 * 60 * 24))
+
+    if (days <= 0) {
+        return Math.floor(diff / (1000 * 60 * 60)) + ' horas'
+    } else {
+        return Math.floor(diff / (1000 * 60 * 60 * 24)) + ' días'
+    }
 })

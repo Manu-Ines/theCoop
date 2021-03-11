@@ -10,10 +10,10 @@
             <div class="mt-3"><br>
                 {{#if currentUser}}
                 <a href="{{#isOrg currentUser.role}}/org/profile{{else}}/user/profile{{/isOrg}}"
-                    class="button btn__light btn-lg px-5">Profile</a>
+                    class="button btn__light btn-lg px-5">Mi cuenta</a>
                 {{else}}
                 <button type="button" data-bs-toggle="modal" data-bs-target="#loginPopup"
-                    class="button btn__light btn-lg px-5 ml-3">Inicia sesión</button>
+                    class="button btn__light btn-lg px-5">Inicia sesión</button>
                 {{/if}}
             </div>
         </div>

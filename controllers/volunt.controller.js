@@ -59,6 +59,7 @@ module.exports.detail = (req, res, next) => {
     Volunt.findOne({ slug: req.params.slug })
         .populate('owner')
         .then((volunt) => {
+            if (!volunt) next()
             Assistance.find({ volunt: volunt._id })
                 .then((assists) => {
                     let reserved = assists.length
@@ -69,11 +70,18 @@ module.exports.detail = (req, res, next) => {
                     } else {
                         let imGoing = false
                         assists.forEach((a) => {
-                            if (req.currentUser && a.assistant.equals(req.currentUser._id)) {
+                            if (
+                                req.currentUser &&
+                                a.assistant.equals(req.currentUser._id)
+                            ) {
                                 imGoing = true
                             }
                         })
-                        res.render('volunt/detail', { volunt, reserved, imGoing })
+                        res.render('volunt/detail', {
+                            volunt,
+                            reserved,
+                            imGoing,
+                        })
                     }
                 })
                 .catch(() => next)

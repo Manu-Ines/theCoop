@@ -58,6 +58,7 @@ module.exports.detail = (req, res, next) => {
             },
         })
         .then((project) => {
+            if (!project) next()
             Donation.find({ project: project._id, paid: true })
                 .then((donations) => {
                     let donatorsTotal = donations.length

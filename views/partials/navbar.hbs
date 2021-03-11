@@ -1,14 +1,19 @@
-<nav class="navbar navbar-expand-lg navbar-light bg__light">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg__light sticky-top">
+  <!-- Container wrapper -->
   <div class="container">
+    <!-- Navbar brand -->
     <a class="navbar-brand" href="/">
-      <b>Rodiles</b>
+      <img src="/images/coop-logo.svg" height="44" alt="">
     </a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse justify-content-md-end" id="navbarNavDropdown">
-      <ul class="navbar-nav">
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item ms-0 ms-md-2">
           <a class="nav-link" href="/">Inicio</a>
         </li>
@@ -18,21 +23,30 @@
         <li class="nav-item ms-0 ms-md-2">
           <a class="nav-link" href="/proyectos">Proyectos</a>
         </li>
+        <li class="nav-item ms-0 ms-md-2">
+          <a class="nav-link" href="/organizaciones">Organizaciones</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="ms-0 ms-md-2">
+          <a class="nav-link searchBtn" href="#" data-bs-toggle="modal" data-bs-target="#algoliaSearch">
+            <i class="far fa-search me-1"></i> Buscar
+          </a>
+        </li>
         {{#if currentUser}}
         <li class="ms-0 ms-md-2"><a class="nav-link"
-            href="{{#isOrg currentUser.role}}/org/profile{{else}}/user/profile{{/isOrg}}">Perfil</a>
+            href="{{#isOrg currentUser.role}}/org/profile{{else}}/user/profile{{/isOrg}}">
+            <i class="far fa-user me-1"></i> Mi cuenta
+          </a>
         </li>
         <li class="ms-0 ms-md-2"><a class="nav-link" href="/logout">Cerrar sesión</a></li>
         {{else}}
-        <li class="ms-0 ms-md-2"><a class="nav-link" href="#" data-bs-toggle="modal"
-            data-bs-target="#loginPopup">Iniciar sesión</a></li>
+        <li class="ms-0 ms-md-2"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginPopup"><i
+              class="far fa-user me-1"></i> Iniciar sesión</a></li>
         {{/if}}
-        <li class="ms-0 ms-md-2">
-          <a class="nav-link searchBtn" href="#" data-bs-toggle="modal" data-bs-target="#algoliaSearch">
-            Buscar
-          </a>
-        </li>
       </ul>
     </div>
   </div>
+  <!-- Container wrapper -->
 </nav>
+<!-- Navbar -->

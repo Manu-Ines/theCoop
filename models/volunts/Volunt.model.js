@@ -12,10 +12,6 @@ const voluntSchema = new mongoose.Schema(
             type: String,
             required: true,
             maxlength: [60, 'El título no puede superar 60 caracteres'],
-            match: [
-                TITLE_RGX,
-                'Tu título no puede contener caracteres especiales',
-            ],
         },
         slug: {
             type: String,
@@ -37,13 +33,15 @@ const voluntSchema = new mongoose.Schema(
             type: String,
             enum: ['Puntual', 'Recurrente'],
         },
-        date: [{
-            day: { type: String },
-            time: {
-                start: { type: String },
-                end: { type: String },
+        date: [
+            {
+                day: { type: String },
+                time: {
+                    start: { type: String },
+                    end: { type: String },
+                },
             },
-        }],
+        ],
         categs: {
             type: String,
             required: true,
@@ -83,7 +81,8 @@ const voluntSchema = new mongoose.Schema(
         timestamps: true,
         toJSON: { virtuals: true },
         toObject: { virtuals: true },
-    })
+    }
+)
 // Viruals --------------------------
 voluntSchema.virtual('assistance', {
     ref: 'Assistance',
@@ -107,6 +106,7 @@ voluntSchema.pre('save', function (next) {
                 .trim()
                 .toLowerCase()
                 .replace(/[ñáéíóúü]/g, (m) => chars[m])
+                .replace(/[^a-zA-Z0-9]/g, '-')
                 .split(' ')
                 .join('-') +
             '-' +

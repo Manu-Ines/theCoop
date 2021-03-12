@@ -17,7 +17,7 @@
                     placeholder="Título del proyecto" autocomplete="off" autofocus required>
             </div>
             <button type="button" id="step-1-btn" class="button btn__primary mt-3 btn-lg px-4 pull-right">
-                Continuar
+                Continuar <i class="far fa-chevron-right ms-1"></i>
             </button>
         </div>
         <div id="step-2" style="display: none;">
@@ -34,7 +34,7 @@
                 Volver
             </button>
             <button type="button" id="step-2-btn" class="button btn__primary mt-3 btn-lg px-4 pull-right">
-                Continuar
+                Continuar <i class="far fa-chevron-right ms-1"></i>
             </button>
         </div>
         <div id="step-3" style="display: none;">
@@ -55,7 +55,7 @@
                 Volver
             </button>
             <button type="button" id="step-3-btn" class="button btn__primary mt-3 btn-lg px-4 pull-right">
-                Continuar
+                Continuar <i class="far fa-chevron-right ms-1"></i>
             </button>
         </div>
         <div id="step-4" style="display: none;">
@@ -119,9 +119,6 @@
         file_picker_types: 'image',
     });
 
-    IMask(document.getElementById('title'), {
-        mask: /^[0-9a-zñáéíóúü\s]+$/i
-    });
     IMask(document.getElementById('sum'), {
         mask: Number,
         min: 1,

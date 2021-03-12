@@ -65,12 +65,29 @@ module.exports.detail = (req, res, next) => {
             project.percent = (collectedTotal * 100) / project.sum
             let donors2show = project.donations.slice(0, 2)
 
-            res.render('project/detail', {
-                project,
-                collectedTotal,
-                donatorsTotal: project.donations.length,
-                donors2show,
-            })
+            Project.find()
+                .limit(3)
+                .populate('owner')
+                .populate('donations')
+                .then((projs) => {
+                    projs.map((obj) => {
+                        obj.money = obj.donations
+                            .filter((d) => d.paid)
+                            .reduce((acc, cur) => {
+                                return (acc += cur.contribution)
+                            }, 0)
+                        obj.percent = (obj.money * 100) / obj.sum
+                        return obj
+                    })
+
+                    res.render('project/detail', {
+                        project,
+                        collectedTotal,
+                        donatorsTotal: project.donations.length,
+                        donors2show,
+                        projs,
+                    })
+                })
         })
         .catch(() => next)
 }

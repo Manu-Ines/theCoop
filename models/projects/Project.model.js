@@ -21,10 +21,6 @@ const projectSchema = new mongoose.Schema(
             required: true,
             trim: true,
             maxlength: [150, 'El título no puede superar 150 caracteres'],
-            match: [
-                TITLE_RGX,
-                'Tu título no puede contener caracteres especiales',
-            ],
         },
         slug: {
             type: String,
@@ -102,6 +98,7 @@ projectSchema.pre('save', function (next) {
                 .trim()
                 .toLowerCase()
                 .replace(/[ñáéíóúü]/g, (m) => chars[m])
+                .replace(/[^a-zA-Z0-9]/g, '-')
                 .split(' ')
                 .join('-') +
             '-' +

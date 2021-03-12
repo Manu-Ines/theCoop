@@ -26,13 +26,15 @@ module.exports.doCreate = (req, res, next) => {
     req.body.image = req.file
         ? req.file.path
         : placeholders[Math.floor(Math.random() * (4 - 1) + 1)]
-    req.body.date = [{
+    req.body.date = [
+        {
             day: req.body.day,
             time: {
                 start: req.body.timeStart,
                 end: req.body.timeEnd,
-            }
-    }]
+            },
+        },
+    ]
     console.log(req.body)
     Volunt.create(req.body)
         .then((volunt) => {
@@ -109,17 +111,17 @@ module.exports.filter = (req, res, next) => {
     const AFTERNOON_REGEX = /^(16|17|18|19|20|21|22)/
     const ALL_REGEX = /^(0|1|2)/
     let time = 0
-    
-    if (req.query.time === "1") {
+
+    if (req.query.time === '1') {
         time = MORNING_REGEX
-    } else if (req.query.time === "2") {
+    } else if (req.query.time === '2') {
         time = MIDAY_REGEX
-    } else if (req.query.time === "3") {
+    } else if (req.query.time === '3') {
         time = AFTERNOON_REGEX
     } else {
         time = ALL_REGEX
     }
-    
+
     if (!req.query.day) {
         day = ALL_REGEX
     }
@@ -127,9 +129,9 @@ module.exports.filter = (req, res, next) => {
     Volunt.find({
         completed: false,
         categs: category,
-        "date.day": day,
-        "date.time.start": time
-    })                         
+        'date.day': day,
+        'date.time.start': time,
+    })
         .limit(50)
         .populate('owner')
         .populate('assistance')
@@ -147,19 +149,16 @@ module.exports.filter = (req, res, next) => {
 module.exports.edit = (req, res, next) => {
     Volunt.findOne({ slug: req.params.slug }).then((volunt) => {
         if (volunt.owner.equals(req.currentUser._id)) {
-            
-            const date = volunt.date[0].day
-            const timeStart = volunt.date[0].time.start
-            const timeEnd = volunt.date[0].time.end
-            
+            let date = volunt.date[0].day
+            volunt.start = volunt.date[0].time.start
+            volunt.end = volunt.date[0].time.end
+
             Assistance.find({ volunt: volunt._id }).then((assists) => {
                 if (assists.length == 0) {
                     let noVolunts = true
                     res.render('volunt/edit', {
                         volunt,
                         date,
-                        timeStart,
-                        timeEnd,
                         categs: categs,
                         noVolunts,
                     })
@@ -180,13 +179,15 @@ module.exports.doEdit = (req, res, next) => {
     }
 
     if (req.body.day || req.body.timeStart || req.body.timeEnd) {
-        req.body.date = [{
-            day: req.body.day,
-            time: {
-                start: req.body.timeStart,
-                end: req.body.timeEnd,
-            }
-        }]
+        req.body.date = [
+            {
+                day: req.body.day,
+                time: {
+                    start: req.body.timeStart,
+                    end: req.body.timeEnd,
+                },
+            },
+        ]
     }
 
     Volunt.findByIdAndUpdate({ _id: req.params.id }, req.body, {

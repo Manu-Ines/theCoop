@@ -1,5 +1,7 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
+const client = require('../../configs/algolia.config')
+const index = client.initIndex('organizaciones')
 const Org = require('../../models/Org.model')
 const User = require('../../models/User.model')
 const Project = require('../../models/projects/Project.model')
@@ -33,8 +35,22 @@ module.exports.doRegister = (req, res, next) => {
 
             Org.create(req.body)
                 .then((u) => {
-                    sendActivationEmail(u.email, u.token)
-                    res.redirect('/login')
+                    index
+                        .saveObjects([u], {
+                            autoGenerateObjectIDIfNotExist: true,
+                        })
+                        .then((algolia) => {
+                            Org.updateOne(
+                                { _id: u._id },
+                                { algoliaID: algolia.objectIDs[0] }
+                            )
+                                .then(() => {
+                                    sendActivationEmail(u.email, u.token)
+                                    res.redirect('/login')
+                                })
+                                .catch(next)
+                        })
+                        .catch(next)
                 })
                 .catch((e) => {
                     if (e instanceof mongoose.Error.ValidationError) {

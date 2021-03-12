@@ -1,10 +1,14 @@
 {{!-- ORG Settings: Email, password, CIF, documents, web, --}}
 <div class="container my-6">
-    <h2 class="mb-2">Configuración de la cuenta</h2>
-    <hr style="height:3px;border:none;">
-    <div class="container">
 
-        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#emailOrg" aria-expanded="false" aria-controls="emailOrg">
+    <div class="mb-4">
+        <h2 class="mb-2">Configuración de la cuenta</h2>
+        <p>Modifica la configuración avanzada de tu cuenta.</p>
+    </div>
+
+    <div class="p-4 border rounded__custom mb-3">
+        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#emailOrg"
+            aria-expanded="false" aria-controls="emailOrg">
             <div class="row my-2">
                 <div class="col-2 d-flex justify-content-start align-items-center">
                     <p><b>Email</b></p>
@@ -13,12 +17,12 @@
                     <p>{{currentUser.email}}</p>
                 </div>
                 <div class="col d-flex justify-content-end align-items-center">
-                    <a class="button btn__secondary">Editar</a>
+                    <a class="button btn__light">Editar</a>
                 </div>
             </div>
         </button>
         {{!-- EMAIL FORM --}}
-        <div class="collapse row my-3 background__light" id="emailOrg">
+        <div class="collapse row my-3" id="emailOrg">
             <div class="col-2"></div>
             <div class="col">
                 <form action="/settings-org-e" method="POST">
@@ -27,17 +31,22 @@
                     <div class="invalid-feedback">
                         {{error.email}}
                     </div>
-                    <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> Al editar el email de la cuenta tendrás
-                        que verificarlo desde el nuevo email, en caso contrario esta cuenta quedará desactivada permanentemente
+                    <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> Al editar el email de la
+                        cuenta tendrás
+                        que verificarlo desde el nuevo email, en caso contrario esta cuenta quedará desactivada
+                        permanentemente
                     </div>
-                    <button type="submit" class="button btn__primary mb-4">Enviar email de verificación al nuevo email</button>
+                    <button type="submit" class="button btn__primary mb-4">Enviar email de verificación al nuevo
+                        email</button>
                 </form>
             </div>
             <div class="col-3"></div>
         </div>
-        <hr>
+    </div>
 
-        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#passwordOrg" aria-expanded="false" aria-controls="passwordOrg">
+    <div class="p-4 border rounded__custom">
+        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#passwordOrg"
+            aria-expanded="false" aria-controls="passwordOrg">
             <div class="row my-2">
                 <div class="col-2 d-flex justify-content-start align-items-center">
                     <p><b>Contraseña</b></p>
@@ -45,39 +54,41 @@
                 <div class="col d-flex justify-content-start align-items-center">
                     <p>*********</p>
                 </div>
-                <div class="col d-flex justify-content-end">
-                    <a class="button btn__secondary">Editar</a>
+                <div class="col d-flex justify-content-end align-items-center">
+                    <a class="button btn__light">Editar</a>
                 </div>
             </div>
         </button>
-
         {{!-- PASSWORD FORM --}}
-        <div class="collapse row my-3 background__light" id="passwordOrg">
+        <div class="collapse row my-3" id="passwordOrg">
             <div class="col-2"></div>
             <div class="col">
                 <form action="/settings-p" method="POST">
-                    <div class="form-text my-2"> <i class="fas fa-exclamation-triangle"></i> Para cambiar la contraseña se realiza
+                    <div class="form-text my-2"> <i class="fas fa-exclamation-triangle"></i> Para cambiar la contraseña
+                        se realiza
                         un proceso de doble verificación: <br>
-                        1. Se verifica tu identidad a través de un email -la cuenta quedará desactivada hasta que se verifique- <br>
+                        1. Se verifica tu identidad a través de un email -la cuenta quedará desactivada hasta que se
+                        verifique- <br>
                         2. Se requerirá la antigua contraseña </div>
                     <button type="submit" class="button btn__primary my-3">Enviar email de verificación</button>
                 </form>
             </div>
             <div class="col-3"></div>
         </div>
-        <hr style="height:3px;border:none;">
+    </div>
 
-        <div class="d-flex flex-row-reverse bd-highlight">
-            <div class="p-2">
-                <a href="#" class="button btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountPopUp">Eliminar cuenta</a>
-            </div>
-        </div>
+    <div class="d-flex flex-row-reverse bd-highlight mt-3">
+        <a href="#" class="button btn__light px-3" data-bs-toggle="modal" data-bs-target="#deleteAccountPopUp">Eliminar
+            cuenta</a>
+    </div>
 
-        <br><br>
+    <br><br>
 
-        <h2 class="mt-5">Configuración de datos</h2>
-        <hr style="height:3px;border:none;">
-        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#cif" aria-expanded="false" aria-controls="cif">
+    <h2 class="mt-5 mb-4">Configuración de datos</h2>
+
+    <div class="p-4 border rounded__custom mb-3">
+        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#cif"
+            aria-expanded="false" aria-controls="cif">
             <div class="row mb-4">
                 <div class="col-2 d-flex justify-content-start align-items-center">
                     <label for="password" class="form-label"><b>CIF</b></label>
@@ -86,12 +97,12 @@
                     <p>{{currentUser.cif}}</p>
                 </div>
                 <div class="col-12 col-sm-auto">
-                    <a class="button btn__secondary">Editar</a>
+                    <a class="button btn__light">Editar</a>
                 </div>
             </div>
         </button>
         {{!-- CIF FORM --}}
-        <div class="collapse row my-3 background__light" id="cif">
+        <div class="collapse row my-3" id="cif">
             <div class="col-2"></div>
             <div class="col">
                 <form action="/settings-cif" method="POST">
@@ -99,16 +110,19 @@
                     <input name="cif" class="form-control mb-2" placeholder="Nuevo CIF">
                     {{error}}
                     {{error.cif}}
-                    <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Se requerirá verificarlo con un
+                    <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Se requerirá verificarlo
+                        con un
                         documento de acreditación en la siguiente sección </div>
                     <button type="submit" class="button btn__primary mb-4">Actualizar CIF</button>
                 </form>
             </div>
             <div class="col-3"></div>
         </div>
-        <hr>
+    </div>
 
-        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#docs" aria-expanded="false" aria-controls="docs">
+    <div class="p-4 border rounded__custom mb-3">
+        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#docs"
+            aria-expanded="false" aria-controls="docs">
             <div class="row mb-4">
                 <div class="col-2 d-flex justify-content-start align-items-center">
                     <label class="form-label"><b>Acreditación</b></label>
@@ -117,28 +131,33 @@
                     <p>Fuera de servicio</p>
                 </div>
                 <div class="col-12 col-sm-auto">
-                    <a class="button btn__secondary">Editar</a>
+                    <a class="button btn__light">Editar</a>
                 </div>
             </div>
         </button>
         {{!-- Acreditación/DOC FORM --}}
-        <div class="collapse row my-3 background__light" id="docs">
+        <div class="collapse row my-3" id="docs">
             <div class="col-2"></div>
             <div class="col">
                 <form action="" method="POST">
                     <label></label>
                     <input name="">
-                    <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Los documentos deben verificar: bla
-                        bla. En caso de no cumplir estos requisitos todas las contribuciones quedarán bloqueadas hasta su
+                    <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Los documentos deben
+                        verificar: bla
+                        bla. En caso de no cumplir estos requisitos todas las contribuciones quedarán bloqueadas hasta
+                        su
                         actualización </div>
-                    <button type="submit" class="button btn__primary mb-4"> Actualizar documentos de acreditación</button>
-                </form> 
+                    <button type="submit" class="button btn__primary mb-4"> Actualizar documentos de
+                        acreditación</button>
+                </form>
             </div>
             <div class="col-3"></div>
         </div>
-        <hr>
+    </div>
 
-        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#iban" aria-expanded="false" aria-controls="iban">
+    <div class="p-4 border rounded__custom mb-3">
+        <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#iban"
+            aria-expanded="false" aria-controls="iban">
             <div class="row mb-4">
                 <div class="col-2 d-flex justify-content-start align-items-center">
                     <label for="password" class="form-label"><b>Datos bancarios</b></label>
@@ -149,12 +168,12 @@
                         {{/if}}</p>
                 </div>
                 <div class="col-12 col-sm-auto">
-                    <a class="button btn__secondary">Editar</a>
+                    <a class="button btn__light">Editar</a>
                 </div>
             </div>
         </button>
-     {{!-- IBAN --}}
-     <div class="collapse row my-3 background__light" id="iban">
+        {{!-- IBAN --}}
+        <div class="collapse row my-3" id="iban">
             <div class="col-2"></div>
             <div class="col">
                 <form action="/settings-b" method="POST">
@@ -162,14 +181,14 @@
                     <input name="bank" class="form-control mb-2" placeholder="Número IBAN">
                     {{error}}
                     {{error.bank}}
-                    <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Se requerirá verificación del email
+                    <div class="form-text mb-2"> <i class="fas fa-exclamation-triangle"></i> Se requerirá verificación
+                        del email
                     </div>
                     <button type="submit" class="button btn__primary mb-4">Actualizar beneficiario</button>
                 </form>
             </div>
             <div class="col-3"></div>
         </div>
-    <hr style="height:3px;border:none;">
     </div>
 </div>
 
@@ -179,17 +198,18 @@
     <div class="modal-dialog">
         <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
             <form id="deleteOrg">
-                <label for="email" class="form-label"><b>Eliminar cuenta</b></label>
+                <label for="email" class="form-label h3"><b>Eliminar cuenta</b></label>
                 <select id="reason-delete-org" name="reason" class="form-select" aria-label="Default select example">
                     <option selected>¿Por qué desea eliminar la cuenta?</option>
                     <option value="1">No consigo recaudar los fondos / voluntarios necesarios</option>
                     <option value="2">No se ha hecho uso de la cuenta</option>
                     <option value="3">Otros</option>
                 </select>
-                <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> Las organizaciones deben solicitar la
+                <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> Las organizaciones deben
+                    solicitar la
                     eliminación de su cuenta </div>
-                <button type="submit" class="btn btn-danger">Enviar solicitud de eleminar cuenta</button>
-            </form>     
+                <button type="submit" class="button btn__light mt-3">Enviar solicitud de eleminar cuenta</button>
+            </form>
         </div>
     </div>
 </div>
@@ -206,9 +226,9 @@
                 reason
             }
         })
-        .then((res) => {
-            deleteOrg.innerHTML = `<div class="alert alert-success my-3">${res.data.data}</div>`
-        })
-        .catch((e) => console.log(e))
-    }) 
+            .then((res) => {
+                deleteOrg.innerHTML = `<div class="alert alert-success my-3">${res.data.data}</div>`
+            })
+            .catch((e) => console.log(e))
+    })
 </script>

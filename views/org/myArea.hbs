@@ -25,47 +25,54 @@
     <div id="projectsAdmin">
         <p>{{messageP}}</p>
         {{#each projects as |project|}}
-            <div class="card card__myarea p-5 m-3">
-                <div class="row d-flex align-items-center">
-                    <div class="col-10 p-2">
-                        <h3>{{project.title}}</h3>
-                        {{#if project.completed}}
-                        <p class="m-0" style="color: green;">Completado
-                            <small class="m-0" style="color: black;">{{project.sum}}€</small></p>
-                        {{else}}
-                        <p class="m-0">A recaudar: {{project.sum}}€ </p>
-                        {{/if}}
-                    </div>
-                    <div class="col px-4 text-center">
-                        PON UNLESS Y TE SALE EL BOTON
-                        {{#if project.completed}}
-                        <button type="button" class="button btn__primary" data-bs-toggle="modal" 
-                            data-bs-target="#thankYouEmail" data-bs-projectId="{{project._id}}">
-                            <i class="fal fa-envelope"></i> AgradecerM</button>
-                        {{/if}}
-                    </div>
+        <div class="card card__myarea p-5 m-3">
+            <div class="row d-flex align-items-center">
+                <div class="col-10 p-2">
+                    <h3>{{project.title}}</h3>
+                    {{#if project.completed}}
+                    <p class="m-0" style="color: green;">Completado
+                        <small class="m-0" style="color: black;">{{project.sum}}€</small>
+                    </p>
+                    {{else}}
+                    <p class="m-0">A recaudar: {{project.sum}}€ </p>
+                    {{/if}}
                 </div>
-                <hr class="mt-1 mb-4">
-                <table>
+                <div class="col px-4 text-center">
+                    {{#if project.completed}}
+                    <button type="button" class="button btn__primary" data-bs-toggle="modal"
+                        data-bs-target="#thankYouEmail" data-bs-projectId="{{project._id}}">
+                        <i class="fal fa-envelope"></i> Agradecer</button>
+                    {{else}}
+                    <a href="#" class="button btn__light" data-bs-toggle="modal" data-bs-target="#stopContributions"
+                        data-bs-projectId="{{project._id}}">Detener</a>
+                    {{/if}}
+                </div>
+            </div>
+            <hr class="mt-1 mb-4">
+            <table>
                 {{#if project.donations}}
                 {{#each project.donations as |donation|}}
                 <tr>
                     {{#if donation.anonymous}}
-                        <td><p>Donación anónima</p></td>
-                        <td>{{dateHelper donation.createdAt}}</td>
-                        <td class="visible-md">{{donation.contribution}}€</td>
-                        {{else}}
-                        <td><p>{{donation.donator.name}}</p></td>
-                        <td>{{dateHelper donation.createdAt}}</td>
-                        <td class="visible-md">{{donation.contribution}}€</td>
+                    <td>
+                        <p>Donación anónima</p>
+                    </td>
+                    <td>{{dateHelper donation.createdAt}}</td>
+                    <td class="visible-md">{{donation.contribution}}€</td>
+                    {{else}}
+                    <td>
+                        <p>{{donation.donator.name}}</p>
+                    </td>
+                    <td>{{dateHelper donation.createdAt}}</td>
+                    <td class="visible-md">{{donation.contribution}}€</td>
                     {{/if}}
                 </tr>
                 {{/each}}
                 {{else}}
                 Aún no hay donaciones
                 {{/if}}
-                </table>
-            </div>
+            </table>
+        </div>
         {{/each}}
     </div>
 
@@ -77,7 +84,8 @@
                 <div class="col-10">
                     <h3>{{volunt.title}}</h3>
                     {{#if volunt.completed}}
-                    <p style="color: green;">Completo<small style="color: black;"> {{volunt.assistants}} asistentes</small></p>
+                    <p style="color: green;">Completo<small style="color: black;"> {{volunt.assistants}}
+                            asistentes</small></p>
                     {{else}}
                     <p class="mb-0">Voluntarios solicitados: {{volunt.assistants}}</p>
                     {{/if}}
@@ -87,44 +95,44 @@
                     <p class="mb-0">{{dateHelper day.day}}</p>
                     {{/each}}
                     <a href="#" class="button btn__light my-2 w-100" data-bs-toggle="modal"
-                    data-bs-target="#contactVolunts"><i class="fal fa-envelope"></i> Contactar</a>
+                        data-bs-target="#contactVolunts"><i class="fal fa-envelope"></i> Contactar</a>
                 </div>
             </div>
             <hr class="mt-1 mb-4">
-                <table>
+            <table>
                 {{#if volunt.assistance}}
                 {{#each volunt.assistance as |user|}}
-                    <tr>
-                        <td><img src="{{user.assistant.profilePicture}}" height="40px"></td>
-                        <td>{{user.assistant.name}}</td>
-                        <td>{{user.assistant.email}}</td>
-                        {{#if user.went}}
-                        <td>Asistencia</td>
-                        {{else}}
-                        <td>Falta</td>
-                        {{/if}}
-                    </tr>
+                <tr>
+                    <td><img src="{{user.assistant.profilePicture}}" height="40px"></td>
+                    <td>{{user.assistant.name}}</td>
+                    <td>{{user.assistant.email}}</td>
+                    {{#if user.went}}
+                    <td>Asistencia</td>
+                    {{else}}
+                    <td>Falta</td>
+                    {{/if}}
+                </tr>
                 {{/each}}
                 {{else}}
                 Aún no hay voluntarios apuntados
                 {{/if}}
-                </table>
+            </table>
         </div>
-        </div>
-            {{/each}}
+    </div>
+    {{/each}}
 </div>
 
 <div class="modal" id="thankYouEmail" tabindex="-1" aria-labelledby="thankYouEmail" aria-hidden="true">
     <div class="modal-dialog">
         <div style="max-width: 950px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
             <h4>Se enviará un email a todos los contribuyentes del proyecto</h2>
-            <form action="/send-thankyou-email-org" method="POST">
-                <label class="h6 form-label mt-3">Contenido del email</label>
-                <textarea class="form-control form-control-lg">
+                <form action="/send-thankyou-email-org" method="POST">
+                    <label class="h6 form-label mt-3">Contenido del email</label>
+                    <textarea class="form-control form-control-lg">
                 </textarea>
-                <input name="projectId" id="secretInput" type="hidden">
-                <button class="button btn__primary mt-2">Enviar</button>
-            </form>
+                    <input name="projectId" id="secretInput" type="hidden">
+                    <button class="button btn__primary btn-lg w-100 mt-2">Enviar</button>
+                </form>
         </div>
     </div>
 </div>
@@ -133,12 +141,12 @@
     <div class="modal-dialog">
         <div style="max-width: 950px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
             <h4>Si se detiene la recaudación no será posible reanudarla</h2>
-            <p class="text-center mt-2"><i class="fal fa-exclamation-triangle"></i> Se cerrarán todas las vías 
-                para que los contribuyentes aporten y el proyecto quedará completado de manera permanente</p>
-            <form action="/send-thankyou-email-org" method="POST">
-                <input name="projectId" value="{{project._id}}" type="hidden">
-                <button class="button btn__primary mt-2">Detener</button>
-            </form>
+                <p class="text-center mt-2"><i class="fal fa-exclamation-triangle"></i> Se cerrarán todas las vías
+                    para que los contribuyentes aporten y el proyecto quedará completado de manera permanente</p>
+                <form action="/send-thankyou-email-org" method="POST">
+                    <input name="projectId" id="projectId" type="hidden">
+                    <button class="button btn__primary btn-lg mt-2 w-100">Detener</button>
+                </form>
         </div>
     </div>
 </div>
@@ -171,18 +179,23 @@
     });
 
     // MODALS GET INFO --------------------------------------------------------
-    
-    var thankYouEmail = document.getElementById('thankYouEmail')
 
-        thankYouEmail.addEventListener('show.bs.moda', function (event) {
-        // Button that triggered the modal
-        var button = event.relatedTarget
-        // Extract info from data-bs-* attributes
-        var recipient = button.getAttribute('data-bs-projectId')
-        // Update the modal's content.
-        var secretInput = document.getElementById('secretInput')
-
-        secretInput.value = recipient
+    window.addEventListener('load', () => {
+        let stopProject = document.getElementById('stopContributions')
+        stopProject.addEventListener('show.bs.modal', function (event) {
+            let button = event.relatedTarget
+            let atributo = button.getAttribute('data-bs-projectId')
+            let projectId = document.getElementById('projectId')
+            projectId.value = atributo
         });
-        
+
+        let thankYouEmail = document.getElementById('thankYouEmail')
+        thankYouEmail.addEventListener('show.bs.modal', function (event) {
+            let button = event.relatedTarget
+            let atributo = button.getAttribute('data-bs-projectId')
+            let projectId = document.getElementById('secretInput')
+            projectId.value = atributo
+        });
+    })
+
 </script>

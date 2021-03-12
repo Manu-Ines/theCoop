@@ -1,7 +1,10 @@
 {{!-- Settings: Email, password y pagos --}}
 
 <div class="container my-6">
-    <h2 class="mb-4">Configuración de la cuenta</h2>
+    <div class="mb-5">
+        <h2>Configuración de la cuenta</h2>
+        <p>Modifica la configuración avanzada de tu cuenta.</p>
+    </div>
     <div class="container">
         <div class="border rounded__custom p-4 mb-3">
             <button class="btn-accordeon" type="button" data-bs-toggle="collapse" data-bs-target="#emailUser"
@@ -19,7 +22,7 @@
                 </div>
             </button>
             {{!-- EMAIL FORM --}}
-            <div class="collapse row my-3 background__light" id="emailUser">
+            <div class="collapse row my-3" id="emailUser">
                 <div class="col-2"></div>
                 <div class="col">
                     <form action="/settings-e" method="POST">
@@ -31,8 +34,8 @@
                         <div class="invalid-feedback">
                             {{error.email}}
                         </div>
-                        <button type="submit" class="button btn__primary mb-4">Enviar email de verificación al nuevo
-                            email</button>
+                        <button type="submit" class="button btn__primary mb-4 mt-2">Enviar email de
+                            verificación</button>
                     </form>
                 </div>
                 <div class="col-3"></div>
@@ -55,7 +58,7 @@
                 </div>
             </button>
             {{!-- PASSWORD FORM --}}
-            <div class="collapse row my-3 background__light" id="passwordUser">
+            <div class="collapse row my-3" id="passwordUser">
                 <div class="col-2"></div>
                 <div class="col">
                     <form action="/settings-p" method="POST">
@@ -65,16 +68,18 @@
                             1. Se verifica tu identidad a través de un email -la cuenta quedará desactivada hasta que se
                             verifique- <br>
                             2. Se requerirá la antigua contraseña </div>
-                        <button type="submit" class="button btn__primary mb-4">Enviar email de verificación</button>
+                        <button type="submit" class="button btn__primary mb-4 mt-2">Enviar email de
+                            verificación</button>
                     </form>
                 </div>
                 <div class="col-3"></div>
             </div>
         </div>
     </div>
-    <div class="d-flex flex-row-reverse bd-highlight">
+    <div class="d-flex flex-row-reverse bd-highlight mt-3">
         <div class="p-2">
-            <a href="#" class="button btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserPopUp">Eliminar
+            <a href="#" class="button btn__light px-4" data-bs-toggle="modal" data-bs-target="#deleteUserPopUp"><i
+                    class="far fa-minus-circle me-1"></i> Eliminar
                 cuenta</a>
         </div>
     </div>
@@ -86,10 +91,13 @@
     <div class="modal-dialog">
         <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
             <form action="/settings-delete-account" method="POST">
-                <label for="email" class="form-label"><b>Eliminar cuenta</b></label>
+                <label for="email" class="form-label h3"><b>Eliminar cuenta</b></label>
                 <div class="form-text mb-2"><i class="fas fa-exclamation-triangle"></i> La cuenta se eliminará
                     permanente mente. <br> No será posible la recuperación de datos</div>
-                <button type="submit" class="btn btn-danger">Eliminar mi cuenta permanentemente</button>
+                <button type="submit" class="button btn__light mt-3"><i class="far fa-minus-circle me-1"></i> Eliminar
+                    mi
+                    cuenta
+                    permanentemente</button>
             </form>
         </div>
     </div>

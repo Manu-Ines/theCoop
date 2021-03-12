@@ -1,31 +1,38 @@
-<div class="container my-6">
-{{!-- Edición perfil: Nombre, foto y visibility --}}
-    <h1>Editar perfil organizacion</h1>
+<div class="container my-5">
+    {{!-- Edición perfil: Nombre, foto y visibility --}}
+    <div class="mb-4">
+        <h1>Editar perfil</h1>
+        <p>Edita la información básica de tu perfil.</p>
+        <hr>
+    </div>
     <form action="/edit-profile-org" method="POST" enctype="multipart/form-data">
-        <div class="card p-4">
+        <div class="mt-5">
             <div class="row">
                 <div class="col-2 gx-5">
-                    <img src="{{currentUser.profilePicture}}" class="w-100" alt="profile image">
-                    <label for="profilePicture" class="label-file button btn__light"><i class="fas fa-upload"></i> Agregar</label>
-                    <input type="file" class="input-file" name="profilePicture" onchange="PreviewImage();" id="profilePicture">
+                    <img src="{{currentUser.profilePicture}}" id="uploadPreview" class="w-100 rounded__custom border"
+                        alt="profile image">
+                    <label for="uploadImage" class="label-file button btn__light">
+                        <i class="far fa-cloud-upload me-1"></i> Seleccionar</label>
+                    <input type="file" class="input-file" name="profilePicture" onchange="PreviewImage();"
+                        id="uploadImage">
                 </div>
                 <div class="col gx-5">
-                    <input type="text" class="input-written" name="name" id="name" value="{{currentUser.name}}" placeholder="name" autofocus>
+                    <input type="text" class="input-written" name="name" id="name" value="{{currentUser.name}}"
+                        placeholder="name" autofocus>
                     <div class="my-3">
                         <label class="form-label">Sitio web</label>
-                        <input name="web" class="form-control mb-2" value="{{currentUser.web}}" placeholder="Dirección web">
+                        <input name="web" class="form-control mb-2" value="{{currentUser.web}}"
+                            placeholder="Dirección web">
                     </div>
                     <div class="my-3">
                         <label for="textArea" class="form-label">Descripción</label>
-                        <textarea class="form-control" value="{{currentUser.bio}}" name="bio">{{currentUser.bio}}</textarea>  
+                        <textarea class="form-control" value="{{currentUser.bio}}"
+                            name="bio">{{currentUser.bio}}</textarea>
                         {{#if error}}
-                            <div class="invalid-feedback">{{error}}</div>
+                        <div class="invalid-feedback">{{error}}</div>
                         {{/if}}
                     </div>
-                </div>
-
-                <div class="col-12 col-sm-auto">
-                    <button type="submit" class="button btn__secondary">Actualizar perfil</button>
+                    <button type="submit" class="button btn__primary px-3">Actualizar perfil</button>
                 </div>
             </div>
         </div>

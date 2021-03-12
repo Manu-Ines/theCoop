@@ -11,11 +11,7 @@
         menubar: false,
         min_height: 300,
         toolbar_mode: 'floating',
-        toolbar: 'undo | formatselect | ' + 'image bold italic' + '| bullist numlist |' + 'fullscreen',
-        image_title: true,
-        automatic_uploads: true,
-        file_picker_types: 'image',
-        //images_upload_url: 'server/upload-image.php'
+        toolbar: 'undo | formatselect | ' + 'bold italic' + '| bullist numlist |' + 'fullscreen',
     });
 </script>
 <script src="https://unpkg.com/imask"></script>
@@ -23,41 +19,76 @@
 <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
 
-<div class="container my-6">
-    <h2>Editar proyecto</h2>
-    <hr>
-    <form action="/project/edit/{{project._id}}" method="POST" enctype="multipart/form-data">
+<form action="/project/edit/{{project._id}}" method="POST" enctype="multipart/form-data">
+    <div class="container my-4">
+        {{#if project}}
         <div class="row">
-            <div class="col-sm-6">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Título</label>
-                    <input class="form-control form-control-lg" type="text" id="title" name="title" placeholder="Title"
-                        value="{{project.title}}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Descripción</label>
-                    <textarea class="form-control form-control-lg" id="description" name="description"
-                        placeholder="Descripción">{{project.description}}</textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="sum" class="form-label">Cantidad</label>
-                    <input class="form-control form-control-lg" type="text" id="sum" name="sum"
-                        placeholder="Cantidad a recaudar" value="{{project.sum}}" required>
+            <div class="col-md-8 mb-3">
+                <div class="card">
+                    {{#if project.image}}
+                    <div class="project__header" id="heroImg"
+                        style="background-image: linear-gradient(180deg, rgba(0,0,0,0.00) 35%, rgba(0,0,0,0.8) 100%), url({{project.image}});">
+                        <div class="px-4 px-md-5 pb-4" style="max-width: 750px;">
+                            <h1>{{project.title}}</h1>
+                        </div>
+                    </div>
+                    {{/if}}
+                    <div class="p-4 p-md-5">
+                        <div>
+                            <div class="mb-4">
+                                <label for="title" class="form-label h5">Título</label>
+                                <input class="form-control form-control-lg" type="text" id="title" name="title"
+                                    placeholder="Title" value="{{project.title}}" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="description" class="form-label h5">Descripción</label>
+                                <textarea class="form-control form-control-lg" id="description" name="description"
+                                    placeholder="Descripción">{{project.description}}</textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label for="sum" class="form-label h5">Cantidad a recaudar</label>
+                                <input class="form-control form-control-lg" type="text" id="sum" name="sum"
+                                    placeholder="Cantidad a recaudar" value="{{project.sum}}" required>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-4">
+                <div class="border rounded__custom p-4 mb-4">
+                    <h3>Editar proyecto</h3>
+                    <p style="font-size: 1rem;">
+                        <b>Publicado el:</b> {{dateHelper project.createdAt}}<br>
+                        <b>Editado el:</b> {{dateHelper project.updatedAt}}
+                    </p>
+                    <button type="submit" class="button btn__primary px-5">
+                        <i class="fal fa-save me-1"></i> Guardar
+                    </button>
+                    {{#if noProjects}}
+                    <a href="#" class="button btn__light px-4" data-bs-toggle="modal"
+                        data-bs-target="#deleteProjectPopUp">
+                        Eliminar
+                    </a>
+                    {{else}}
+                    <a href="#" class="button btn__light px-4" data-bs-toggle="modal"
+                        data-bs-target="#deleteRequestProjectPopUp">
+                        Eliminar
+                    </a>
+                    {{/if}}
+                </div>
+
                 <div class="mb-3">
                     <label for="image" class="form-label">Imagen de portada</label>
-                    <input class="form-control" type="file" name="image" id="image">
+                    <input class="form-control" type="file" name="image" id="uploadImage" onchange="PreviewImage();">
                 </div>
                 <div class="mb-3">
                     <label for="endDate" class="form-label">Fecha límite</label>
-                    <input class="form-control form-control-lg" type="text" id="endDate" name="endDate"
-                        placeholder="Ingrese una fecha" value="{{date}}" required>
+                    <input class="form-control" type="text" id="endDate" name="endDate" placeholder="Ingrese una fecha"
+                        value="{{date}}" required>
                 </div>
                 <div class="mb-3">
                     <label for="categs" class="form-label">Categoría</label>
-                    <select id="categs" name="categs" class="form-select form-select-lg" required>
+                    <select id="categs" name="categs" class="form-select" required>
                         <option value="{{project.categs}}">{{project.categs}}</option>
                         {{#each categs as |categ|}}
                         <option value="{{categ}}">{{categ}}</option>
@@ -74,23 +105,13 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="button btn__primary mt-3 btn-lg px-4">
-            Editar proyecto
-        </button>
+        {{else}}
+        <h1>Not found</h1>
+        <p>Parece que el proyecto que intentabas buscar ya no se encuentra disponible</p>
+        {{/if}}
+    </div>
+</form>
 
-    </form>
-    {{#if noProjects}}
-    <a href="#" class="button btn__light mt-3 px-4" data-bs-toggle="modal" data-bs-target="#deleteProjectPopUp">
-        Eliminar proyecto
-    </a>
-    {{else}}
-
-    <a href="#" class="btn btn__light mt-3 px-4" data-bs-toggle="modal" data-bs-target="#deleteRequestProjectPopUp">
-        Solicitud de eliminación
-    </a>
-    {{/if}}
-
-</div>
 
 {{!-- DELETE PROYECT FORM POPUP --}}
 <div class="modal" id="deleteProjectPopUp" tabindex="-1" aria-labelledby="deleteProjectPopUp" aria-hidden="true">
@@ -133,6 +154,14 @@
 </div>
 
 <script>
+    function PreviewImage() {
+        var oFReader = new FileReader()
+        oFReader.readAsDataURL(document.getElementById("uploadImage").files[0])
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("heroImg").style.backgroundImage = `linear-gradient(180deg, rgba(0,0,0,0.00) 35%, rgba(0,0,0,0.8) 100%), url(${oFREvent.target.result})`
+        }
+    }
+
     var patternMask = IMask(document.getElementById('sum'), {
         mask: Number,
         min: 1,
@@ -188,7 +217,7 @@
             })
 
             // Set custom style to input
-            document.querySelector('#geocoderE input').className = "form-control form-control-lg";
+            document.querySelector('#geocoderE input').className = "form-control";
             document.querySelector('#geocoderE input').value = "{{project.adress}}";
         });
 

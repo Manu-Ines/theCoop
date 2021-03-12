@@ -6,7 +6,6 @@ window.addEventListener('load', () => {
             '520bea5a204fec1bf72e05d32a37c06d'
         ),
     })
-
     search.addWidgets([
         instantsearch.widgets.searchBox({
             container: '#searchbox',
@@ -81,11 +80,11 @@ window.addEventListener('load', () => {
                             <a class="text__dec__none" href="/org/{{id}}">
                                 <div class="d-flex w-100 justify-content-start">
                                     <div class="objetfit__alg">
-                                        <img src="{{image}}" class="rounded" alt="{{name}}"/>
+                                        <img src="{{profilePicture}}" class="rounded border" alt="{{name}}"/>
                                     </div>
                                     <div style="margin-left: 1rem">
-                                        <h6 class="mb-0">{{#helpers.highlight}}{ "attribute": "nombre" }{{/helpers.highlight}}</h6>
-                                        <small>{{categs}}</small>
+                                        <h6 class="mb-0">{{#helpers.highlight}}{ "attribute": "name" }{{/helpers.highlight}}</h6>
+                                        <small>{{web}}</small>
                                     </div>
                                 </div>
                             </a>
@@ -105,11 +104,10 @@ window.addEventListener('load', () => {
         }),
     ])
 
-    search.start()
-
     // DOM
 
     const focusSearchBox = () => {
+        search.start()
         let input = document.querySelector('.searchBoxId')
         input.scrollIntoView()
         input.focus()

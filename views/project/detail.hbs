@@ -20,6 +20,7 @@
                 </div>
                 {{/if}}
                 <div class="p-4 p-md-5">
+                    <div class="sharethis-inline-share-buttons mb-3"></div>
                     <b class="text-main">Publicado hace {{sinceHelper project.createdAt}} por {{project.owner.name}}</b>
                     <p>{{{project.description}}}</p>
                 </div>
@@ -102,6 +103,18 @@
     <h1>Not found</h1>
     <p>Parece que el proyecto que intentabas buscar ya no se encuentra disponible</p>
     {{/if}}
+
+    <div class="my-3">
+        <h3>Proyectos recomendados</h3>
+        <p>Estos proyectos también podrían interesarte.</p>
+        <div class="row mt-3">
+            {{#each projs as |proj|}}
+            <div class="col-lg-4 mb-3">
+                {{> projectCard proj}}
+            </div>
+            {{/each}}
+        </div>
+    </div>
 </div>
 
 <div class="modal" id="donationPopup" tabindex="-1" aria-labelledby="donationPopup" aria-hidden="true">
@@ -154,6 +167,32 @@
 </div>
 
 <script>
+    window.addEventListener('load', () => {
+        // POPUPS
+        const urlParams = new URLSearchParams(window.location.search);
+        const myParam = urlParams.get('paid');
+
+        let myModal = new bootstrap.Modal(document.getElementById('paidPopup'))
+        if (myParam) {
+            myModal.show()
+        }
+
+        // PROGRESS BAR
+        const progressBar = document.getElementById('progressBar')
+        const maxPercent = '{{ project.percent }}'
+
+        let currPercent = 0
+        let progressInterval = setInterval(() => {
+            progressBar.style.width = `${currPercent}%`
+            currPercent++
+
+            if (currPercent >= Number(maxPercent)) {
+                clearInterval(progressInterval)
+            }
+        }, 50)
+
+    });
+
     let loca = document.getElementById('query').dataset.adress
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFudWNhcmFsbW8iLCJhIjoiY2tsdXgxazNzMDhtdzJ3cWx6cHRyb2U5NCJ9.lLgjepzuFFwLFmmDCrZ73A'
     var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
@@ -216,32 +255,6 @@
                 if (result.error) alert(result.error.message)
             })
             .catch((error) => console.error("Error:", error))
-    });
-
-    window.addEventListener('load', () => {
-        // POPUPS
-        const urlParams = new URLSearchParams(window.location.search);
-        const myParam = urlParams.get('paid');
-
-        let myModal = new bootstrap.Modal(document.getElementById('paidPopup'))
-        if (myParam) {
-            myModal.show()
-        }
-
-        // PROGRESS BAR
-        const progressBar = document.getElementById('progressBar')
-        const maxPercent = '{{ project.percent }}'
-
-        let currPercent = 0
-        let progressInterval = setInterval(() => {
-            progressBar.style.width = `${currPercent}%`
-            currPercent++
-
-            if (currPercent >= Number(maxPercent)) {
-                clearInterval(progressInterval)
-            }
-        }, 50)
-
     });
 
 </script>

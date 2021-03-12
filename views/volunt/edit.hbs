@@ -11,11 +11,7 @@
         menubar: false,
         min_height: 300,
         toolbar_mode: 'floating',
-        toolbar: 'undo | formatselect | ' + 'image bold italic' + '| bullist numlist |' + 'fullscreen',
-        image_title: true,
-        automatic_uploads: true,
-        file_picker_types: 'image',
-        //images_upload_url: 'server/upload-image.php'
+        toolbar: 'undo | formatselect | ' + 'bold italic' + '| bullist numlist |' + 'fullscreen',
     });
 </script>
 <script src="https://unpkg.com/imask"></script>
@@ -23,52 +19,86 @@
 <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
 
-<div class="container my-6">
-    <h2>Editar voluntariado</h2>
-    <hr>
-    <form action="/volunt/edit/{{volunt._id}}" method="POST" enctype="multipart/form-data">
+<form action="/volunt/edit/{{volunt._id}}" method="POST" enctype="multipart/form-data">
+    <div class="container my-4">
+        {{#if volunt}}
         <div class="row">
-            <div class="col-sm-6">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Título</label>
-                    <input class="form-control form-control-lg" type="text" id="title" name="title" placeholder="Title"
-                        value="{{volunt.title}}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Descripción</label>
-                    <textarea class="form-control form-control-lg" id="description" name="description"
-                        placeholder="Descripción">{{volunt.description}}</textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="assistants" class="form-label">Voluntarios</label>
-                    <input class="form-control form-control-lg" type="text" id="assistants" name="assistants"
-                        placeholder="Cantidad a recaudar" value="{{volunt.assistants}}" required>
+            <div class="col-md-8 mb-3">
+                <div class="card">
+                    {{#if volunt.image}}
+                    <div class="project__header" id="heroImg"
+                        style="background-image: linear-gradient(180deg, rgba(0,0,0,0.00) 35%, rgba(0,0,0,0.8) 100%), url({{volunt.image}});">
+                        <div class="px-4 px-md-5 pb-4" style="max-width: 750px;">
+                            <h1>{{volunt.title}}</h1>
+                        </div>
+                    </div>
+                    {{/if}}
+                    <div class="p-4 p-md-5">
+                        <div class="mb-4">
+                            <label for="title" class="form-label h5">Título</label>
+                            <input class="form-control form-control-lg" type="text" id="title" name="title"
+                                placeholder="Title" value="{{volunt.title}}" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="description" class="form-label h5">Descripción</label>
+                            <textarea class="form-control form-control-lg" id="description" name="description"
+                                placeholder="Descripción">{{volunt.description}}</textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label for="assistants" class="form-label h5">Voluntarios</label>
+                            <input class="form-control form-control-lg" type="text" id="assistants" name="assistants"
+                                placeholder="Cantidad a recaudar" value="{{volunt.assistants}}" required>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-4">
+                <div class="border rounded__custom p-4 mb-4">
+                    <h3>Editar voluntariado</h3>
+                    <p style="font-size: 1rem;">
+                        <b>Publicado el:</b> {{dateHelper volunt.createdAt}}<br>
+                        <b>Editado el:</b> {{dateHelper volunt.updatedAt}}
+                    </p>
+                    <button type="submit" class="button btn__primary px-5">
+                        <i class="fal fa-save me-1"></i> Guardar
+                    </button>
+                    {{#if noProjects}}
+                    <a href="#" class="button btn__light px-4" data-bs-toggle="modal"
+                        data-bs-target="#deleteProjectPopUp">
+                        Eliminar
+                    </a>
+                    {{else}}
+                    <a href="#" class="button btn__light px-4" data-bs-toggle="modal"
+                        data-bs-target="#deleteRequestProjectPopUp">
+                        Eliminar
+                    </a>
+                    {{/if}}
+                </div>
+
                 <div class="mb-3">
                     <label for="image" class="form-label">Imagen de portada</label>
-                    <input class="form-control" type="file" name="image" id="image">
+                    <input class="form-control" type="file" name="image" id="uploadImage" onchange="PreviewImage();">
                 </div>
                 <div class="mb-3">
                     <label for="day" class="form-label">Fecha</label>
-                    <input class="form-control form-control-lg" type="text" id="dayCreate" name="day"
-                        placeholder="{{date}}" value="{{date}}" required>
+                    <input class="form-control form-control-lg" type="text" id="dayCreate" name="day" value="{{date}}"
+                        required>
                 </div>
                 <div class="mb-4">
-                <div class="row">
-                    <div class="col">
-                        <label for="startDate" class="form-label h6">Hora de inicio</label>
-                        <input class="form-control form-control-lg" id="hour1Create" type="text" name="timeStart"
-                            placeholder="{{timeStart}}" value="{{timeStart}}" required>
-                    </div>
-                    <div class="col">
-                        <label for="endDate" class="form-label h6 hour">Hora de finalización</label>
-                        <input class="form-control form-control-lg" id="hour2Create" type="text" name="timeEnd"
-                            placeholder="{{timeEnd}}" value="{{timeEnd}}" required>
+                    <div class="row">
+                        <div class="col">
+                            <label for="startDate" class="form-label h6">Hora de inicio</label>
+                            <input class="form-control form-control-lg" id="hour1Create" type="text" name="timeStart"
+                                value="{{volunt.start}}" required>
+                        </div>
+                        <div class="col">
+                            <label for="endDate" class="form-label h6 hour">Hora de finalización</label>
+                            <input class="form-control form-control-lg" id="hour2Create" type="text" name="timeEnd"
+                                value="{{volunt.end}}" required>
+                        </div>
                     </div>
                 </div>
-            </div>
                 <div class="mb-3">
                     <label for="categs" class="form-label">Categoría</label>
                     <select id="categs" name="categs" class="form-select form-select-lg" required>
@@ -88,23 +118,12 @@
                 </div>
             </div>
         </div>
-
-        <button type="submit" class="button btn__primary mt-3 btn-lg px-4">
-            Editar proyecto
-        </button>
-
-    </form>
-    {{#if noVolunts}}
-    <a href="#" class="btn btn-danger mt-3 px-4" data-bs-toggle="modal" data-bs-target="#deleteVoluntPopUp">
-        Eliminar voluntariado
-    </a>
-    {{else}}
-    <a href="#" class="btn btn-danger mt-3 px-4" data-bs-toggle="modal" data-bs-target="#deleteRequestVoluntPopUp">
-        Solicitud de eliminación
-    </a>
-    {{/if}}
-</div>
-</div>
+        {{else}}
+        <h1>Not found</h1>
+        <p>Parece que el voluntariado que intentabas buscar ya no se encuentra disponible</p>
+        {{/if}}
+    </div>
+</form>
 
 {{!-- DELETE PROYECT FORM POPUP --}}
 <div class="modal" id="deleteVoluntPopUp" tabindex="-1" aria-labelledby="deleteVoluntPopUp" aria-hidden="true">
@@ -147,6 +166,14 @@
 </div>
 
 <script>
+    function PreviewImage() {
+        var oFReader = new FileReader()
+        oFReader.readAsDataURL(document.getElementById("uploadImage").files[0])
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("heroImg").style.backgroundImage = `linear-gradient(180deg, rgba(0,0,0,0.00) 35%, rgba(0,0,0,0.8) 100%), url(${oFREvent.target.result})`
+        }
+    }
+
     var patternMask = IMask(document.getElementById('assistants'), {
         mask: Number,
         min: 1,
@@ -163,7 +190,7 @@
         "locale": "es",
     });
 
-     flatpickr(document.getElementById('hour1Create'), {
+    flatpickr(document.getElementById('hour1Create'), {
         enableTime: true,
         noCalendar: true,
         dateFormat: "H:i",

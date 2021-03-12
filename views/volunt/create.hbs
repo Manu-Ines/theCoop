@@ -19,7 +19,7 @@
                     placeholder="Título del voluntariado" autocomplete="off" autofocus required>
             </div>
             <button type="button" id="step-1-btn" class="button btn__primary mt-3 btn-lg px-4 pull-right">
-                Continuar
+                Continuar <i class="far fa-chevron-right ms-1"></i>
             </button>
         </div>
         <div id="step-2" style="display: none;">
@@ -36,7 +36,7 @@
                 Volver
             </button>
             <button type="button" id="step-2-btn" class="button btn__primary mt-3 btn-lg px-4 pull-right">
-                Continuar
+                Continuar <i class="far fa-chevron-right ms-1"></i>
             </button>
         </div>
         <div id="step-3" style="display: none;">
@@ -50,8 +50,8 @@
             </div>
             <div class="mb-3">
                 <label for="endDate" class="form-label h6">Día</label>
-                <input class="form-control form-control-lg" type="date" id="endDate" name="day"
-                    placeholder="Fecha" required>
+                <input class="form-control form-control-lg" type="date" id="endDate" name="day" placeholder="Fecha"
+                    required>
             </div>
             <div class="mb-4">
                 <div class="row">
@@ -71,7 +71,7 @@
                 Volver
             </button>
             <button type="button" id="step-3-btn" class="button btn__primary mt-3 btn-lg px-4 pull-right">
-                Continuar
+                Continuar <i class="far fa-chevron-right ms-1"></i>
             </button>
         </div>
         <div id="step-4" style="display: none;">
@@ -135,10 +135,6 @@
         automatic_uploads: true,
         file_picker_types: 'image',
         //images_upload_url: 'server/upload-image.php'
-    });
-
-    IMask(document.getElementById('title'), {
-        mask: /^[0-9a-zñáéíóúü\s]+$/i
     });
 
     IMask(document.getElementById('assistants'), {

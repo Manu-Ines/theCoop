@@ -282,8 +282,8 @@ footer a {
 
 .input-written {
     outline: 0;
-    border-width: 0 0 2px;
-    border-color: var(--secondary-color-hover);
+    border-width: 0 0 1.2px;
+    border-color: #acacac;
     font-size: 1.5em;
 }
 

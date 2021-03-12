@@ -101,4 +101,9 @@ router.post(
     commonController.resetPassword
 )
 
+// Legal routes =======================================================================
+router.get('/condiciones', (req, res, next) => res.render('legal/condiciones'))
+router.get('/privacidad', (req, res, next) => res.render('legal/privacidad'))
+router.get('/cookies', (req, res, next) => res.render('legal/cookies'))
+
 module.exports = router

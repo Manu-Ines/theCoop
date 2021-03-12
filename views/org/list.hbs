@@ -1,0 +1,30 @@
+<div class="main__hero__projects">
+    <div class="container py-5">
+        <div class="text-center mx-auto my-5" style="max-width: 700px;">
+            <h1 class="display-4">Descubre organizaciones</h1>
+            <p>Haz una donación a proyectos que te interesan o participa en voluntariados de tu zona.</p>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        {{#each orgs as |org|}}
+        <div class="col-lg-4 mb-3">
+            <a href="/org/{{org._id}}" class="card project__card">
+                <div class="d-flex w-100 justify-content-start">
+                    <div class="py-3 ps-3">
+                        <img src="{{org.profilePicture}}" height="55px" class="rounded border" alt="">
+                    </div>
+                    <div class="p-4 w-100">
+                        <div>
+                            <h5 class="mb-0">{{org.name}}</h5>
+                            <p class="mb-0" style="font-size: 1rem;">{{org.email}}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {{/each}}
+    </div>
+</div>

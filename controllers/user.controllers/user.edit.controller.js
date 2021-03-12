@@ -37,11 +37,10 @@ module.exports.doEditProfile = (req, res, next) => {
     if (req.body.name === '') {
         renderWithErrors('Campo obligatorio')
     } else {
-        User.findOneAndUpdate(
-            { _id: req.currentUser.id },
-            req.body, 
-            {runValidators: true,
-            useFindAndModify: false })
+        User.findOneAndUpdate({ _id: req.currentUser.id }, req.body, {
+            runValidators: true,
+            useFindAndModify: false,
+        })
             .then(() => {
                 res.redirect('user/profile')
             })

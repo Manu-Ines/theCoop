@@ -27,7 +27,8 @@
           <a class="nav-link" href="/organizaciones">Organizaciones</a>
         </li>
       </ul>
-      <ul class="navbar-nav">
+
+      <ul class="navbar-nav align-items-start align-items-md-center">
         <li class="ms-0 ms-md-2">
           <a class="nav-link searchBtn" href="#" data-bs-toggle="modal" data-bs-target="#algoliaSearch">
             <i class="far fa-search me-1"></i> Buscar
@@ -39,7 +40,15 @@
             <i class="far fa-user me-1"></i> Mi cuenta
           </a>
         </li>
-        <li class="ms-0 ms-md-2"><a class="nav-link" href="/logout">Cerrar sesión</a></li>
+        <li class="ms-0 ms-md-2"><a class="nav-link" href="/logout"><i class="far fa-sign-out me-1"></i> Cerrar
+            sesión</a></li>
+        {{#isOrg currentUser.role}}
+        <li class="ms-0 ms-md-3">
+          <a class="button btn__primary px-3" href="#" data-bs-toggle="modal" data-bs-target="#createPopup"
+            style="font-size: 0.95rem;"><i class="far fa-plus me-1"></i>
+            Nuevo</a>
+        </li>
+        {{/isOrg}}
         {{else}}
         <li class="ms-0 ms-md-2"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginPopup"><i
               class="far fa-user me-1"></i> Iniciar sesión</a></li>

@@ -31,7 +31,22 @@ hbs.registerHelper('bankAcc', function (val) {
 // Parse date
 hbs.registerHelper('dateHelper', function (val) {
     let dateParsed = new Date(val)
-    return `${dateParsed.getDay()}/${dateParsed.getMonth() + 1}/${dateParsed.getFullYear()}`
+    let months = [
+        'enero',
+        'febrero',
+        'marzo',
+        'abril',
+        'mayo',
+        'junio',
+        'julio',
+        'agosto',
+        'septiembre',
+        'octubre',
+        'noviembre',
+        'diciembre',
+    ]
+    let month = months[dateParsed.getMonth()]
+    return `${dateParsed.getDate()} de ${month} de ${dateParsed.getFullYear()}`
 })
 
 // Since date
@@ -41,10 +56,14 @@ hbs.registerHelper('sinceHelper', function (val) {
     var diff = today - dateParsed
 
     let days = Math.floor(diff / (1000 * 60 * 60 * 24))
+    let hours = Math.floor(diff / (1000 * 60 * 60))
+    let minutes = Math.floor(diff / (1000 * 60))
 
-    if (days <= 0) {
-        return Math.floor(diff / (1000 * 60 * 60)) + ' horas'
+    if (days <= 0 && hours <= 0) {
+        return minutes + ' minutos'
+    } else if (days <= 0) {
+        return hours + ' horas'
     } else {
-        return Math.floor(diff / (1000 * 60 * 60 * 24)) + ' días'
+        return days + ' días'
     }
 })

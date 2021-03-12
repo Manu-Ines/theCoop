@@ -11,7 +11,7 @@ const mailer = require('../configs/mailer.config')
 
 // Create Volunt
 module.exports.create = (req, res, next) => {
-    res.render('volunt/create', { categs: categs })
+    res.render('volunt/create', { categs: categos })
 }
 
 module.exports.doCreate = (req, res, next) => {
@@ -112,37 +112,48 @@ module.exports.filter = (req, res, next) => {
     const ALL_REGEX = /^(0|1|2)/
     let time = 0
 
-    if (req.query.time === '1') {
+    let showTime= ''
+    
+    if (req.query.time === "1") {
         time = MORNING_REGEX
-    } else if (req.query.time === '2') {
+        showTime = 'Mañana 09:00 - 13:00'
+    } else if (req.query.time === "2") {
         time = MIDAY_REGEX
-    } else if (req.query.time === '3') {
+        showTime = 'Mediodía 13:00 - 16:00'
+    } else if (req.query.time === "3") {
         time = AFTERNOON_REGEX
-    } else {
+        showTime = 'Tarde 16:00 - 21:00'
+    } else if (req.query.time === 'Horario') {
         time = ALL_REGEX
+        showTime = ''
     }
 
-    if (!req.query.day) {
-        day = ALL_REGEX
-    }
-
-    Volunt.find({
-        completed: false,
-        categs: category,
-        'date.day': day,
-        'date.time.start': time,
-    })
-        .limit(50)
-        .populate('owner')
-        .populate('assistance')
-        .then((volunts) => {
-            volunts.map((obj) => {
-                obj.people = obj.assistance.length
-                obj.percent = (obj.people * 100) / obj.assistants
-                return obj
+    let oneCateg = ''
+    if (!req.query.day || req.query.day === '') { day = ALL_REGEX }
+    if (!req.query.category) { category = categs }
+    if (typeof req.query.category === "string") { oneCateg = req.query.category }
+    
+    if (req.query.time === 'Horario' && req.query.day === '' && !req.query.category) {
+        res.redirect('/voluntariados')
+    } else {
+        Volunt.find({
+            completed: false,
+            categs: category,
+            "date.day": day,
+            "date.time.start": time
+        })                         
+            .limit(50)
+            .populate('owner')
+            .populate('assistance')
+            .then((volunts) => {
+                volunts.map((obj) => {
+                    obj.people = obj.assistance.length
+                    obj.percent = (obj.people * 100) / obj.assistants
+                    return obj
+                })
+                res.render('volunt/list', { volunts, categs: categs, params: req.query, showTime, oneCateg })
             })
-            res.render('volunt/list', { volunts, categs: categs })
-        })
+    }
 }
 
 // Edit Volunt

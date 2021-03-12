@@ -7,7 +7,55 @@
     </div>
 </div>
 
+<div class="container my-3 text-center">
+    <div class="">
+        <a href="#">
+            <p class="button btn__light m-0" id="btnFilterP"><i class="fal fa-filter"></i>  Búsqueda filtrada</p>
+        </a>
+    </div>
+     <div class="col mt-3 px-2">
+            {{#if oneCateg}}
+            <small class="search__param">{{oneCateg}}</small>
+            {{/if}}
+            {{#if params.category}}
+            {{#each params.category as |categ|}}
+            <small class="search__param">{{categ}}</small>
+            {{/each}}
+            {{/if}}
+    </div>
+</div>
+
+<div class="container px-4">
+    <div class="row card p-4 m-3" id="parametersP" style="display: none; border: none; background-color: #e9e9e945;">
+        <form action="/projects/filter" method="GET">
+            <div class="mb-3">
+                <div class="row d-flex px-3 pt-1">
+                    <label class="form-label h4 my-1">Categorías</label>
+                    <hr>
+                {{#each categs as |categ|}}
+                        <div class="col-md-4 sm-8 p-1 mb-2">
+                        <input name="category" class="form-check-input" type="checkbox" value="{{categ}}">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            {{categ}}
+                        </label>
+                    </div>
+                {{/each}}
+                <hr>
+                </div>
+            </div>
+            <div class="mb-3 d-flex justify-content-between">
+                <button class="button btn__primary" id="btnDoFilterP" type="submit">Filtrar búsquedas</button>
+                <a href="#" id="btnRestoreP">
+                    <p class="button btn__light mb-0">Restaurar</p>
+                </a> 
+            </div>
+        </form>
+    </div>
+
+</div>
+
 <div class="container mt-5">
+    {{#if projects}}
     <div class="row">
         {{#each projects as |project|}}
         <div class="col-lg-4 mb-3">
@@ -15,4 +63,39 @@
         </div>
         {{/each}}
     </div>
+     {{else}}
+    <div class="container my-5 text-center mx-auto">
+            <span class="fa-stack fa-3x mb-4 mx-auto">
+                <i class="fas fa-square fa-stack-2x" style="color: #d2e6f8;"></i>
+                <i class="far fa-search fa-stack-1x" style="color: #1167b1;"></i>
+            </span>
+            <h4>No se han encontrado proyectos</h4>
+            <p>Prueba con otros filtros o mira nuestras sugerencias</p>
+            <a href="/proyectos" class="button btn__primary mt-2 mb-5">Recomendaciones</a>
+    </div>
+    {{/if}}
 </div>
+
+<script>
+    let btnFilterP = document.getElementById('btnFilterP')
+    let btnRestoreP = document.getElementById('btnRestoreP')
+    let parametersP = document.getElementById('parametersP')
+    let btnDoFilterP = document.getElementById('btnDoFilterP')
+
+    let categs = document.querySelectorAll('.form-check-input')
+
+    btnFilterP.addEventListener('click', function (e) {
+        parametersP.style.display = 'block'
+        btnFilterP.style.display = 'none'
+    });
+
+    btnRestoreP.addEventListener('click', function (e) {
+        categs.forEach((categ) => {
+            categ.checked = false
+        })
+    });
+
+    btnDoFilterP.addEventListener('click', function (e) {
+        parametersP.style.display = 'none'
+    })
+</script>

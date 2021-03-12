@@ -53,6 +53,7 @@ router.post(
 )
 
 // View Project
+router.get('/projects/filter', projectController.filter)
 router.get('/proyectos', projectController.list)
 router.get('/project/:slug', projectController.detail)
 

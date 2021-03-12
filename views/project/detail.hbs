@@ -20,7 +20,7 @@
                 </div>
                 {{/if}}
                 <div class="p-4 p-md-5">
-                    <b>Publicado hace {{sinceHelper project.createdAt}} por {{project.owner.name}}</b>
+                    <b class="text-main">Publicado hace {{sinceHelper project.createdAt}} por {{project.owner.name}}</b>
                     <p>{{{project.description}}}</p>
                 </div>
             </div>
@@ -47,14 +47,17 @@
                 </p>
 
                 <div class="progress my-3" style="height: 10px;">
-                    <div class="progress-bar bg__main" role="progressbar" style="width: {{project.percent}}%"></div>
+                    <div class="progress-bar bg__main" role="progressbar" id="progressBar"></div>
                 </div>
 
                 <div class="mb-4" style="font-size: 0.9rem;">
-                    {{#each project.donations as |donation|}}
+                    {{#each donors2show as |donation|}}
                     <div class="d-flex justify-content-start align-items-center mb-2 text-muted">
-                        <img src="{{donation.donator.profilePicture}}" height="35px" class="me-3 rounded border" alt="">
-                        <div><b>{{donation.donator.name}}</b><br>ha donado {{donation.contribution}}€ hace
+                        <img src="{{#if donation.anonymous}}https://res.cloudinary.com/thecoopspain/image/upload/v1615495742/express/default/placeholder-user_f2cmqk_gjv13l.jpg{{else}}{{donation.donator.profilePicture}}{{/if}}"
+                            height="35px" class="me-3 rounded border" alt="">
+                        <div><b>{{#if donation.anonymous}}Donante
+                                anónimo{{else}}{{donation.donator.name}}{{/if}}</b><br>ha donado
+                            {{donation.contribution}}€ hace
                             {{sinceHelper donation.createdAt}}</div>
                     </div>
                     {{/each}}
@@ -122,8 +125,7 @@
                     <label for="quantity" class="h6 form-label"><b>¿Te gustaría que la donación fuera
                             pública?</b></label>
                     <div class="form-check form-switch">
-                        <input name="anonymous" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
-                            {{#unless currentUser.visibility}}checked{{/unless}}>
+                        <input name="anonymous" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Donación anónima</label>
                     </div>
                 </div>
@@ -131,6 +133,22 @@
                     donación</button>
             </form>
             {{/if}}
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="paidPopup" tabindex="-1">
+    <div class="modal-dialog">
+        <div style="max-width: 475px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
+            <span class="fa-stack fa-3x mb-4 mx-auto">
+                <i class="fas fa-square fa-stack-2x" style="color: #d2e6f8;"></i>
+                <i class="fas fa-hands-helping fa-stack-1x" style="color: #1167b1;"></i>
+            </span>
+
+            <h3><b>¡Enhorabuena!</b></h3>
+            <p>Hemos recibido tu donación correctamente para el proyecto {{project.title}}.</p>
+            <a href="/proyectos" class="button btn__primary btn-lg mt-3">Explorar más proyectos</a>
+
         </div>
     </div>
 </div>
@@ -178,7 +196,7 @@
 
         let data = {
             quantity: document.getElementById('quantity').value,
-            anonymous: document.querySelector('#flexSwitchCheckDefault').value,
+            anonymous: document.querySelector('#flexSwitchCheckDefault').checked,
             projectTitle: "{{project.title}}",
             projectId: "{{project._id}}",
             projectImage: "{{project.image}}",
@@ -199,4 +217,31 @@
             })
             .catch((error) => console.error("Error:", error))
     });
+
+    window.addEventListener('load', () => {
+        // POPUPS
+        const urlParams = new URLSearchParams(window.location.search);
+        const myParam = urlParams.get('paid');
+
+        let myModal = new bootstrap.Modal(document.getElementById('paidPopup'))
+        if (myParam) {
+            myModal.show()
+        }
+
+        // PROGRESS BAR
+        const progressBar = document.getElementById('progressBar')
+        const maxPercent = '{{ project.percent }}'
+
+        let currPercent = 0
+        let progressInterval = setInterval(() => {
+            progressBar.style.width = `${currPercent}%`
+            currPercent++
+
+            if (currPercent >= Number(maxPercent)) {
+                clearInterval(progressInterval)
+            }
+        }, 50)
+
+    });
+
 </script>

@@ -26,7 +26,7 @@ module.exports.createStripeCheckOut = (req, res, next) => {
                 },
             ],
             mode: 'payment',
-            success_url: `${process.env.HOST}/user/profile`,
+            success_url: `${process.env.HOST}/project/${req.body.projectSlug}?paid=true`,
             cancel_url: `${process.env.HOST}/project/${req.body.projectSlug}`,
         })
         .then((session) => {
@@ -34,15 +34,6 @@ module.exports.createStripeCheckOut = (req, res, next) => {
             req.body.project = req.body.projectId
             req.body.contribution = req.body.quantity
             req.body.stripeSession = session.id
-
-            if (!req.body.anonymous) {
-                req.body.anonymous = false
-            }
-            if (req.body.anonymous) {
-                req.body.anonymous === 'on'
-                    ? (req.body.anonymous = true)
-                    : (req.body.anonymous = false)
-            }
 
             Donation.create(req.body)
                 .then(() => {

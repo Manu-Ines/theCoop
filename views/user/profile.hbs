@@ -1,76 +1,103 @@
-<div class="container my-6">
+<div class="container mt-4 mb-2">
     {{#if messages}}
     <div class="alert alert-dark">
         {{messages}}
     </div>
     {{/if}}
 
-    <div class="card p-4">
-        <div class="row">
-            <div class="col-lg-1 col-md-3 col-sm-4 col-3">
-                <img src="{{currentUser.profilePicture}}" class="w-100 rounded__custom" alt="profile image">
-            </div>
-            <div class="col-lg-10 col-md-9 col-sm-8 col-9">
-                <h2>{{currentUser.name}}</h2>
-                <p>
-
-                    Perfil:
-                    {{#if currentUser.visibility}}
-                    <span class="text-success">Público</span>
-                    {{else}}
-                    <span class="text-danger">Privado</span>
-                    {{/if}}
-                </p>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#editProfile" class="button btn__light"><i
-                        class="fas fa-pen"></i> Editar perfil</a>
-                <a href="/user/settings" class="button btn__light"> <i class="fas fa-cog"></i> Configuración</a>
+    <div class="card border-0">
+        <div class="public__header"
+            style="background-image: linear-gradient(180deg, rgba(0,0,0,0.20) 35%, rgba(0,0,0,0.8) 100%), url(https://source.unsplash.com/collection/6769226/1600x900);">
+            <div class="px-3 px-md-5 pb-1 pb-md-4">
+                <div class="d-flex flex-column flex-sm-row justify-content-start mb-4 text-center text-sm-start">
+                    <img src="{{currentUser.profilePicture}}" style="vertical-align:middle; margin-right: 8px;"
+                        height="100px" width="100px" class="rounded__custom border mx-auto mx-sm-0 mb-3 mb-sm-0">
+                    <div class="ms-0 ms-md-4" style="max-width: 750px;">
+                        <h1 class="mb-0 h2">{{currentUser.name}}</h1>
+                        <p style="font-size: 1rem;">
+                            {{#if currentUser.visibility}}
+                            <span><i class="far fa-eye"></i> Perfil público</span>
+                            {{else}}
+                            <span><i class="far fa-lock-alt"></i> Perfil privado</span>
+                            {{/if}}
+                        </p>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#editProfile"
+                            class="button btn__light btn-sm"><i class="far fa-user-edit me-1"></i> Editar perfil</a>
+                        <a href="/user/settings" class="button btn__light btn-sm"> <i class="far fa-user-cog me-1"></i>
+                            Configuración</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container my-4">
-    {{#if messages}}
-    <div class="alert alert-dark">
-        {{messages}}
-    </div>
-    {{/if}}
-
+<div class="container">
     <div class="row">
         <div class="col-sm-6">
             <div class="my-5">
-                <h3>Contribuciones</h3><br>
-                {{#each donations as |donation|}}
-                <div class="card p-4 mb-2">
-                    <h5>{{donation.project.title}}</h5>
-                    {{donation.createdAt}}
-                    <div class="row">
-                        <div class="col mt-2">
-                            <a href="/project/{{donation.project.slug}}" class="button btn__primary btn-sm">Ver
-                                proyecto</a>
-                        </div>
-                    </div>
+                <div class="mb-4">
+                    <h3 class="mb-0">Contribuciones</h3>
+                    <small>Estás son tus últimas contribuciones</small>
                 </div>
-                {{/each}}
+
+                <ul class="list-group rounded__custom">
+                    {{#if donations}}
+                    {{#each donations as |donation|}}
+                    <a href="/project/{{donation.project.slug}}" class="list-group-item list-group-item-action py-3">
+                        <div>
+                            <div class="d-flex w-100 justify-content-between">
+                                <p class="mb-1 fw-bolder">{{donation.project.title}}</p>
+                                <small class="text-main">Hace {{sinceHelper donation.createdAt}}</small>
+                            </div>
+                            <p class="mb-0" style="font-size: 1rem;">Contribución: {{donation.contribution}}€</p>
+                        </div>
+                    </a>
+                    {{/each}}
+                    {{else}}
+                    <a href="/proyectos" class="list-group-item list-group-item-action py-3">
+                        <div>
+                            <p class="mb-1 fw-bolder">Aquí aparecerán tus donaciones</p>
+                            <p class="mb-0" style="font-size: 1rem;">Por el momento no tienes ninguna donación. Haz
+                                click y empieza a donar a proyectos que te interesan desde sólo 1€.</p>
+                        </div>
+                    </a>
+                    {{/if}}
+                </ul>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="my-5">
-                <h3>Voluntariados</h3><br>
-                {{#each volunts as |volunt|}}
-                <div class="card p-4 mb-2">
-                    <h5>{{volunt.volunt.title}}</h5>
-                    {{#each volunt.volunt.date as |date|}}
-                    {{date.day}}
-                    {{/each}}
-                    <div class="row">
-                        <div class="col mt-2">
-                            <a href="/volunt/{{volunt.volunt.slug}}" class="button btn__primary btn-sm">Ver
-                                voluntariado</a>
-                        </div>
-                    </div>
+                <div class="mb-4">
+                    <h3 class="mb-0">Voluntariados</h3>
+                    <small>Estos son tus últimos voluntariados</small>
                 </div>
-                {{/each}}
+
+                <ul class="list-group rounded__custom">
+                    {{#if volunts}}
+                    {{#each volunts as |volunt|}}
+                    <a href="/volunt/{{volunt.volunt.slug}}" class="list-group-item list-group-item-action py-3">
+                        <div>
+                            <div class="d-flex w-100 justify-content-between">
+                                <p class="mb-1 fw-bolder">{{volunt.volunt.title}}</p>
+                                <small class="text-main">Hace {{sinceHelper volunt.volunt.createdAt}}</small>
+                            </div>
+                            <p class="mb-0" style="font-size: 1rem;">Fecha: {{#each volunt.volunt.date as |date|}}
+                                {{date.day}}
+                                {{/each}}</p>
+                        </div>
+                    </a>
+                    {{/each}}
+                    {{else}}
+                    <a href="/voluntariados" class="list-group-item list-group-item-action py-3">
+                        <div>
+                            <p class="mb-1 fw-bolder">Aquí aparecerán tus voluntariados</p>
+                            <p class="mb-0" style="font-size: 1rem;">Por el momento no tienes ningún voluntariado. Haz
+                                click y encuentra voluntariados para ayudar en tu zona.</p>
+                        </div>
+                    </a>
+                    {{/if}}
+                </ul>
             </div>
         </div>
     </div>

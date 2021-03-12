@@ -49,37 +49,28 @@ module.exports.detail = (req, res, next) => {
         .populate('owner')
         .populate({
             path: 'donations',
+            options: { sort: { createdAt: -1 } },
+            match: { paid: true },
             populate: {
                 path: 'donator',
-                match: { visibility: true },
-            },
-            options: {
-                limit: 2,
             },
         })
         .then((project) => {
             if (!project) next()
-            Donation.find({ project: project._id, paid: true })
-                .then((donations) => {
-                    let donatorsTotal = donations.length
-                    let collectedTotal = donations.reduce(
-                        (acc, curr) => acc + curr.contribution,
-                        0
-                    )
 
-                    project.percent = (collectedTotal * 100) / project.sum
+            let collectedTotal = project.donations.reduce(
+                (acc, curr) => acc + curr.contribution,
+                0
+            )
+            project.percent = (collectedTotal * 100) / project.sum
+            let donors2show = project.donations.slice(0, 2)
 
-                    res.render('project/detail', {
-                        project,
-                        collectedTotal,
-                        donatorsTotal,
-                    })
-
-                    if (project.sum <= collectedTotal) {
-                        // TODO
-                    }
-                })
-                .catch(() => next)
+            res.render('project/detail', {
+                project,
+                collectedTotal,
+                donatorsTotal: project.donations.length,
+                donors2show,
+            })
         })
         .catch(() => next)
 }
@@ -113,8 +104,7 @@ module.exports.edit = (req, res, next) => {
                 let createDate = new Date(project.endDate)
                 let date = `${createDate.getFullYear()}-${(
                     '0' +
-                    createDate.getMonth() +
-                    1
+                    (createDate.getMonth() + 1)
                 ).slice(-2)}-${createDate.getDate()}`
 
                 Donation.find({ project: project._id }).then((donations) => {

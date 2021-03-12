@@ -1,4 +1,4 @@
-<div class="main__profile">
+<div class="main__profile border-bottom">
     <div class="container py-1">
         {{#if messages}}
         <div class="alert alert-dark">
@@ -9,15 +9,16 @@
             <img src="{{currentUser.profilePicture}}" height="100px" class="mb-3 rounded__custom border"
                 alt="profile image">
             <h2 class="mb-0">{{currentUser.name}}</h2>
+            <p class="mb-1">{{currentUser.bio}}</p>
             <small>{{currentUser.web}}</small>
-            <p>
-                {{currentUser.bio}}
-            </p>
-            <a href="/project/create" class="button btn__primary">Nuevo proyecto</a>
-            <a href="/volunt/create" class="button btn__primary">Nuevo voluntariado</a><br>
-            <a href="/org/edit-profile" class="button btn__light mt-3"><i class="fas fa-pen"></i> Editar perfil</a>
-            <a href="/org/settings" class="button btn__light mt-3"> <i class="fas fa-cog"></i> Configuración</a>
-            <a href="/my-area-org" class="button btn__light mt-3"> <i class="fas fa-layer-group"></i> Administrador</a>
+            <div class="mt-3">
+                <a href="/org/edit-profile" class="button btn__light btn-sm"><i class="fal fa-pencil-alt"></i> Editar
+                    perfil</a>
+                <a href="/org/settings" class="button btn__light btn-sm"> <i class="fal fa-cog"></i>
+                    Configuración</a>
+                <a href="/my-area-org" class="button btn__light btn-sm"> <i class="fal fa-layer-group"></i>
+                    Administrador</a>
+            </div>
         </div>
     </div>
 </div>
@@ -32,39 +33,89 @@
 
     <div class="row">
         <div class="col-sm-6">
-            <div class="my-5">
-                <h3>Proyectos</h3><br>
-                {{#each currentUser.projects as |project|}}
-                <div class="card p-4 mb-2">
-                    <h5>{{project.title}}</h5>
-                    <div class="row">
-                        <div class="col mt-2">
-                            <a href="/project/{{project.slug}}" class="button btn__primary btn-sm">Ver
-                                proyecto</a>
-                            <a href="/project/edit/{{project.slug}}" class="button btn__light btn-sm">Editar
-                                proyecto</a>
+            <div class="my-3">
+                <div class="mb-4">
+                    <h3 class="mb-0">Proyectos</h3>
+                    <small>Estos son tus proyectos</small>
+                </div>
+
+                <ul class="list-group rounded__custom">
+                    {{#if currentUser.projects}}
+                    {{#each currentUser.projects as |project|}}
+                    <div class="list-group-item py-3">
+                        <div>
+                            <div class="d-flex w-100 justify-content-between">
+                                <p class="mb-1 fw-bolder">{{project.title}}</p>
+                                <small class="text-main">Hace {{sinceHelper project.createdAt}}</small>
+                            </div>
+                            <p class="mb-0" style="font-size: 1rem;">Objetivo: {{project.sum}}€</p>
+                            <div class="mt-3">
+                                <a href="/project/{{project.slug}}" class="button btn__primary btn-sm"><i
+                                        class="fal fa-eye me-1"></i> Ver
+                                    proyecto</a>
+                                <a href="/project/edit/{{project.slug}}" class="button btn__light btn-sm"><i
+                                        class="fal fa-pencil-alt me-1"></i> Editar
+                                    proyecto</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {{/each}}
+                    {{/each}}
+                    {{else}}
+                    <a href="/project/create" class="list-group-item list-group-item-action py-3">
+                        <div>
+                            <p class="mb-1 fw-bolder">Aquí aparecerán tus proyectos</p>
+                            <p class="mb-0" style="font-size: 1rem;">Por el momento no tienes ningun proyecto. Haz
+                                click y pide al mundo que te ayude a recaudar para tu proyecto.</p>
+                        </div>
+                    </a>
+                    {{/if}}
+                </ul>
+
+                <a href="/project/create" class="button btn__light mt-3"><i class="far fa-plus-circle me-1"></i> Nuevo
+                    proyecto</a>
             </div>
         </div>
         <div class="col-sm-6">
-            <div class="my-5">
-                <h3>Voluntariados</h3><br>
-                {{#each currentUser.volunts as |volunt|}}
-                <div class="card p-4 mb-2">
-                    <h5>{{volunt.title}}</h5>
-                    <div class="row">
-                        <div class="col mt-2">
-                            <a href="/volunt/{{volunt.slug}}" class="button btn__primary btn-sm">Ver
-                                voluntariado</a>
-                            <a href="/volunt/edit/{{volunt.slug}}" class="button btn__light btn-sm">Editar
-                                voluntariado</a>
+            <div class="my-3">
+                <div class="mb-4">
+                    <h3 class="mb-0">Voluntariados</h3>
+                    <small>Estos son tus voluntariados</small>
+                </div>
+
+                <ul class="list-group rounded__custom">
+                    {{#if currentUser.volunts}}
+                    {{#each currentUser.volunts as |volunt|}}
+                    <div class="list-group-item py-3">
+                        <div>
+                            <div class="d-flex w-100 justify-content-between">
+                                <p class="mb-1 fw-bolder">{{volunt.title}}</p>
+                                <small class="text-main">Hace {{sinceHelper volunt.createdAt}}</small>
+                            </div>
+                            <p class="mb-0" style="font-size: 1rem;">Objetivo de asistencia: {{volunt.assistants}}</p>
+                            <div class="mt-3">
+                                <a href="/volunt/{{volunt.slug}}" class="button btn__primary btn-sm"><i
+                                        class="fal fa-eye me-1"></i> Ver
+                                    voluntariado</a>
+                                <a href="/volunt/edit/{{volunt.slug}}" class="button btn__light btn-sm"><i
+                                        class="fal fa-pencil-alt me-1"></i> Editar
+                                    voluntariado</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {{/each}}
+                    {{/each}}
+                    {{else}}
+                    <a href="/volunt/create" class="list-group-item list-group-item-action py-3">
+                        <div>
+                            <p class="mb-1 fw-bolder">Aquí aparecerán tus voluntariados</p>
+                            <p class="mb-0" style="font-size: 1rem;">Por el momento no tienes ningun voluntariado. Haz
+                                click y pide al mundo que se una a tus voluntariados.</p>
+                        </div>
+                    </a>
+                    {{/if}}
+                </ul>
+
+                <a href="/volunt/create" class="button btn__light mt-3"><i class="far fa-plus-circle me-1"></i> Nuevo
+                    voluntariado</a>
             </div>
         </div>
     </div>

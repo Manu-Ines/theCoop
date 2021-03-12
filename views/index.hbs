@@ -3,23 +3,34 @@
         {{#if flashMessage}}
         <div class="alert alert-danger">{{flashMessage}}</div>
         {{/if}}
-        <div class="text-center mx-auto my-5" style="max-width: 600px;">
+        <div class="text-center mx-auto my-5" style="max-width: 620px;">
             <h1 class="display-4">Unimos personas y organizaciones</h1>
-            <p>Coop facilita a las personas el acceso a la contribución social y a voluntariados, y
-                proporciona un espacio sencillo y seguro para organizaciones sin ánimo de lucro</p>
+            <p style="font-size: 1rem;">Coop facilita a las personas el acceso a la contribución social y a
+                voluntariados, y
+                proporciona un espacio sencillo y seguro para organizaciones sin ánimo de lucro.</p>
 
             <div class="mt-3"><br>
-                {{#if currentUser}}
-                <a href="{{#isOrg currentUser.role}}/org/profile{{else}}/user/profile{{/isOrg}}"
-                    class="button btn__light btn-lg px-5">Mi cuenta</a>
-                {{else}}
-                <button type="button" data-bs-toggle="modal" data-bs-target="#loginPopup"
-                    class="button btn__light btn-lg px-5">Inicia sesión</button>
-                {{/if}}
+                <a href="#volunts" class="button btn__light btn-lg px-5 me-2 mb-2">Comenzar</a>
             </div>
         </div>
     </div>
 </div>
+
+{{#if volunts}}
+<div id="volunts" class="container my-5">
+    <div class="text-center my-5">
+        <h2>Únete a un voluntariado</h2>
+        <p>Asiste a voluntariados de tu zona</p>
+    </div>
+    <div class="row">
+        {{#each volunts as |volunt|}}
+        <div class="col-lg-4 mb-3">
+            {{> voluntCard volunt}}
+        </div>
+        {{/each}}
+    </div>
+</div>
+{{/if}}
 
 {{#if projects}}
 <div class="container my-5">
@@ -31,22 +42,6 @@
         {{#each projects as |project|}}
         <div class="col-lg-4 mb-3">
             {{> projectCard project}}
-        </div>
-        {{/each}}
-    </div>
-</div>
-{{/if}}
-
-{{#if volunts}}
-<div class="container my-5">
-    <div class="text-center my-5">
-        <h2>Únete a un voluntariado</h2>
-        <p>Asiste a voluntariados de tu zona</p>
-    </div>
-    <div class="row">
-        {{#each volunts as |volunt|}}
-        <div class="col-lg-4 mb-3">
-            {{> voluntCard volunt}}
         </div>
         {{/each}}
     </div>

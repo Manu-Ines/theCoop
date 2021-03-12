@@ -4,6 +4,23 @@
             <small>Proyectos y voluntariados</small>
     </div>
 </div>
+
+{{#unless projects}}
+{{#unless volunts}}
+<div class="container my-5">
+    <div class="border rounded__custom p-4 text-center mx-auto" style="max-width: 550px;">
+        <span class="fa-stack fa-3x mb-4 mx-auto">
+            <i class="fas fa-square fa-stack-2x" style="color: #d2e6f8;"></i>
+            <i class="far fa-search fa-stack-1x" style="color: #1167b1;"></i>
+        </span>
+        <h4>No hay nada por el momento</h4>
+        <p>Por el momento no existe ningún proyecto ni voluntariado en la categoría {{categ}}</p>
+        <a href="/" class="button btn__primary mt-2">Explora proyectos y voluntariados</a>
+    </div>
+</div>
+{{/unless}}
+{{/unless}}
+
 {{#if projects}}
 <div class="container my-4">
     <h3>Proyectos</h3>

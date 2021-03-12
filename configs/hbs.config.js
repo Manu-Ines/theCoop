@@ -31,20 +31,43 @@ hbs.registerHelper('bankAcc', function (val) {
 // Parse date
 hbs.registerHelper('dateHelper', function (val) {
     let dateParsed = new Date(val)
-    let months = [ 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre ']
+    let months = [
+        'enero',
+        'febrero',
+        'marzo',
+        'abril',
+        'mayo',
+        'junio',
+        'julio',
+        'agosto',
+        'septiembre',
+        'octubre',
+        'noviembre',
+        'diciembre ',
+    ]
     let month = months[dateParsed.getMonth()]
-    return `${dateParsed.getDay()} de ${month} de ${dateParsed.getFullYear()}`
+    return `${dateParsed.getDate()} de ${month} de ${dateParsed.getFullYear()}`
 })
 
 hbs.registerHelper('dateVoluntHelper', function (val) {
-    
     let year = val.slice(0, 4)
     let day = val.slice(8)
     let num = val.slice(6, 7)
-    let months = [ 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre ']
-    let month = months[ num - 1 ]
+    let months = [
+        'enero',
+        'febrero',
+        'marzo',
+        'abril',
+        'mayo',
+        'junio',
+        'julio',
+        'agosto',
+        'septiembre',
+        'octubre',
+        'noviembre',
+        'diciembre ',
+    ]
+    let month = months[num - 1]
     return `${day} de ${month} de ${year}`
 })
 
@@ -55,10 +78,14 @@ hbs.registerHelper('sinceHelper', function (val) {
     var diff = today - dateParsed
 
     let days = Math.floor(diff / (1000 * 60 * 60 * 24))
+    let hours = Math.floor(diff / (1000 * 60 * 60))
+    let minutes = Math.floor(diff / (1000 * 60))
 
-    if (days <= 0) {
-        return Math.floor(diff / (1000 * 60 * 60)) + ' horas'
+    if (days <= 0 && hours <= 0) {
+        return minutes + ' minutos'
+    } else if (days <= 0) {
+        return hours + ' horas'
     } else {
-        return Math.floor(diff / (1000 * 60 * 60 * 24)) + ' días'
+        return days + ' días'
     }
 })

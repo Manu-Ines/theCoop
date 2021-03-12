@@ -1,3 +1,3 @@
-module.exports = app => {
-    app.locals.title = 'Proyecto Rodiles'
+module.exports = (app) => {
+    app.locals.title = 'Coop - Unimos personas y organizaciones'
 }

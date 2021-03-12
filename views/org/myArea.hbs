@@ -4,14 +4,14 @@
             <h2>Administrador</h2>
         </div>
         <div class="col d-flex justify-content-end">
-            <h2 style="color:#047857;">{{currentUser.name}}</h2>
+            <h2 style="color:#1167b1;">{{currentUser.name}}</h2>
         </div>
     </div>
 
     <div class="row my-5">
         <div class="col-2 border-start">
             <a href="#" style="text-decoration: none;">
-                <h6 id="btnProjects" class="link__primary">Donaciones</h6>
+                <h6 id="btnProjects" class="link__primary" style="font-size: 1.3rem;">Donaciones</h6>
             </a>
         </div>
         <div class="col border-start">
@@ -25,65 +25,125 @@
     <div id="projectsAdmin">
         <p>{{messageP}}</p>
         {{#each projects as |project|}}
-            <div class="card p-3 m-3">
-                <div class="row">
-                    <div class="col">
+            <div class="card card__myarea p-5 m-3">
+                <div class="row d-flex align-items-center">
+                    <div class="col-10 p-2">
                         <h3>{{project.title}}</h3>
-                        <p>A recaudar: {{project.sum}}€</p>
+                        {{#if project.completed}}
+                        <p class="m-0" style="color: green;">Completado
+                            <small class="m-0" style="color: black;">{{project.sum}}€</small></p>
+                        {{else}}
+                        <p class="m-0">A recaudar: {{project.sum}}€ </p>
+                        {{/if}}
+                    </div>
+                    <div class="col px-4 text-center">
+                        {{#if project.completed}}
+                        <button type="button" class="button btn__primary" data-bs-toggle="modal" 
+                            data-bs-target="#thankYouEmail" data-bs-projectId="{{project._id}}">
+                            <i class="fal fa-envelope"></i> AgradecerM</button>
+                        {{else}}
+                        <a href="#" class="button btn__light" data-bs-toggle="modal"
+                            data-bs-target="#stopContributions">Detener</a>
+                        {{/if}}
                     </div>
                 </div>
+                <hr class="mt-1 mb-4">
+                <table>
+                {{#if project.donations}}
                 {{#each project.donations as |donation|}}
-
+                <tr>
                     {{#if donation.anonymous}}
-                        <div class="row">
-                            <div class="col">
-                                <p>Anonimo</p>
-                                {{donation.contribution}}€
-                            </div>
-                        </div>
+                        <td><p>Donación anónima</p></td>
+                        <td>{{dateHelper donation.createdAt}}</td>
+                        <td class="visible-md">{{donation.contribution}}€</td>
                         {{else}}
-                        <div class="row">
-                            <div class="col">
-                                <p>{{donation.donator.name}}</p>
-                            </div>
-                        </div>
-                        {{donation.contribution}}€
+                        <td><p>{{donation.donator.name}}</p></td>
+                        <td>{{dateHelper donation.createdAt}}</td>
+                        <td class="visible-md">{{donation.contribution}}€</td>
                     {{/if}}
-
+                </tr>
                 {{/each}}
+                {{else}}
+                Aún no hay donaciones
+                {{/if}}
+                </table>
             </div>
         {{/each}}
     </div>
+
     <div id="voluntAdmin" style="display: none">
-        {{messageV}}
+        <p>{{messageV}}</p>
         {{#each volunts as |volunt|}}
-        <div class="card p-3 m-3">
+        <div class="card card__myarea p-5 m-3">
             <div class="row">
-                <div class="col">
+                <div class="col-10">
                     <h3>{{volunt.title}}</h3>
-                    <p>Voluntarios solicitados: {{volunt.assistants}}</p>
+                    {{#if volunt.completed}}
+                    <p style="color: green;">Completo<small style="color: black;"> {{volunt.assistants}} asistentes</small></p>
+                    {{else}}
+                    <p class="mb-0">Voluntarios solicitados: {{volunt.assistants}}</p>
+                    {{/if}}
                 </div>
-                <div class="col d-flex justify-content-end">
+                <div class="col text-center">
                     {{#each volunt.date as |day|}}
-                    <h6>{{day.day}}</h6>
+                    <p class="mb-0">{{dateHelper day.day}}</p>
                     {{/each}}
+                    <a href="#" class="button btn__light my-2 w-100" data-bs-toggle="modal"
+                    data-bs-target="#contactVolunts"><i class="fal fa-envelope"></i> Contactar</a>
                 </div>
             </div>
-            {{#each volunt.assistance as |user|}}
-            <div clas="d-flex flex-row justify-content-start">
-                <img src="{{user.assistant.profilePicture}}" height="40px">
-                <div>
-                    Nombre: {{user.assistant.name}}
-                    Email: {{user.assistant.email}}
-                </div>
-            </div>
-            <hr>
-            {{/each}}
+            <hr class="mt-1 mb-4">
+                <table>
+                {{#if volunt.assistance}}
+                {{#each volunt.assistance as |user|}}
+                    <tr>
+                        <td><img src="{{user.assistant.profilePicture}}" height="40px"></td>
+                        <td>{{user.assistant.name}}</td>
+                        <td>{{user.assistant.email}}</td>
+                        {{#if user.went}}
+                        <td>Asistencia</td>
+                        {{else}}
+                        <td>Falta</td>
+                        {{/if}}
+                    </tr>
+                {{/each}}
+                {{else}}
+                Aún no hay voluntarios apuntados
+                {{/if}}
+                </table>
         </div>
-        {{/each}}
+        </div>
+            {{/each}}
+</div>
+
+<div class="modal" id="thankYouEmail" tabindex="-1" aria-labelledby="thankYouEmail" aria-hidden="true">
+    <div class="modal-dialog">
+        <div style="max-width: 950px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
+            <h4>Se enviará un email a todos los contribuyentes del proyecto</h2>
+            <form action="/send-thankyou-email-org" method="POST">
+                <label class="h6 form-label mt-3">Contenido del email</label>
+                <textarea class="form-control form-control-lg">
+                </textarea>
+                <input name="projectId" id="secretInput" type="hidden">
+                <button class="button btn__primary mt-2">Enviar</button>
+            </form>
+        </div>
     </div>
 </div>
 
+<div class="modal" id="stopContributions" tabindex="-1" aria-labelledby="stopContributions" aria-hidden="true">
+    <div class="modal-dialog">
+        <div style="max-width: 950px; border: none; border-radius: 0.6rem" class="modal-content p-4 p-md-5 text-center">
+            <h4>Si se detiene la recaudación no será posible reanudarla</h2>
+            <p class="text-center mt-2"><i class="fal fa-exclamation-triangle"></i> Se cerrarán todas las vías 
+                para que los contribuyentes aporten y el proyecto quedará completado de manera permanente</p>
+            <form action="/send-thankyou-email-org" method="POST">
+                <input name="projectId" value="{{project._id}}" type="hidden">
+                <button class="button btn__primary mt-2">Detener</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
 
@@ -98,7 +158,7 @@
 
         btnVolunt.style.fontSize = '16px'
         btnProject.style.fontSize = '20px'
-        btnProject.style.color = '#059669'
+        btnProject.style.color = '#1167b1'
         btnVolunt.style.color = '#646e6b'
     })
 
@@ -109,6 +169,22 @@
         btnVolunt.style.fontSize = '20px'
         btnProject.style.fontSize = '16px'
         btnProject.style.color = '#646e6b'
-        btnVolunt.style.color = '#059669'
+        btnVolunt.style.color = '#1167b1'
     });
+
+    // MODALS GET INFO --------------------------------------------------------
+    
+    var thankYouEmail = document.getElementById('thankYouEmail')
+
+        thankYouEmail.addEventListener('show.bs.moda', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var recipient = button.getAttribute('data-bs-projectId')
+        // Update the modal's content.
+        var secretInput = document.getElementById('secretInput')
+
+        secretInput.value = recipient
+        });
+        
 </script>

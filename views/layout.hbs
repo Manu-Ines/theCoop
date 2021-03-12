@@ -15,6 +15,7 @@
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+  
 
 </head>
 
@@ -31,7 +32,7 @@
   <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
 
   {{> navbar}}
-
+ 
   {{{body}}}
 
   {{> footer}}
@@ -41,6 +42,7 @@
   {{#unless currentUser}}
   {{> auth}}
   {{/unless}}
+
 
   <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>

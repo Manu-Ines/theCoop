@@ -160,6 +160,18 @@ module.exports.doEdit = (req, res, next) => {
         })
         .catch(next)
 }
+// completed: true (solo req.body)
+// Send thank you email
+module.exports.thanksEmail = (req, res, next) => {
+    console.log(req.body.projectId)
+    /* Project.findOne({ _id: req.body.projectId})
+    .populate({ path: 'donations', populate: { path: 'donator' }})
+    .then((project) => {
+        const emailList = []
+        console.log(project.donations[0].donator.email)
+        //mailer.sendFinalEmai()
+    }) */
+}
 
 module.exports.doDelete = (req, res, next) => {
     Project.findOne({ _id: req.params.id })

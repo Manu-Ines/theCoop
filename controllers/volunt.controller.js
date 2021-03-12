@@ -33,7 +33,7 @@ module.exports.doCreate = (req, res, next) => {
                 end: req.body.timeEnd,
             }
     }]
-    
+    console.log(req.body)
     Volunt.create(req.body)
         .then((volunt) => {
             index
@@ -64,7 +64,6 @@ module.exports.detail = (req, res, next) => {
                     let reserved = assists.length
 
                     if (reserved === 0) {
-                        console.log('here 0')
                         res.render('volunt/detail', { volunt, reserved })
                     } else {
                         let imGoing = false
@@ -148,17 +147,19 @@ module.exports.filter = (req, res, next) => {
 module.exports.edit = (req, res, next) => {
     Volunt.findOne({ slug: req.params.slug }).then((volunt) => {
         if (volunt.owner.equals(req.currentUser._id)) {
-            let createDate = new Date(volunt.endDate)
-            let date = `${createDate.getFullYear()}-${(
-                '0' + createDate.getMonth()
-            ).slice(-2)}-${createDate.getDate()}`
-
+            
+            const date = volunt.date[0].day
+            const timeStart = volunt.date[0].time.start
+            const timeEnd = volunt.date[0].time.end
+            
             Assistance.find({ volunt: volunt._id }).then((assists) => {
                 if (assists.length == 0) {
                     let noVolunts = true
                     res.render('volunt/edit', {
                         volunt,
                         date,
+                        timeStart,
+                        timeEnd,
                         categs: categs,
                         noVolunts,
                     })
@@ -176,6 +177,16 @@ module.exports.edit = (req, res, next) => {
 module.exports.doEdit = (req, res, next) => {
     if (req.file) {
         req.body.image = req.file.path
+    }
+
+    if (req.body.day || req.body.timeStart || req.body.timeEnd) {
+        req.body.date = [{
+            day: req.body.day,
+            time: {
+                start: req.body.timeStart,
+                end: req.body.timeEnd,
+            }
+        }]
     }
 
     Volunt.findByIdAndUpdate({ _id: req.params.id }, req.body, {

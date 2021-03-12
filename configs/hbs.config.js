@@ -43,10 +43,32 @@ hbs.registerHelper('dateHelper', function (val) {
         'septiembre',
         'octubre',
         'noviembre',
-        'diciembre',
+        'diciembre ',
     ]
     let month = months[dateParsed.getMonth()]
     return `${dateParsed.getDate()} de ${month} de ${dateParsed.getFullYear()}`
+})
+
+hbs.registerHelper('dateVoluntHelper', function (val) {
+    let year = val.slice(0, 4)
+    let day = val.slice(8)
+    let num = val.slice(6, 7)
+    let months = [
+        'enero',
+        'febrero',
+        'marzo',
+        'abril',
+        'mayo',
+        'junio',
+        'julio',
+        'agosto',
+        'septiembre',
+        'octubre',
+        'noviembre',
+        'diciembre ',
+    ]
+    let month = months[num - 1]
+    return `${day} de ${month} de ${year}`
 })
 
 // Since date

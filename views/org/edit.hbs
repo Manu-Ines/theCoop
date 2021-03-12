@@ -7,7 +7,7 @@
                 <div class="col-2 gx-5">
                     <img src="{{currentUser.profilePicture}}" class="w-100" alt="profile image">
                     <label for="profilePicture" class="label-file button btn__light"><i class="fas fa-upload"></i> Agregar</label>
-                    <input type="file" class="input-file" name="profilePicture" id="profilePicture">
+                    <input type="file" class="input-file" name="profilePicture" onchange="PreviewImage();" id="profilePicture">
                 </div>
                 <div class="col gx-5">
                     <input type="text" class="input-written" name="name" id="name" value="{{currentUser.name}}" placeholder="name" autofocus>
@@ -17,7 +17,10 @@
                     </div>
                     <div class="my-3">
                         <label for="textArea" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="textArea" value="{{currentUser.bio}}" name="bio"></textarea>  
+                        <textarea class="form-control" value="{{currentUser.bio}}" name="bio">{{currentUser.bio}}</textarea>  
+                        {{#if error}}
+                            <div class="invalid-feedback">{{error}}</div>
+                        {{/if}}
                     </div>
                 </div>
 
@@ -28,3 +31,14 @@
         </div>
     </form>
 </div>
+
+<script type="text/javascript">
+    function PreviewImage() {
+        var oFReader = new FileReader()
+        oFReader.readAsDataURL(document.getElementById("uploadImage").files[0])
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("uploadPreview").src = oFREvent.target.result
+        }
+    }
+
+</script>

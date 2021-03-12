@@ -91,8 +91,38 @@ module.exports.list = (req, res, next) => {
                 return obj
             })
 
-            res.render('project/list', { projects })
+            res.render('project/list', { projects, categs: categs })
         })
+}
+
+module.exports.filter = (req, res, next) => {
+    let { category } = req.query
+
+    let oneCateg = ''
+    if (!req.query.category) { category = categs }
+    if (typeof req.query.category === "string") { oneCateg = req.query.category }
+    
+    if (!req.query.category) {
+        res.redirect('/proyectos') 
+    } else {
+        Project.find({ completed: false, categs: category })
+        .limit(50)
+        .populate('owner')
+        .populate('donations')
+        .then((projects) => {
+            projects.map((obj) => {
+                obj.money = obj.donations
+                    .filter((d) => d.paid)
+                    .reduce((acc, cur) => {
+                        return (acc += cur.contribution)
+                    }, 0)
+                obj.percent = (obj.money * 100) / obj.sum
+                return obj
+            })
+
+            res.render('project/list', { projects, categs: categs, params: req.query, oneCateg })
+        })
+    }
 }
 
 // Edit project

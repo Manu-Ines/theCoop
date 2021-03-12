@@ -7,46 +7,77 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="row">
+<div class="container my-3 text-center">
+    <div class="">
         <a href="#">
-            <p id="btnFilter"><i class="fas fa-filter"></i>  Búsqueda filtrada</p>
-        </a>  
+            <p class="button btn__light m-0" id="btnFilter"><i class="fal fa-filter"></i>  Búsqueda filtrada</p>
+        </a>
     </div>
+     <div class="col mt-3 px-2">
+            {{#if oneCateg}}
+            <small class="search__param">{{oneCateg}}</small>
+            {{/if}}
+            {{#if params.category}}
+            {{#each params.category as |categ|}}
+            <small class="search__param">{{categ}}</small>
+            {{/each}}
+            {{/if}}
 
-    <div class="row" id="parameters" style="display: none">
+            {{#if params.day}}
+            <small class="search__param">{{dateVoluntHelper params.day}}</small>
+            {{/if}}
+
+            {{#if showTime}}
+            <small class="search__param">{{showTime}}</small>
+            {{/if}}
+    </div>
+</div>
+<div class="container px-4">
+    <div class="row card p-4 m-3" id="parameters" style="display: none; border: none; background-color: #e9e9e945;">
         <form action="/voluntariados/filter" method="GET">
-            <label class="form-check-label" for="flexRadioDefault1">Tiempo</label>
-            <select name="time" class="form-select" aria-label="Default select example">
-                <option selected>Horario</option>
-                <option value="1">Mañana 09:00 - 13:00</option>
-                <option value="2">Mediodía 13:00 - 16:00</option>
-                <option value="3">Tarde 16:00 - 21:00</option>
-            </select>
-            
-            <div class="mb-3">
-                <label for="filterDate" class="form-label h6">Día</label>
-                <input name="day" class="form-control form-control-lg" type="date" id="filterDate"
-                    placeholder="Fecha">
+            <div class="row">
+                <div class="mb-3 col">
+                    <label class="form-label h6">Horario</label>
+                    <select name="time" class="form-control form-control-lg" aria-label="Default select example">
+                        <option selected id="emptyTime">Horario</option>
+                        <option value="1">Mañana 09:00 - 13:00</option>
+                        <option value="2">Mediodía 13:00 - 16:00</option>
+                        <option value="3">Tarde 16:00 - 21:00</option>
+                    </select>
+                </div>
+                <div class="mb-3 col">
+                    <label for="filterDate" class="form-label h6">Día</label>
+                    <input name="day" class="form-control form-control-lg" type="date" id="filterDate"
+                        placeholder="Fecha">
+                </div>
+                <hr>
             </div>
-
             <div class="mb-3">
-                <label for="categs" class="form-label">Categoría</label>
-                <select name="category" class="form-select form-select-lg">
-                    <option value="Sin categorizar">Seleccionar</option>
-                    {{#each categs as |categ|}}
-                    <option value="{{categ}}">{{categ}}</option>
-                    {{/each}}
-                </select>
+                <div class="row d-flex p-3">
+                {{#each categs as |categ|}}
+                    <div class="col-md-4 sm-8 p-1 my-1">
+                        <input name="category" class="form-check-input" type="checkbox" value="{{categ}}">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            {{categ}}
+                        </label>
+                    </div>
+                {{/each}}
+                </div>
+                    <hr>
             </div>
-
-            <button type="submit">Filtrar búsquedas</button>
+            <div class="mb-3 d-flex justify-content-between">
+                <button class="button btn__primary" id="btnDoFilter" type="submit">Filtrar búsquedas</button>
+                <a href="#" id="btnRestore">
+                    <p class="button btn__light mb-0" >Restaurar</p>
+                </a> 
+            </div>
         </form>
     </div>
 
 </div>
 
 <div class="container mt-5">
+    {{#if volunts}}
     <div class="row">
         {{#each volunts as |volunt|}}
         <div class="col-lg-4 mb-3">
@@ -54,6 +85,17 @@
         </div>
         {{/each}}
     </div>
+    {{else}}
+    <div class="container my-5 text-center mx-auto">
+            <span class="fa-stack fa-3x mb-4 mx-auto">
+                <i class="fas fa-square fa-stack-2x" style="color: #d2e6f8;"></i>
+                <i class="far fa-search fa-stack-1x" style="color: #1167b1;"></i>
+            </span>
+            <h4>No se han encontrado resultados</h4>
+            <p>Prueba con otros filtros o mira nuestras sugerencias</p>
+            <a href="/voluntariados" class="button btn__primary mt-2 mb-5">Recomendaciones</a>
+    </div>
+    {{/if}}
 </div>
 
 <script src="https://unpkg.com/imask"></script>
@@ -64,11 +106,31 @@
 <script>
 
     let btnFilter = document.getElementById('btnFilter')
+    let btnRestore = document.getElementById('btnRestore')
     let parameters = document.getElementById('parameters')
+    let btnDoFilter = document.getElementById('btnDoFilter')
+
+    let emptyTime = document.getElementById('emptyTime')
+    let date = document.getElementById('filterDate')
+    let categs = document.querySelectorAll('.form-check-input')
 
     btnFilter.addEventListener('click', function (e) {
         parameters.style.display = 'block'
+        btnFilter.style.display = 'none'
     });
+
+    btnRestore.addEventListener('click', function (e) {
+        emptyTime.selected = true
+        filterDate.setAttribute('placeholder', 'Fecha')
+        
+        categs.forEach((categ) => {
+            categ.checked = false
+        })
+    });
+
+    btnDoFilter.addEventListener('click', function (e) {
+        parameters.style.display = 'none'
+    })
 
     flatpickr.l10ns.default.firstDayOfWeek = 1; // Monday 1st day
     flatpickr(document.getElementById('filterDate'), {

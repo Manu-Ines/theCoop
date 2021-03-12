@@ -340,6 +340,11 @@ footer a {
 canvas {
     border-radius: 0.6rem !important;
 }
+/* MyArea/org
+================================ */
+.card__myarea {
+    /* background-color: rgba(155, 155, 243, 0.135) !important; */
+}
 
 /* IMAGES PROJECT & VOLUNTS
 ===============================*/

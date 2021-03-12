@@ -51,11 +51,24 @@
                     <input class="form-control" type="file" name="image" id="image">
                 </div>
                 <div class="mb-3">
-                    <p class="text-danger"> FALTA ESTO</p>
-                    <label for="endDate" class="form-label">Fecha límite</label>
-                    <input class="form-control form-control-lg" type="text" id="endDate" name="endDate"
-                        placeholder="Fecha límite" value="{{date}}" required>
+                    <label for="day" class="form-label">Fecha</label>
+                    <input class="form-control form-control-lg" type="text" id="dayCreate" name="day"
+                        placeholder="{{date}}" value="{{date}}" required>
                 </div>
+                <div class="mb-4">
+                <div class="row">
+                    <div class="col">
+                        <label for="startDate" class="form-label h6">Hora de inicio</label>
+                        <input class="form-control form-control-lg" id="hour1Create" type="text" name="timeStart"
+                            placeholder="{{timeStart}}" value="{{timeStart}}" required>
+                    </div>
+                    <div class="col">
+                        <label for="endDate" class="form-label h6 hour">Hora de finalización</label>
+                        <input class="form-control form-control-lg" id="hour2Create" type="text" name="timeEnd"
+                            placeholder="{{timeEnd}}" value="{{timeEnd}}" required>
+                    </div>
+                </div>
+            </div>
                 <div class="mb-3">
                     <label for="categs" class="form-label">Categoría</label>
                     <select id="categs" name="categs" class="form-select form-select-lg" required>
@@ -142,12 +155,26 @@
     });
 
     flatpickr.l10ns.default.firstDayOfWeek = 1; // Monday 1st day
-    flatpickr(document.getElementById('endDate'), {
+    flatpickr(document.getElementById('dayCreate'), {
         altInput: true,
         altFormat: "F j, Y",
         dateFormat: "Y-m-d",
         minDate: "today",
         "locale": "es",
+    });
+
+     flatpickr(document.getElementById('hour1Create'), {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
+    });
+
+    flatpickr(document.getElementById('hour2Create'), {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
     });
 
     let address = document.querySelector('#adressE').value

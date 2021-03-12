@@ -52,7 +52,7 @@
                 <h4>¿Quieres ser voluntario?</h4>
                 {{#each volunt.date as |date|}}
                 <p>
-                    <b>Día:</b> {{date.day}}<br>
+                    <b>Día:</b> {{dateVoluntHelper date.day}}<br>
                     <b>Hora:</b> {{date.time.start}} - {{date.time.end}}
                 </p>
                 {{/each}}

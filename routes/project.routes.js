@@ -35,7 +35,14 @@ router.post(
     upload.single('image'),
     projectController.doEdit
 )
-
+// Thank you email
+router.post(
+    '/send-thankyou-email-org',
+    secure.checkRoles('ORG'),
+    secure.isAuthenticated,
+    upload.single('image'),
+    projectController.thanksEmail
+)
 //Delete
 router.post(
     '/delete-project/:id',

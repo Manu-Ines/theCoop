@@ -40,7 +40,6 @@ router.post(
     '/send-thankyou-email-org',
     secure.checkRoles('ORG'),
     secure.isAuthenticated,
-    upload.single('image'),
     projectController.thanksEmail
 )
 //Delete

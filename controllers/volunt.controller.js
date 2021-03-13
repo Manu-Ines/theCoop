@@ -11,7 +11,7 @@ const mailer = require('../configs/mailer.config')
 
 // Create Volunt
 module.exports.create = (req, res, next) => {
-    res.render('volunt/create', { categs: categos })
+    res.render('volunt/create', { categs: categs })
 }
 
 module.exports.doCreate = (req, res, next) => {
@@ -35,7 +35,7 @@ module.exports.doCreate = (req, res, next) => {
             },
         },
     ]
-    console.log(req.body)
+    
     Volunt.create(req.body)
         .then((volunt) => {
             index

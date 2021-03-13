@@ -244,7 +244,17 @@ footer a {
 
 .main__hero__volunts {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgb(0, 0, 0, 0.2)),
-        url('../images/volunts-bg.jpg');
+        url('../images/volunt-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    color: #fff;
+}
+
+.main__hero__orgs {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgb(0, 0, 0, 0.2)),
+        url('../images/orgs-bg.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position-x: center;

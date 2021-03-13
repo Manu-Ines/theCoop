@@ -198,16 +198,17 @@ module.exports.doEdit = (req, res, next) => {
         .catch(next)
 }
 // completed: true (solo req.body)
-// Send thank you email
+
 module.exports.thanksEmail = (req, res, next) => {
-    console.log(req.body.projectId)
-    /* Project.findOne({ _id: req.body.projectId})
+    
+    Project.findOne({ _id: req.body.projectId})
+    .populate( 'owner' )
     .populate({ path: 'donations', populate: { path: 'donator' }})
     .then((project) => {
-        const emailList = []
-        console.log(project.donations[0].donator.email)
-        //mailer.sendFinalEmai()
-    }) */
+        const emailList = 'ipalmamasaveu@gmail.com'
+        mailer.sendFinalEmail(emailList, req.body.messageThankyou, project.owner.name)
+        res.redirect('/my-area-org')
+    })
 }
 
 module.exports.doDelete = (req, res, next) => {

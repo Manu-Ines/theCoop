@@ -3,6 +3,7 @@
 # Coop.
 ### Developers: Manuel Carrillo Almoguera & Inés de Palma Masaveu.
 Coop is a platform born to connect people and non-profits.
+<p>Join <a href="https://thecoopspain.herokuapp.com/">Coop</a></p>
 
 ## Technologies
 - **Server:** Node.js with Express
